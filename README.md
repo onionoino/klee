@@ -1,8 +1,6 @@
-# Klee Project
+# Klee's Location
 
-This project is a privacy oriented location data collection and analysis application (ios/android) using SOLID.
-
-Who is Klee? [(◍•ᴗ•◍)](https://genshin-impact.fandom.com/wiki/Klee)
+This project is a privacy oriented location data collection and analysis application (ios/android) using SOLID.  
 
 ## Introduction
 
