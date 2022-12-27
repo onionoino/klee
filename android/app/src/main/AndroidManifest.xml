@@ -4,7 +4,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- Allows an app to access precise location. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Allows an app to handle link via other apps -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <application
+        android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="klee">

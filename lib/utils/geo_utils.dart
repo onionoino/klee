@@ -1,38 +1,53 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
-Future<Position> getCurrentLocation() async {
-  bool serviceEnabled;
-  LocationPermission permission;
+import 'constants.dart';
 
-  // Test if location services are enabled.
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    // Location services are not enabled don't continue
-    // accessing the position and request users of the
-    // App to enable the location services.
-    return Future.error('Location services are disabled.');
-  }
+/// this class is a util class related to geographical affairs
+class GeoUtils {
+  /// this method get the current location from the device
+  /// @return position - the current position from the OS of the device
+  static Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      // Permissions are denied, next time you could try
-      // requesting permissions again (this is also where
-      // Android's shouldShowRequestPermissionRationale
-      // returned true. According to Android guidelines
-      // your App should show an explanatory UI now.
-      return Future.error('Location permissions are denied');
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
     }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 
-  if (permission == LocationPermission.deniedForever) {
-    // Permissions are denied forever, handle appropriately.
-    return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
+  static String _getFormattedLatitude(LatLng latLng) {
+    return latLng.latitude.toString();
   }
 
-  // When we reach here, permissions are granted and we can
-  // continue accessing the position of the device.
-  return await Geolocator.getCurrentPosition();
+  static String _getFormattedLongitude(LatLng latLng) {
+    return latLng.longitude.toString();
+  }
+
+  static String _getFormattedDateTime(DateTime dateTime) {
+    return dateTime.toString().substring(0, 19);
+  }
+
+  static Map<String, String> getFormattedPosition(LatLng latLng, DateTime dateTime) {
+    return <String, String>{
+      Constants.latitude: _getFormattedLatitude(latLng),
+      Constants.longitude: _getFormattedLongitude(latLng),
+      Constants.dateTime: _getFormattedDateTime(dateTime),
+    };
+  }
 }
