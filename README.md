@@ -2,7 +2,7 @@
 
 This project is a privacy oriented location data collection and analysis application (ios/android) using SOLID.  
 
-Who is Klee? [(◍•ᴗ•◍)](https://www.youtube.com/watch?v=KrNUrgaOsCc)
+Who is Klee? [(◍•ᴗ•◍)](https://www.youtube.com/watch?v=C_duDk5e8yU)
 
 ## Introduction
 
