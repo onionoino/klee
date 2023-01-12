@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:klee/ui/home_page/home_page.dart';
+import 'package:klee/ui/login_page/login_page.dart';
 
+/// main portal of this very application
+/// @Author Bowen Yang
 void main() {
   runApp(const MyApp());
 }
@@ -11,10 +13,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of this application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'klee',
-      home: HomePage(),
+      theme: ThemeData(
+        colorScheme: const ColorScheme.light()
+            .copyWith(primary: Color(int.parse("e74c3c", radix: 16) | 0xFF000000)),
+      ),
+      home: const LoginPage(),
     );
   }
 }
