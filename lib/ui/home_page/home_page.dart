@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee's Location"),
+      appBar: BaseWidget.getAppBar("Compass"),
       body: HomeOSM(widget.authData),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: curIdx,
@@ -50,8 +50,8 @@ class _HomePageState extends State<HomePage> {
       bool? isLogout = await showDialog<bool>(
           context: context,
           builder: (context) {
-            return BaseWidget.getConfirmationDialog(context, "A message from Klee",
-                "Are you sure to logout?", "Emm, not yet", "Goodbye, Klee");
+            return BaseWidget.getConfirmationDialog(context, "Message",
+                "Are you sure to logout?", "Emm, not yet", "Goodbye");
           });
       if (isLogout == null || !isLogout || !mounted) {
         return;

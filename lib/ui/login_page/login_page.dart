@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee's Location"),
+      appBar: BaseWidget.getAppBar("Compass"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                     context: context,
                     builder: (context) {
                       return BaseWidget.getNoticeDialog(
-                          context, "A warning from Klee", "You gave an invalid webId", "Try again");
+                          context, "Warning", "You gave an invalid webId", "Try again");
                     });
                 return;
               }
