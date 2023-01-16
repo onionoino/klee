@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'klee',
+      title: 'Compass',
       theme: ThemeData(
         colorScheme: const ColorScheme.light()
             .copyWith(primary: Color(int.parse("e74c3c", radix: 16) | 0xFF000000)),
