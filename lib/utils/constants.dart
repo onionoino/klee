@@ -1,9 +1,18 @@
+import 'package:latlong2/latlong.dart';
+
 /// this class contains some constants used in this project
 class Constants {
   // Login State Constants
   static const invalidURL = 0;
   static const success = 1;
   static const podNotFound = 2;
+
+  // WebId Url Reg Check
+  static final RegExp urlRegExp =
+      RegExp(r"(https?)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
+
+  // Default LatLng
+  static final LatLng defaultLatLng = LatLng(-35.27527648107207, 149.12062976407165);
 
   // Auth Data Keys
   static const String accessToken = "accessToken";
@@ -32,10 +41,6 @@ class Constants {
   static const int ok = 200;
   static const int created = 201;
 
-  // WebId Url Reg Check
-  static final RegExp urlRegExp =
-      RegExp(r"(https?)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
-
   // Pod None Value
   static const String none = "none";
 
@@ -59,8 +64,4 @@ class Constants {
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 60;
-
-  // for testing
-  static const String cookie =
-      "nssidp.sid=s%3A8WafLNvTJ49wdlLjP0qu_z7yuIACDpXp.Mqz1bYcM61tm2JwVbeqG6EjBcvx%2FD791GVmcgIxCWgU";
 }

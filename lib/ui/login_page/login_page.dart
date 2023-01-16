@@ -23,37 +23,40 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseWidget.getAppBar("Klee's Location"),
-      body: Column(
-        children: <Widget>[
-          BaseWidget.getPadding(20.0),
-          const LoginImage(),
-          BaseWidget.getPadding(10.0),
-          BaseWidget.getTextField("https://pod-url.example-server.net/profile/card#me", webIdController),
-          BaseWidget.getPadding(10.0),
-          BaseWidget.getElevatedButton(() async {
-            if (!loginPageService.loginPreCheck(webIdController.text)) {
-              await showDialog<bool>(
-                  context: context,
-                  builder: (context) {
-                    return BaseWidget.getNoticeDialog(
-                        context, "A warning from Klee", "You gave an invalid webId", "Try again");
-                  });
-              return;
-            }
-            if (!mounted) {
-              return null;
-            }
-            Map<dynamic, dynamic>? authData =
-                await loginPageService.loginAndAuth(webIdController.text, context, mounted);
-            if (!mounted) {
-              return null;
-            }
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage(authData)),
-            );
-          }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            BaseWidget.getPadding(25.0),
+            const LoginImage(),
+            BaseWidget.getPadding(10.0),
+            BaseWidget.getTextField(
+                "https://pod-url.example-server.net/profile/card#me", webIdController),
+            BaseWidget.getPadding(15.0),
+            BaseWidget.getElevatedButton(() async {
+              if (!loginPageService.loginPreCheck(webIdController.text)) {
+                await showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return BaseWidget.getNoticeDialog(
+                          context, "A warning from Klee", "You gave an invalid webId", "Try again");
+                    });
+                return;
+              }
+              if (!mounted) {
+                return null;
+              }
+              Map<dynamic, dynamic>? authData =
+                  await loginPageService.loginAndAuth(webIdController.text, context, mounted);
+              if (!mounted) {
+                return null;
+              }
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage(authData)),
+              );
+            }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
+          ],
+        ),
       ),
       backgroundColor: Color(int.parse("fadbd8", radix: 16) | 0xFF000000),
     );
