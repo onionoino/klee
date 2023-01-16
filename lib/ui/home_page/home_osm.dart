@@ -33,10 +33,16 @@ class _HomeOSMState extends State<HomeOSM> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Position position = await GeoUtils.getCurrentLocation();
-      setState(() {
-        curLatLng = LatLng(position.latitude, position.longitude);
-      });
+      try {
+        Position position = await GeoUtils.getCurrentLocation();
+        setState(() {
+          curLatLng = LatLng(position.latitude, position.longitude);
+        });
+      } catch (e) {
+        setState(() {
+          curLatLng = Constants.defaultLatLng;
+        });
+      }
       homePageService.saveGeoInfo(curLatLng!, widget.authData, DateTime.now());
       mapController.move(curLatLng!, 17);
     });
@@ -56,7 +62,7 @@ class _HomeOSMState extends State<HomeOSM> {
         mapController: mapController,
         options: MapOptions(
             center: curLatLng,
-            minZoom: 12.0,
+            minZoom: 8.0,
             maxZoom: 18.0,
             keepAlive: true,
             onMapReady: () {
@@ -90,7 +96,7 @@ class _HomeOSMState extends State<HomeOSM> {
                       return BaseWidget.getMapMarkerIconRed();
                     }))
             ],
-          )
+          ),
         ],
       ),
     );
