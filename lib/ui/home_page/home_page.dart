@@ -3,8 +3,10 @@ import 'package:klee/ui/home_page/home_osm.dart';
 import 'package:klee/ui/home_page/home_profile.dart';
 import 'package:klee/ui/home_page/home_survey.dart';
 import 'package:klee/utils/base_widget.dart';
+import 'package:klee/utils/survey_utils.dart';
 
 import '../../service/home_page_service.dart';
+import '../../utils/constants.dart';
 
 /// the view layer of home page, a stateful widget
 class HomePage extends StatefulWidget {
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         currentIndex: curWidgetIdx,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.question_answer),
+            icon: Icon(Icons.newspaper),
             label: "Q&A",
           ),
           BottomNavigationBarItem(
@@ -62,7 +64,20 @@ class _HomePageState extends State<HomePage> {
   /// tap event logic when taping bottomNavigationBar, set selected idx to current idx
   /// @param selectedIdx - selected index of the bottomNavigationBar
   /// @return void
-  void onTapEvent(int selectedIdx) {
+  Future<void> onTapEvent(int selectedIdx) async {
+    if (selectedIdx == 0) {
+      String? lastFinishTime = await homePageService.getValueOfAttribute(widget.authData, Constants.lastFinishTime);
+      String? currentTime = SurveyUtils.getFormattedLastFinishTime(DateTime.now());
+      if (lastFinishTime == currentTime) {
+        await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return BaseWidget.getNoticeDialog(context, "Message",
+                  "Thank you for reporting your condition today, please come back tomorrow", "Got it");
+            });
+        return;
+      }
+    }
     setState(() {
       curWidgetIdx = selectedIdx;
     });

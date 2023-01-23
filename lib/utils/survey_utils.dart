@@ -22,16 +22,25 @@ class SurveyUtils {
     return true;
   }
 
+  /// get a map of formatted survey information for further processing
+  /// @param answer1 - q1's answer
+  ///        answer2 - q2's answer
+  ///        answer3 - q3's answer
+  ///        dateTime - the timestamp collected when submitting the survey
+  /// @return surveyMap - K-V structure to make further process more convenient
   static Map<String, String> getFormattedSurvey(String answer1, String answer2, String answer3, DateTime dateTime) {
     return <String, String>{
       Constants.q1: answer1,
       Constants.q2: answer2,
       Constants.q3: answer3,
-      Constants.lastFinishTime: _getFormattedLastFinishTime(dateTime),
+      Constants.lastFinishTime: getFormattedLastFinishTime(dateTime),
     };
   }
 
-  static String _getFormattedLastFinishTime(DateTime dateTime) {
+  /// format a timestamp into a lastFinishTime format
+  /// @param dateTime - the timestamp
+  /// @return formattedTime - a formatted time used in lastFinishTime related logics
+  static String getFormattedLastFinishTime(DateTime dateTime) {
     return dateTime.toString().substring(0, 10);
   }
 }

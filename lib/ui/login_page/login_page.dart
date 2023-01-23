@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // for testing
+  // TODO for testing
   TextEditingController webIdController = TextEditingController()
     ..text = 'https://podtest123.solidcommunity.net/profile/card#me';
   final LoginPageService loginPageService = LoginPageService();

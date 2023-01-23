@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-/// this class is a util class to operate local device files
+/// this class is a util class to operate local device files, may be deleted in the future
 class DeviceFileUtils {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -11,7 +11,7 @@ class DeviceFileUtils {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/latlng.txt');
+    return File("$path/GlobalKey.txt");
   }
 
   Future<File> writeContent(String str) async {

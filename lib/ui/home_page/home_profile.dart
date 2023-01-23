@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+/// the view layer of profile widget in home page
 class HomeProfile extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
 
