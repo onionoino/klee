@@ -10,11 +10,36 @@ import 'package:latlong2/latlong.dart';
 class HomePageService {
   final HomePageNet homePageNet = HomePageNet();
 
+  /// this method is to get and parse out a specific attribute
+  /// @param authData - the authentication Data received after login
+  /// @return value - the result or 'none' if failed
+  Future<String?> getValueOfAttribute(Map<dynamic, dynamic>? authData, String attribute) async {
+    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
+    String? accessToken = podInfo[Constants.accessToken];
+    String? podURI = podInfo[Constants.podURI];
+    String? containerURI = podInfo[Constants.containerURI];
+    String? kleeFileURI = podInfo[Constants.kleeFileURI];
+    dynamic rsa = podInfo[Constants.rsa];
+    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    if (!SolidUtils.isContainerExist(
+            await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk)) ||
+        !SolidUtils.isKleeFileExist(
+            await homePageNet.readFile(containerURI!, accessToken, rsa, pubKeyJwk))) {
+      return Constants.none;
+    }
+    String content = await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
+    return SolidUtils.parseKleeFile(content)[attribute];
+  }
+
   /// the method is to save the answered survey information into a POD
-  /// @param
+  /// @param answer1 - q1's answer
+  ///        answer2 - q2's answer
+  ///        answer3 - q3's answer
+  ///        authData - the authentication Data received after login
+  ///        dateTime - the timestamp collected when submitting the survey
   /// @return isSuccess - TRUE is success and FALSE is failure
-  Future<bool> saveSurveyInfo(
-      String answer1, String answer2, String answer3, Map<dynamic, dynamic>? authData, DateTime dateTime) async {
+  Future<bool> saveSurveyInfo(String answer1, String answer2, String answer3,
+      Map<dynamic, dynamic>? authData, DateTime dateTime) async {
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
     String? accessToken = podInfo[Constants.accessToken];
     String? webId = podInfo[Constants.webId];
@@ -52,7 +77,6 @@ class HomePageService {
       LogUtil.e("Error on saving survey information");
       return false;
     }
-
     return true;
   }
 

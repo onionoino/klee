@@ -6,7 +6,7 @@ import '../../utils/constants.dart';
 import '../../utils/survey_utils.dart';
 import 'home_page.dart';
 
-/// the view layer of question page
+/// the view layer of survey widget in home page
 class HomeSurvey extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
 

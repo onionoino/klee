@@ -4,7 +4,6 @@ import 'package:solid_auth/solid_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// model layer of home page, including basic CRUD HTTPS connections to a specific POD
-/// TODO Cookie is a temporary solution to develop further features, will be solved after the connection issue is solved
 class HomePageNet {
   /// this method is to read a file
   /// @param fileURI - the uri of a file users would like to read in a pod
