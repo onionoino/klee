@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-/// a temporary class for testing, will be deleted in the future version
-class FileAction {
+/// this class is a util class to operate local device files
+class DeviceFileUtils {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;

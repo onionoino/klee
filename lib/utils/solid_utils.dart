@@ -51,6 +51,10 @@ class SolidUtils {
       Constants.latitude: Constants.none,
       Constants.longitude: Constants.none,
       Constants.dateTime: Constants.none,
+      Constants.q1: Constants.none,
+      Constants.q2: Constants.none,
+      Constants.q3: Constants.none,
+      Constants.lastFinishTime: Constants.none,
     };
     for (String line in lineList) {
       if (line.contains(Constants.latitude)) {
@@ -70,6 +74,34 @@ class SolidUtils {
       } else if (line.contains(Constants.dateTime)) {
         parsedInfo[Constants.dateTime] = line
             .split(Constants.dateTime)[1]
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .replaceAll("\"", "")
+            .trim();
+      } else if (line.contains(Constants.q1)) {
+        parsedInfo[Constants.q1] = line
+            .split(Constants.q1)[1]
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .replaceAll("\"", "")
+            .trim();
+      } else if (line.contains(Constants.q2)) {
+        parsedInfo[Constants.q2] = line
+            .split(Constants.q2)[1]
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .replaceAll("\"", "")
+            .trim();
+      } else if (line.contains(Constants.q3)) {
+        parsedInfo[Constants.q3] = line
+            .split(Constants.q3)[1]
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .replaceAll("\"", "")
+            .trim();
+      } else if (line.contains(Constants.lastFinishTime)) {
+        parsedInfo[Constants.lastFinishTime] = line
+            .split(Constants.lastFinishTime)[1]
             .replaceAll("\".", "")
             .replaceAll("\";", "")
             .replaceAll("\"", "")

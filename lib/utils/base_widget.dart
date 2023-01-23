@@ -24,9 +24,29 @@ class BaseWidget {
       controller: textEditingController,
       style: const TextStyle(fontSize: 20, fontFamily: "KleeOne"),
       textAlign: TextAlign.center,
-      autofocus: true,
+      autofocus: false,
       decoration: InputDecoration(
         hintText: hint,
+      ),
+    );
+  }
+
+  static Text getQuestionText(String questionText) {
+    return Text(
+      questionText,
+      style: const TextStyle(
+        fontSize: 20,
+        fontFamily: "KleeOne",
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  static Text getRadioBoxAnswerText(String answerText) {
+    return Text(
+      answerText,
+      style: const TextStyle(
+        fontSize: 16,
       ),
     );
   }
@@ -50,11 +70,11 @@ class BaseWidget {
   static AlertDialog getNoticeDialog(
       BuildContext context, String title, String content, String textButton) {
     return AlertDialog(
-      title: const Text("A warning from Klee"),
-      content: const Text("You gave an invalid webId"),
+      title: Text(title),
+      content: Text(content),
       actions: <Widget>[
         TextButton(
-          child: const Text("Try again"),
+          child: Text(textButton),
           onPressed: () {
             Navigator.of(context).pop(null);
           },
