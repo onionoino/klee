@@ -36,12 +36,24 @@ class Constants {
   static const String latitude = "latitude";
   static const String longitude = "longitude";
   static const String dateTime = "dateTime";
+  static const String q1 = "q1";
+  static const String q2 = "q2";
+  static const String q3 = "q3";
+  static const String lastFinishTime = "lastFinishTime";
+
+  // Klee File Geo Key List
+  static const Set<String> kleeFileGeoKeyList = <String>{latitude, longitude, dateTime};
+
+  // Klee File Survey Key List
+  static const Set<String> kleeFileSurveyKeyList = <String>{q1, q2, q3, lastFinishTime};
+
+  // Klee File Survey Key List
 
   // HTTP Status Constants
   static const int ok = 200;
   static const int created = 201;
 
-  // Pod None Value
+  // None Value
   static const String none = "none";
 
   // Sparql Action
@@ -54,14 +66,19 @@ class Constants {
 
   // Login Scopes
   static const List<String> scopes = <String>[
-    'openid',
-    'profile',
-    'offline_access',
-    'webid',
-    'email',
-    'api'
+    "openid",
+    "profile",
+    "offline_access",
+    "webid",
+    "email",
+    "api"
   ];
 
+  // Question Texts
+  static const String q1Text = "Are you coughing today?";
+  static const String q2Text = "Are you have a sore throat today?";
+  static const String q3Text = "What's your temperature today?";
+
   // Geo Info Saving Interval (seconds)
-  static const int interval = 60;
+  static const int interval = 20;
 }

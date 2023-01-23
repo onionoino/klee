@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Compass"),
+      appBar: BaseWidget.getAppBar("Klee Compass"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -55,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialPageRoute(builder: (context) => HomePage(authData)),
               );
             }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
+            BaseWidget.getPadding(100.0),
           ],
         ),
       ),

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:klee/net/file_action.dart';
 import 'package:klee/utils/constants.dart';
 import 'package:klee/utils/geo_utils.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -25,7 +24,6 @@ class HomeOSM extends StatefulWidget {
 class _HomeOSMState extends State<HomeOSM> {
   final MapController mapController = MapController();
   LatLng? curLatLng;
-  final FileAction fileAction = FileAction();
   final HomePageService homePageService = HomePageService();
   Timer? timer;
 
