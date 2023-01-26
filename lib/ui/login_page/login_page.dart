@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
             BaseWidget.getPadding(10.0),
             BaseWidget.getTextField(
                 "https://pod-url.example-server.net/profile/card#me", webIdController),
-            BaseWidget.getPadding(15.0),
+            BaseWidget.getPadding(20.0),
             BaseWidget.getElevatedButton(() async {
               if (!loginPageService.loginPreCheck(webIdController.text)) {
                 await showDialog<bool>(

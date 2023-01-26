@@ -30,7 +30,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            BaseWidget.getPadding(15.0),
+            BaseWidget.getPadding(25.0),
             BaseWidget.getQuestionText(Constants.q1Text),
             BaseWidget.getPadding(2.5),
             Row(
