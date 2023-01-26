@@ -8,7 +8,7 @@ class SolidUtils {
   /// @param content - the content read from the root directory of the POD
   /// @return isExist - TRUE means it exists, FALSE means not
   static bool isContainerExist(String content) {
-    return content.contains("@prefix klee: </klee/>.");
+    return content.contains("klee/") || content.contains("@prefix klee: </klee/>.");
   }
 
   /// check if the file the app need to use is already exist, if it is, no need to create
@@ -16,7 +16,7 @@ class SolidUtils {
   /// @param content - the content read from the specific container
   /// @return isExist - TRUE means it exists, FALSE means not
   static bool isKleeFileExist(String content) {
-    return content.contains("<klee.ttl>");
+    return content.contains("<klee") || content.contains("<klee.ttl>");
   }
 
   /// parse the received authentication data into a map data structure to reduce the repeated parsing
@@ -29,6 +29,9 @@ class SolidUtils {
     String podURI = webId.substring(0, webId.length - 15);
     String containerURI = podURI + Constants.relativeContainerURI;
     String kleeFileURI = containerURI + Constants.relativeKleeFileURI;
+    if (_isSolidCommunityHost(webId)) {
+      kleeFileURI = kleeFileURI + Constants.ttlSuffix;
+    }
     dynamic rsa = authData[Constants.rsaInfo][Constants.rsa];
     dynamic pubKeyJwk = authData[Constants.rsaInfo][Constants.pubKeyJwk];
     return <String, dynamic>{
@@ -57,54 +60,46 @@ class SolidUtils {
       Constants.lastFinishTime: Constants.none,
     };
     for (String line in lineList) {
+      String val = "";
+      if (line.contains(" \"")) {
+        val = line.split(" \"")[1];
+      } else {
+        continue;
+      }
       if (line.contains(Constants.latitude)) {
-        parsedInfo[Constants.latitude] = line
-            .split(Constants.latitude)[1]
+        parsedInfo[Constants.latitude] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       } else if (line.contains(Constants.longitude)) {
-        parsedInfo[Constants.longitude] = line
-            .split(Constants.longitude)[1]
+        parsedInfo[Constants.longitude] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       } else if (line.contains(Constants.dateTime)) {
-        parsedInfo[Constants.dateTime] = line
-            .split(Constants.dateTime)[1]
+        parsedInfo[Constants.dateTime] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       } else if (line.contains(Constants.q1)) {
-        parsedInfo[Constants.q1] = line
-            .split(Constants.q1)[1]
+        parsedInfo[Constants.q1] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       } else if (line.contains(Constants.q2)) {
-        parsedInfo[Constants.q2] = line
-            .split(Constants.q2)[1]
+        parsedInfo[Constants.q2] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       } else if (line.contains(Constants.q3)) {
-        parsedInfo[Constants.q3] = line
-            .split(Constants.q3)[1]
+        parsedInfo[Constants.q3] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       } else if (line.contains(Constants.lastFinishTime)) {
-        parsedInfo[Constants.lastFinishTime] = line
-            .split(Constants.lastFinishTime)[1]
+        parsedInfo[Constants.lastFinishTime] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
-            .replaceAll("\"", "")
             .trim();
       }
     }
@@ -133,7 +128,7 @@ class SolidUtils {
         break;
       case Constants.update:
         query =
-            "DELETE DATA {<$subject> <$predicate> \"$prevObject\"} INSERT DATA {<$subject> <$predicate> \"$object\"}";
+            "DELETE DATA {<$subject> <$predicate> \"$prevObject\"}; INSERT DATA {<$subject> <$predicate> \"$object\"};";
         break;
       default:
         throw Exception("Invalid action");
@@ -146,5 +141,12 @@ class SolidUtils {
   /// @return predicate - generated predicate
   static String genPredicate(String attribute) {
     return Constants.predicate + attribute;
+  }
+
+  /// judge whether this pod provider is solidcommunity, solidcommunity has some different mechanism on URI
+  /// @param webId - user's webId
+  /// @return isSolidCommunity - true means yes and false means no
+  static bool _isSolidCommunityHost(String webId) {
+    return webId.contains("solidcommunity");
   }
 }

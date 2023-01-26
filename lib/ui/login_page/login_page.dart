@@ -17,6 +17,10 @@ class _LoginPageState extends State<LoginPage> {
   // TODO for testing
   TextEditingController webIdController = TextEditingController()
     ..text = 'https://podtest123.solidcommunity.net/profile/card#me';
+  // TextEditingController webIdController = TextEditingController()
+  //   ..text = 'https://solid.ecosysl.net/kleetest/profile/card#me';
+  // TextEditingController webIdController = TextEditingController()
+  //   ..text = 'https://solid.ecosysl.net/podtest123/profile/card#me';
   final LoginPageService loginPageService = LoginPageService();
 
   @override
@@ -55,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialPageRoute(builder: (context) => HomePage(authData)),
               );
             }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
-            BaseWidget.getPadding(100.0),
+            BaseWidget.getPadding(150.0),
           ],
         ),
       ),
