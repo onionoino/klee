@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-/// the view layer of the image used in login page
+/// the view layer of the image widget used in login page
 class LoginImage extends StatelessWidget {
   const LoginImage({Key? key}) : super(key: key);
 

@@ -52,7 +52,7 @@ class HomePageNet {
       },
       body: query,
     );
-    if (response.statusCode != Constants.ok) {
+    if (response.statusCode != Constants.ok && response.statusCode != Constants.reset) {
       throw Exception("Error on updating a file");
     }
   }

@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             label: "MAP",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person_outline),
             label: "POD",
           )
         ],
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (context) {
               return BaseWidget.getNoticeDialog(context, "Message",
-                  "Thank you for reporting your condition today, please come back tomorrow", "Got it");
+                  "Thank you for reporting your condition today, please come back tomorrow ^_^", "Got it");
             });
         return;
       }

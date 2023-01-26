@@ -29,7 +29,9 @@ class Constants {
   static const String containerName = "klee";
 
   // Klee File Info
-  static const String relativeKleeFileURI = "klee.ttl";
+  // static const String relativeKleeFileURI = "klee.ttl";
+  static const String relativeKleeFileURI = "klee";
+  static const String ttlSuffix = ".ttl";
   static const String kleeFileName = "klee";
 
   // Klee File Keys
@@ -47,11 +49,10 @@ class Constants {
   // Klee File Survey Key List
   static const Set<String> kleeFileSurveyKeyList = <String>{q1, q2, q3, lastFinishTime};
 
-  // Klee File Survey Key List
-
   // HTTP Status Constants
   static const int ok = 200;
   static const int created = 201;
+  static const int reset = 205;
 
   // None Value
   static const String none = "none";

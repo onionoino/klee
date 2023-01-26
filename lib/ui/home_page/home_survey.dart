@@ -191,7 +191,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 }
               }
             }, "Submit", MediaQuery.of(context).size.width / 1.25, 50),
-            BaseWidget.getPadding(100.0),
+            BaseWidget.getPadding(150.0),
           ],
         ),
       ),
