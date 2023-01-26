@@ -18,8 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController webIdController = TextEditingController()
     ..text = 'https://podtest123.solidcommunity.net/profile/card#me';
   // TextEditingController webIdController = TextEditingController()
-  //   ..text = 'https://solid.ecosysl.net/kleetest/profile/card#me';
-  // TextEditingController webIdController = TextEditingController()
   //   ..text = 'https://solid.ecosysl.net/podtest123/profile/card#me';
   final LoginPageService loginPageService = LoginPageService();
 

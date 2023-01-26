@@ -82,31 +82,4 @@ class _HomePageState extends State<HomePage> {
       curWidgetIdx = selectedIdx;
     });
   }
-
-  // /// tap event logic when taping bottomNavigationBar
-  // /// @param curIdx - current index of the bottomNavigationBar, > 1 means logout button is tapped
-  // ///                 < 1 means survey button is tapped
-  // /// @return void
-  // void onTapEvent(int selectIdx) async {
-  //   if (selectIdx == Constants.surveyPageIdx) {
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-  //       return HomeSurvey(widget.authData);
-  //     }));
-  //   }
-  //   if (selectIdx == Constants.logoutPageIdx) {
-  //     bool? isLogout = await showDialog<bool>(
-  //         context: context,
-  //         builder: (context) {
-  //           return BaseWidget.getConfirmationDialog(
-  //               context, "Message", "Are you sure to logout?", "Emm, not yet", "Goodbye");
-  //         });
-  //     if (isLogout == null || !isLogout || !mounted) {
-  //       return;
-  //     }
-  //     homePageService.logout(widget.authData!["logoutUrl"]);
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-  //       return const LoginPage();
-  //     }));
-  //   }
-  // }
 }
