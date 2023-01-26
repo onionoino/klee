@@ -29,7 +29,6 @@ class Constants {
   static const String containerName = "klee";
 
   // Klee File Info
-  // static const String relativeKleeFileURI = "klee.ttl";
   static const String relativeKleeFileURI = "klee";
   static const String ttlSuffix = ".ttl";
   static const String kleeFileName = "klee";
