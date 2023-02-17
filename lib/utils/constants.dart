@@ -81,4 +81,7 @@ class Constants {
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 20;
+
+  // The Notify Hour
+  static const int notificationHour = 9;
 }
