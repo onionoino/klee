@@ -3,6 +3,27 @@ import 'package:klee/utils/constants.dart';
 
 /// this class is a util class related to solid server affairs
 class SolidUtils {
+  /// geographical information will store last 10 records, so this method could form a new record
+  /// @param prevObject - a previous value
+  ///        object - new value
+  /// @return newGeoObject - formatted new geo info string
+  static String getNewGeoObject(String prevObject, String object) {
+    String newGeoObject = object;
+    List<String> prevGeoInfoList = prevObject.split("&");
+    if (prevGeoInfoList.length >= 3) {
+      prevGeoInfoList.removeAt(0);
+      prevGeoInfoList.add(object);
+      newGeoObject = prevGeoInfoList.first;
+      prevGeoInfoList.removeAt(0);
+      for (String geoInfo in prevGeoInfoList) {
+        newGeoObject = "$newGeoObject&$geoInfo";
+      }
+    } else {
+      newGeoObject = "$prevObject&$object";
+    }
+    return newGeoObject;
+  }
+
   /// check if the container the app need to use is already exist, if it is, no need to create
   /// a new one, if not, the app need to create a new container in the root directory of the POD
   /// @param content - the content read from the root directory of the POD
