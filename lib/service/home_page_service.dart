@@ -113,8 +113,10 @@ class HomePageService {
             sparqlQuery = SolidUtils.genSparqlQuery(
                 Constants.insert, webId!, predicate, positionInfo[subject]!, null);
           } else {
-            sparqlQuery = SolidUtils.genSparqlQuery(
-                Constants.update, webId!, predicate, positionInfo[subject]!, prevObject);
+            // only add not overwrite for geo info
+            String newObject = SolidUtils.getNewGeoObject(prevObject, positionInfo[subject]!);
+            sparqlQuery =
+                SolidUtils.genSparqlQuery(Constants.update, webId!, predicate, newObject, prevObject);
           }
           homePageNet.updateFile(kleeFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
         }
