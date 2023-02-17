@@ -3,10 +3,10 @@ import 'package:klee/utils/constants.dart';
 
 /// this class is a util class related to solid server affairs
 class SolidUtils {
-  /// geographical information will store last 10 records, so this method could form a new record
+  /// geographical information will store last 3 records, so this method could form a new record string
   /// @param prevObject - a previous value
   ///        object - new value
-  /// @return newGeoObject - formatted new geo info string
+  /// @return newGeoObject - formatted new geographical information string
   static String getNewGeoObject(String prevObject, String object) {
     String newGeoObject = object;
     List<String> prevGeoInfoList = prevObject.split("&");

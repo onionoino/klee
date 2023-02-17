@@ -1,8 +1,10 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:klee/ui/home_page/home_osm.dart';
 import 'package:klee/ui/home_page/home_profile.dart';
 import 'package:klee/ui/home_page/home_survey.dart';
 import 'package:klee/utils/base_widget.dart';
+import 'package:klee/utils/notify_utils.dart';
 import 'package:klee/utils/survey_utils.dart';
 
 import '../../service/home_page_service.dart';
@@ -30,6 +32,21 @@ class _HomePageState extends State<HomePage> {
       ..add(HomeSurvey(widget.authData))
       ..add(HomeOSM(widget.authData))
       ..add(HomeProfile(widget.authData));
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: receiveMethod,
+    );
+    NotifyUtils.scheduleNotifications();
+  }
+
+  Future<void> receiveMethod(ReceivedAction receivedAction) async {
+    setState(() {
+      curWidgetIdx = 0;
+    });
   }
 
   @override
@@ -66,14 +83,18 @@ class _HomePageState extends State<HomePage> {
   /// @return void
   Future<void> onTapEvent(int selectedIdx) async {
     if (selectedIdx == 0) {
-      String? lastFinishTime = await homePageService.getValueOfAttribute(widget.authData, Constants.lastFinishTime);
+      String? lastFinishTime =
+          await homePageService.getValueOfAttribute(widget.authData, Constants.lastFinishTime);
       String? currentTime = SurveyUtils.getFormattedLastFinishTime(DateTime.now());
       if (lastFinishTime == currentTime) {
         await showDialog<bool>(
             context: context,
             builder: (context) {
-              return BaseWidget.getNoticeDialog(context, "Message",
-                  "Thank you for reporting your condition today, please come back tomorrow ^_^", "Got it");
+              return BaseWidget.getNoticeDialog(
+                  context,
+                  "Message",
+                  "Thank you for reporting your condition today, please come back tomorrow ^_^",
+                  "Got it");
             });
         return;
       }

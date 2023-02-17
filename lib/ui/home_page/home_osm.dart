@@ -60,13 +60,13 @@ class _HomeOSMState extends State<HomeOSM> {
         mapController: mapController,
         options: MapOptions(
             center: curLatLng,
-            minZoom: 8.0,
+            minZoom: 1.0,
             maxZoom: 18.0,
             keepAlive: true,
             onMapReady: () {
               LogUtil.e("map init complete");
               timer = Timer.periodic(const Duration(seconds: Constants.interval), (timer) async {
-                LogUtil.e("refresh the map and write position info into local file");
+                LogUtil.e("refresh the map and write position info into pod");
                 Position position = await GeoUtils.getCurrentLocation();
                 setState(() {
                   curLatLng = LatLng(position.latitude, position.longitude);
