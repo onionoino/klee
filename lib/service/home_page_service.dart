@@ -38,8 +38,8 @@ class HomePageService {
   ///        authData - the authentication Data received after login
   ///        dateTime - the timestamp collected when submitting the survey
   /// @return isSuccess - TRUE is success and FALSE is failure
-  Future<bool> saveSurveyInfo(String answer1, String answer2, String answer3,
-      Map<dynamic, dynamic>? authData, DateTime dateTime) async {
+  Future<bool> saveSurveyInfo(String answer1, String answer2, String answer3, String answer4,
+      String answer5, String answer6, Map<dynamic, dynamic>? authData, DateTime dateTime) async {
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
     String? accessToken = podInfo[Constants.accessToken];
     String? webId = podInfo[Constants.webId];
@@ -48,7 +48,8 @@ class HomePageService {
     String? kleeFileURI = podInfo[Constants.kleeFileURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    Map<String, String> surveyInfo = SurveyUtils.getFormattedSurvey(answer1, answer2, answer3, dateTime);
+    Map<String, String> surveyInfo =
+        SurveyUtils.getFormattedSurvey(answer1, answer2, answer3, answer4, answer5, answer6, dateTime);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk))) {

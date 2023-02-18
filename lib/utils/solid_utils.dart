@@ -78,6 +78,9 @@ class SolidUtils {
       Constants.q1: Constants.none,
       Constants.q2: Constants.none,
       Constants.q3: Constants.none,
+      Constants.q4: Constants.none,
+      Constants.q5: Constants.none,
+      Constants.q6: Constants.none,
       Constants.lastFinishTime: Constants.none,
     };
     for (String line in lineList) {
@@ -114,6 +117,21 @@ class SolidUtils {
             .trim();
       } else if (line.contains(Constants.q3)) {
         parsedInfo[Constants.q3] = val
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      } else if (line.contains(Constants.q4)) {
+        parsedInfo[Constants.q4] = val
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      } else if (line.contains(Constants.q5)) {
+        parsedInfo[Constants.q5] = val
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      } else if (line.contains(Constants.q6)) {
+        parsedInfo[Constants.q6] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
             .trim();
