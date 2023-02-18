@@ -37,9 +37,9 @@ class Constants {
   static const String latitude = "latitude";
   static const String longitude = "longitude";
   static const String dateTime = "dateTime";
-  static const String q1 = "q1";
-  static const String q2 = "q2";
-  static const String q3 = "q3";
+  static const String q1 = "cough";
+  static const String q2 = "soreThroat";
+  static const String q3 = "temperature";
   static const String lastFinishTime = "lastFinishTime";
 
   // Klee File Geo Key List

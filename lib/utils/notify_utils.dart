@@ -9,7 +9,6 @@ class NotifyUtils {
     final prefs = await SharedPreferences.getInstance();
     // reload here is necessary to get the updated scheduledDate value
     await prefs.reload();
-    await prefs.setString("lastScheduledDate", "null");
     final String? lastScheduledDate = prefs.getString("lastScheduledDate");
     final String curDate = "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}";
 
@@ -18,12 +17,13 @@ class NotifyUtils {
       await _scheduleToday();
       await _scheduleNextDays();
     } else {
-      await _cancelToday();
+      await _cancelAll();
+      await _scheduleNextDays();
     }
   }
 
   /// cancel all notifications scheduled today
-  static Future<void> _cancelToday() async {
+  static Future<void> _cancelAll() async {
     for (int id = 1; id < 31; id++) {
       await AwesomeNotifications().cancel(1);
     }

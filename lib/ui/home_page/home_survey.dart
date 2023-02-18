@@ -37,7 +37,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
               children: <Widget>[
                 Flexible(
                   child: RadioListTile<String>(
-                    value: "A",
+                    value: "No",
                     title: BaseWidget.getRadioBoxAnswerText("No"),
                     activeColor: Colors.red,
                     groupValue: q1Answer,
@@ -50,7 +50,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'B',
+                    value: "Mild",
                     title: BaseWidget.getRadioBoxAnswerText("Mild"),
                     groupValue: q1Answer,
                     activeColor: Colors.red,
@@ -63,7 +63,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'C',
+                    value: "Yes",
                     title: BaseWidget.getRadioBoxAnswerText("Yes"),
                     groupValue: q1Answer,
                     activeColor: Colors.red,
@@ -83,7 +83,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
               children: <Widget>[
                 Flexible(
                   child: RadioListTile<String>(
-                    value: "A",
+                    value: "No",
                     title: BaseWidget.getRadioBoxAnswerText("No"),
                     activeColor: Colors.red,
                     groupValue: q2Answer,
@@ -96,7 +96,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'B',
+                    value: "Mild",
                     title: BaseWidget.getRadioBoxAnswerText("Mild"),
                     groupValue: q2Answer,
                     activeColor: Colors.red,
@@ -109,7 +109,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'C',
+                    value: "Yes",
                     title: BaseWidget.getRadioBoxAnswerText("Yes"),
                     groupValue: q2Answer,
                     activeColor: Colors.red,
@@ -146,7 +146,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 onChanged: (temperatureText) {
                   setState(() {
                     if (!SurveyUtils.checkBodyTemperatureText(temperatureText)) {
-                      errorText = "Invalid body temp";
+                      errorText = "Invalid body temperature";
                       q3Answer = null;
                     } else {
                       errorText = null;
