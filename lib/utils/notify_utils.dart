@@ -25,7 +25,7 @@ class NotifyUtils {
   /// cancel all notifications scheduled today
   static Future<void> _cancelAll() async {
     for (int id = 1; id < 31; id++) {
-      await AwesomeNotifications().cancel(1);
+      await AwesomeNotifications().cancel(id);
     }
   }
 
