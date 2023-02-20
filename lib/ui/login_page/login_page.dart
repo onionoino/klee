@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:klee/utils/base_widget.dart';
 
 import '../../service/login_page_service.dart';
@@ -17,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   // TODO for testing
   TextEditingController webIdController = TextEditingController()
     ..text = 'https://podtest123.solidcommunity.net/profile/card#me';
+
   // TextEditingController webIdController = TextEditingController()
   //   ..text = 'https://solid.ecosysl.net/podtest123/profile/card#me';
   final LoginPageService loginPageService = LoginPageService();
@@ -31,9 +33,67 @@ class _LoginPageState extends State<LoginPage> {
             BaseWidget.getPadding(25.0),
             const LoginImage(),
             BaseWidget.getPadding(10.0),
-            BaseWidget.getTextField(
-                "https://pod-url.example-server.net/profile/card#me",
-                webIdController),
+            RawKeyboardListener(
+              focusNode: FocusNode(),
+              onKey: (event) async {
+                if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+                  if (!loginPageService.loginPreCheck(webIdController.text)) {
+                    await showDialog<bool>(
+                        context: context,
+                        builder: (context) {
+                          return BaseWidget.getNoticeDialog(context, "Warning",
+                              "You gave an invalid webId", "Try again");
+                        });
+                    return;
+                  }
+                  if (!mounted) {
+                    return;
+                  }
+                  Map<dynamic, dynamic>? authData = await loginPageService
+                      .loginAndAuth(webIdController.text, context, mounted);
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage(authData)),
+                  );
+                }
+              },
+              child: TextField(
+                controller: webIdController,
+                style: const TextStyle(fontSize: 20, fontFamily: "KleeOne"),
+                textAlign: TextAlign.center,
+                autofocus: false,
+                decoration: const InputDecoration(
+                  hintText:
+                      "https://pod-url.example-server.net/profile/card#me",
+                ),
+                onSubmitted: (value) async {
+                  if (!loginPageService.loginPreCheck(webIdController.text)) {
+                    await showDialog<bool>(
+                        context: context,
+                        builder: (context) {
+                          return BaseWidget.getNoticeDialog(context, "Warning",
+                              "You gave an invalid webId", "Try again");
+                        });
+                    return;
+                  }
+                  if (!mounted) {
+                    return;
+                  }
+                  Map<dynamic, dynamic>? authData = await loginPageService
+                      .loginAndAuth(webIdController.text, context, mounted);
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage(authData)),
+                  );
+                },
+              ),
+            ),
             BaseWidget.getPadding(20.0),
             BaseWidget.getElevatedButton(() async {
               if (!loginPageService.loginPreCheck(webIdController.text)) {
