@@ -19,7 +19,8 @@ class BaseWidget {
     );
   }
 
-  static TextField getTextField(String hint, TextEditingController textEditingController) {
+  static TextField getTextField(
+      String hint, TextEditingController textEditingController) {
     return TextField(
       controller: textEditingController,
       style: const TextStyle(fontSize: 20, fontFamily: "KleeOne"),
@@ -83,8 +84,8 @@ class BaseWidget {
     );
   }
 
-  static AlertDialog getConfirmationDialog(
-      BuildContext context, String title, String content, String textButtonF, String textButtonT) {
+  static AlertDialog getConfirmationDialog(BuildContext context, String title,
+      String content, String textButtonF, String textButtonT) {
     return AlertDialog(
       title: Text(title),
       content: Text(content),

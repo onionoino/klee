@@ -145,7 +145,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(4),
                 ],
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   hintText: "eg 36.7",
                   isCollapsed: true,
@@ -154,7 +155,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 onChanged: (temperatureText) {
                   setState(() {
-                    if (!SurveyUtils.checkBodyTemperatureText(temperatureText)) {
+                    if (!SurveyUtils.checkBodyTemperatureText(
+                        temperatureText)) {
                       errorText3 = "Invalid body temperature";
                       q3Answer = null;
                     } else {
@@ -179,7 +181,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(3),
                 ],
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   hintText: "eg 105",
                   isCollapsed: true,
@@ -213,7 +216,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(3),
                 ],
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   hintText: "eg 75",
                   isCollapsed: true,
@@ -247,7 +251,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 inputFormatters: <TextInputFormatter>[
                   LengthLimitingTextInputFormatter(3),
                 ],
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   hintText: "eg 85",
                   isCollapsed: true,
@@ -278,31 +283,45 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 await showDialog<bool>(
                     context: context,
                     builder: (context) {
-                      return BaseWidget.getNoticeDialog(context, "Warning",
-                          "Questions may not be completed or answers are not valid", "Continue");
+                      return BaseWidget.getNoticeDialog(
+                          context,
+                          "Warning",
+                          "Questions may not be completed or answers are not valid",
+                          "Continue");
                     });
               } else {
-                if (await homePageService.saveSurveyInfo(q1Answer!, q2Answer!, q3Answer!, q4Answer!,
-                    q5Answer!, q6Answer!, widget.authData, DateTime.now())) {
+                if (await homePageService.saveSurveyInfo(
+                    q1Answer!,
+                    q2Answer!,
+                    q3Answer!,
+                    q4Answer!,
+                    q5Answer!,
+                    q6Answer!,
+                    widget.authData,
+                    DateTime.now())) {
                   await showDialog<bool>(
                       context: context,
                       builder: (context) {
-                        return BaseWidget.getNoticeDialog(context, "Message",
-                            "Thank you for reporting your condition today", "Continue");
+                        return BaseWidget.getNoticeDialog(
+                            context,
+                            "Message",
+                            "Thank you for reporting your condition today",
+                            "Continue");
                       });
                   if (!mounted) {
                     return null;
                   }
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage(widget.authData)),
+                    MaterialPageRoute(
+                        builder: (context) => HomePage(widget.authData)),
                   );
                 } else {
                   await showDialog<bool>(
                       context: context,
                       builder: (context) {
-                        return BaseWidget.getNoticeDialog(
-                            context, "Error", "Failed to connect to your POD", "Try again");
+                        return BaseWidget.getNoticeDialog(context, "Error",
+                            "Failed to connect to your POD", "Try again");
                       });
                 }
               }

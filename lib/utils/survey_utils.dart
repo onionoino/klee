@@ -79,8 +79,14 @@ class SurveyUtils {
   ///        answer3 - q3's answer
   ///        dateTime - the timestamp collected when submitting the survey
   /// @return surveyMap - K-V structure to make further process more convenient
-  static Map<String, String> getFormattedSurvey(String answer1, String answer2, String answer3,
-      String answer4, String answer5, String answer6, DateTime dateTime) {
+  static Map<String, String> getFormattedSurvey(
+      String answer1,
+      String answer2,
+      String answer3,
+      String answer4,
+      String answer5,
+      String answer6,
+      DateTime dateTime) {
     return <String, String>{
       Constants.q1: answer1,
       Constants.q2: answer2,

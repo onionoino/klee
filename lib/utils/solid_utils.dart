@@ -29,7 +29,8 @@ class SolidUtils {
   /// @param content - the content read from the root directory of the POD
   /// @return isExist - TRUE means it exists, FALSE means not
   static bool isContainerExist(String content) {
-    return content.contains("klee/") || content.contains("@prefix klee: </klee/>.");
+    return content.contains("klee/") ||
+        content.contains("@prefix klee: </klee/>.");
   }
 
   /// check if the file the app need to use is already exist, if it is, no need to create
@@ -46,7 +47,8 @@ class SolidUtils {
   /// @return parsedAuthData - a <String, dynamic> map that contains necessary data parsed from the original authentication data
   static Map<String, dynamic> parseAuthData(Map<dynamic, dynamic>? authData) {
     String accessToken = authData![Constants.accessToken];
-    String webId = JwtDecoder.decode(accessToken)[Constants.webId.toLowerCase()];
+    String webId =
+        JwtDecoder.decode(accessToken)[Constants.webId.toLowerCase()];
     String podURI = webId.substring(0, webId.length - 15);
     String containerURI = podURI + Constants.relativeContainerURI;
     String kleeFileURI = containerURI + Constants.relativeKleeFileURI;
@@ -91,55 +93,35 @@ class SolidUtils {
         continue;
       }
       if (line.contains(Constants.latitude)) {
-        parsedInfo[Constants.latitude] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.latitude] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.longitude)) {
-        parsedInfo[Constants.longitude] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.longitude] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.dateTime)) {
-        parsedInfo[Constants.dateTime] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.dateTime] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.q1)) {
-        parsedInfo[Constants.q1] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.q1] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.q2)) {
-        parsedInfo[Constants.q2] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.q2] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.q3)) {
-        parsedInfo[Constants.q3] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.q3] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.q4)) {
-        parsedInfo[Constants.q4] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.q4] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.q5)) {
-        parsedInfo[Constants.q5] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.q5] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.q6)) {
-        parsedInfo[Constants.q6] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.q6] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       } else if (line.contains(Constants.lastFinishTime)) {
-        parsedInfo[Constants.lastFinishTime] = val
-            .replaceAll("\".", "")
-            .replaceAll("\";", "")
-            .trim();
+        parsedInfo[Constants.lastFinishTime] =
+            val.replaceAll("\".", "").replaceAll("\";", "").trim();
       }
     }
     return parsedInfo;
@@ -155,8 +137,8 @@ class SolidUtils {
   ///                     a previous value in this query, otherwise will receive a 409 (conflict)
   ///                     error status code
   /// @return sparqlQuery - a sparql query in string format
-  static String genSparqlQuery(
-      String action, String subject, String predicate, String object, String? prevObject) {
+  static String genSparqlQuery(String action, String subject, String predicate,
+      String object, String? prevObject) {
     String query;
     switch (action) {
       case Constants.insert:

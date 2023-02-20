@@ -32,23 +32,24 @@ class _LoginPageState extends State<LoginPage> {
             const LoginImage(),
             BaseWidget.getPadding(10.0),
             BaseWidget.getTextField(
-                "https://pod-url.example-server.net/profile/card#me", webIdController),
+                "https://pod-url.example-server.net/profile/card#me",
+                webIdController),
             BaseWidget.getPadding(20.0),
             BaseWidget.getElevatedButton(() async {
               if (!loginPageService.loginPreCheck(webIdController.text)) {
                 await showDialog<bool>(
                     context: context,
                     builder: (context) {
-                      return BaseWidget.getNoticeDialog(
-                          context, "Warning", "You gave an invalid webId", "Try again");
+                      return BaseWidget.getNoticeDialog(context, "Warning",
+                          "You gave an invalid webId", "Try again");
                     });
                 return;
               }
               if (!mounted) {
                 return null;
               }
-              Map<dynamic, dynamic>? authData =
-                  await loginPageService.loginAndAuth(webIdController.text, context, mounted);
+              Map<dynamic, dynamic>? authData = await loginPageService
+                  .loginAndAuth(webIdController.text, context, mounted);
               if (!mounted) {
                 return null;
               }
