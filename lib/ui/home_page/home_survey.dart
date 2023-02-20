@@ -19,10 +19,19 @@ class HomeSurvey extends StatefulWidget {
 class _HomeSurveyState extends State<HomeSurvey> {
   final HomePageService homePageService = HomePageService();
   TextEditingController q3AnswerTextController = TextEditingController();
+  TextEditingController q4AnswerTextController = TextEditingController();
+  TextEditingController q5AnswerTextController = TextEditingController();
+  TextEditingController q6AnswerTextController = TextEditingController();
   String? q1Answer;
   String? q2Answer;
   String? q3Answer;
-  String? errorText;
+  String? q4Answer;
+  String? q5Answer;
+  String? q6Answer;
+  String? errorText3;
+  String? errorText4;
+  String? errorText5;
+  String? errorText6;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +39,14 @@ class _HomeSurveyState extends State<HomeSurvey> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            BaseWidget.getPadding(25.0),
+            BaseWidget.getPadding(15.0),
             BaseWidget.getQuestionText(Constants.q1Text),
             BaseWidget.getPadding(2.5),
             Row(
               children: <Widget>[
                 Flexible(
                   child: RadioListTile<String>(
-                    value: "A",
+                    value: "No",
                     title: BaseWidget.getRadioBoxAnswerText("No"),
                     activeColor: Colors.red,
                     groupValue: q1Answer,
@@ -50,7 +59,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'B',
+                    value: "Mild",
                     title: BaseWidget.getRadioBoxAnswerText("Mild"),
                     groupValue: q1Answer,
                     activeColor: Colors.red,
@@ -63,7 +72,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'C',
+                    value: "Yes",
                     title: BaseWidget.getRadioBoxAnswerText("Yes"),
                     groupValue: q1Answer,
                     activeColor: Colors.red,
@@ -83,7 +92,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
               children: <Widget>[
                 Flexible(
                   child: RadioListTile<String>(
-                    value: "A",
+                    value: "No",
                     title: BaseWidget.getRadioBoxAnswerText("No"),
                     activeColor: Colors.red,
                     groupValue: q2Answer,
@@ -96,7 +105,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'B',
+                    value: "Mild",
                     title: BaseWidget.getRadioBoxAnswerText("Mild"),
                     groupValue: q2Answer,
                     activeColor: Colors.red,
@@ -109,7 +118,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: 'C',
+                    value: "Yes",
                     title: BaseWidget.getRadioBoxAnswerText("Yes"),
                     groupValue: q2Answer,
                     activeColor: Colors.red,
@@ -141,15 +150,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   hintText: "eg 36.7",
                   isCollapsed: true,
                   contentPadding: const EdgeInsets.all(5.0),
-                  errorText: errorText,
+                  errorText: errorText3,
                 ),
                 onChanged: (temperatureText) {
                   setState(() {
                     if (!SurveyUtils.checkBodyTemperatureText(temperatureText)) {
-                      errorText = "Invalid body temp";
+                      errorText3 = "Invalid body temperature";
                       q3Answer = null;
                     } else {
-                      errorText = null;
+                      errorText3 = null;
                       q3Answer = temperatureText;
                     }
                   });
@@ -157,8 +166,115 @@ class _HomeSurveyState extends State<HomeSurvey> {
               ),
             ),
             BaseWidget.getPadding(15.0),
+            BaseWidget.getQuestionText(Constants.q4Text),
+            BaseWidget.getPadding(2.5),
+            Container(
+              width: 200,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: q4AnswerTextController,
+                style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                textAlign: TextAlign.center,
+                autofocus: false,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(3),
+                ],
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  hintText: "eg 105",
+                  isCollapsed: true,
+                  contentPadding: const EdgeInsets.all(5.0),
+                  errorText: errorText4,
+                ),
+                onChanged: (systolicText) {
+                  setState(() {
+                    if (!SurveyUtils.checkSystolicText(systolicText)) {
+                      errorText4 = "Invalid systolic value";
+                      q4Answer = null;
+                    } else {
+                      errorText4 = null;
+                      q4Answer = systolicText;
+                    }
+                  });
+                },
+              ),
+            ),
+            BaseWidget.getPadding(15.0),
+            BaseWidget.getQuestionText(Constants.q5Text),
+            BaseWidget.getPadding(2.5),
+            Container(
+              width: 200,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: q5AnswerTextController,
+                style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                textAlign: TextAlign.center,
+                autofocus: false,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(3),
+                ],
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  hintText: "eg 75",
+                  isCollapsed: true,
+                  contentPadding: const EdgeInsets.all(5.0),
+                  errorText: errorText5,
+                ),
+                onChanged: (diastolicText) {
+                  setState(() {
+                    if (!SurveyUtils.checkDiastolicText(diastolicText)) {
+                      errorText5 = "Invalid diastolic value";
+                      q5Answer = null;
+                    } else {
+                      errorText5 = null;
+                      q5Answer = diastolicText;
+                    }
+                  });
+                },
+              ),
+            ),
+            BaseWidget.getPadding(15.0),
+            BaseWidget.getQuestionText(Constants.q6Text),
+            BaseWidget.getPadding(2.5),
+            Container(
+              width: 200,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: q6AnswerTextController,
+                style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                textAlign: TextAlign.center,
+                autofocus: false,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(3),
+                ],
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  hintText: "eg 85",
+                  isCollapsed: true,
+                  contentPadding: const EdgeInsets.all(5.0),
+                  errorText: errorText6,
+                ),
+                onChanged: (heartRateText) {
+                  setState(() {
+                    if (!SurveyUtils.checkHeartRateText(heartRateText)) {
+                      errorText6 = "Invalid heart rate";
+                      q6Answer = null;
+                    } else {
+                      errorText6 = null;
+                      q6Answer = heartRateText;
+                    }
+                  });
+                },
+              ),
+            ),
+            BaseWidget.getPadding(15.0),
             BaseWidget.getElevatedButton(() async {
-              if (q1Answer == null || q2Answer == null || q3Answer == null) {
+              if (q1Answer == null ||
+                  q2Answer == null ||
+                  q3Answer == null ||
+                  q4Answer == null ||
+                  q5Answer == null ||
+                  q6Answer == null) {
                 await showDialog<bool>(
                     context: context,
                     builder: (context) {
@@ -166,8 +282,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                           "Questions may not be completed or answers are not valid", "Continue");
                     });
               } else {
-                if (await homePageService.saveSurveyInfo(
-                    q1Answer!, q2Answer!, q3Answer!, widget.authData, DateTime.now())) {
+                if (await homePageService.saveSurveyInfo(q1Answer!, q2Answer!, q3Answer!, q4Answer!,
+                    q5Answer!, q6Answer!, widget.authData, DateTime.now())) {
                   await showDialog<bool>(
                       context: context,
                       builder: (context) {

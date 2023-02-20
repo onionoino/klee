@@ -37,16 +37,19 @@ class Constants {
   static const String latitude = "latitude";
   static const String longitude = "longitude";
   static const String dateTime = "dateTime";
-  static const String q1 = "q1";
-  static const String q2 = "q2";
-  static const String q3 = "q3";
+  static const String q1 = "cough";
+  static const String q2 = "soreThroat";
+  static const String q3 = "temperature";
+  static const String q4 = "systolic";
+  static const String q5 = "diastolic";
+  static const String q6 = "heartRate";
   static const String lastFinishTime = "lastFinishTime";
 
   // Klee File Geo Key List
   static const Set<String> kleeFileGeoKeyList = <String>{latitude, longitude, dateTime};
 
   // Klee File Survey Key List
-  static const Set<String> kleeFileSurveyKeyList = <String>{q1, q2, q3, lastFinishTime};
+  static const Set<String> kleeFileSurveyKeyList = <String>{q1, q2, q3, q4, q5, q6, lastFinishTime};
 
   // HTTP Status Constants
   static const int ok = 200;
@@ -78,7 +81,13 @@ class Constants {
   static const String q1Text = "Are you coughing today?";
   static const String q2Text = "Are you have a sore throat today?";
   static const String q3Text = "What's your temperature today?";
+  static const String q4Text = "What's your systolic today?";
+  static const String q5Text = "What's your diastolic today?";
+  static const String q6Text = "What's your heart rate today?";
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 20;
+
+  // The Notify Hour
+  static const int notificationHour = 9;
 }

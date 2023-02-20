@@ -3,6 +3,27 @@ import 'package:klee/utils/constants.dart';
 
 /// this class is a util class related to solid server affairs
 class SolidUtils {
+  /// geographical information will store last 3 records, so this method could form a new record string
+  /// @param prevObject - a previous value
+  ///        object - new value
+  /// @return newGeoObject - formatted new geographical information string
+  static String getNewGeoObject(String prevObject, String object) {
+    String newGeoObject = object;
+    List<String> prevGeoInfoList = prevObject.split("&");
+    if (prevGeoInfoList.length >= 3) {
+      prevGeoInfoList.removeAt(0);
+      prevGeoInfoList.add(object);
+      newGeoObject = prevGeoInfoList.first;
+      prevGeoInfoList.removeAt(0);
+      for (String geoInfo in prevGeoInfoList) {
+        newGeoObject = "$newGeoObject&$geoInfo";
+      }
+    } else {
+      newGeoObject = "$prevObject&$object";
+    }
+    return newGeoObject;
+  }
+
   /// check if the container the app need to use is already exist, if it is, no need to create
   /// a new one, if not, the app need to create a new container in the root directory of the POD
   /// @param content - the content read from the root directory of the POD
@@ -57,6 +78,9 @@ class SolidUtils {
       Constants.q1: Constants.none,
       Constants.q2: Constants.none,
       Constants.q3: Constants.none,
+      Constants.q4: Constants.none,
+      Constants.q5: Constants.none,
+      Constants.q6: Constants.none,
       Constants.lastFinishTime: Constants.none,
     };
     for (String line in lineList) {
@@ -93,6 +117,21 @@ class SolidUtils {
             .trim();
       } else if (line.contains(Constants.q3)) {
         parsedInfo[Constants.q3] = val
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      } else if (line.contains(Constants.q4)) {
+        parsedInfo[Constants.q4] = val
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      } else if (line.contains(Constants.q5)) {
+        parsedInfo[Constants.q5] = val
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      } else if (line.contains(Constants.q6)) {
+        parsedInfo[Constants.q6] = val
             .replaceAll("\".", "")
             .replaceAll("\";", "")
             .trim();
