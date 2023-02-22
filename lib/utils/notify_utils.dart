@@ -10,7 +10,8 @@ class NotifyUtils {
     // reload here is necessary to get the updated scheduledDate value
     await prefs.reload();
     final String? lastScheduledDate = prefs.getString("lastScheduledDate");
-    final String curDate = "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}";
+    final String curDate =
+        "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}";
 
     if (lastScheduledDate == null || lastScheduledDate != curDate) {
       await prefs.setString("lastScheduledDate", curDate);
@@ -46,8 +47,8 @@ class NotifyUtils {
   /// schedule notification for the next days at Constants.notificationHour per day
   static Future<void> _scheduleNextDays() async {
     DateTime now = DateTime.now();
-    DateTime scheduleDateTime =
-        DateTime(now.year, now.month, now.day + 1, Constants.notificationHour, 0, 0, 0, 0);
+    DateTime scheduleDateTime = DateTime(now.year, now.month, now.day + 1,
+        Constants.notificationHour, 0, 0, 0, 0);
     for (int id = 2; id < 31; id++) {
       scheduleDateTime = scheduleDateTime.add(const Duration(days: 1));
       await _createNotification(id, scheduleDateTime);
@@ -67,6 +68,7 @@ class NotifyUtils {
           wakeUpScreen: true,
           category: NotificationCategory.Reminder,
         ),
-        schedule: NotificationCalendar.fromDate(date: dateTime.add(const Duration(seconds: 15))));
+        schedule: NotificationCalendar.fromDate(
+            date: dateTime.add(const Duration(seconds: 15))));
   }
 }

@@ -11,8 +11,8 @@ class HomePageNet {
   ///        rsa - rsaKeyPair to help generate dPopToken
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   /// @return content - all content fetched from the POD as a String
-  Future<String> readFile(
-      String fileURI, String accessToken, dynamic rsaKeyPair, dynamic publicKeyJwk) async {
+  Future<String> readFile(String fileURI, String accessToken,
+      dynamic rsaKeyPair, dynamic publicKeyJwk) async {
     String dPopToken = genDpopToken(fileURI, rsaKeyPair, publicKeyJwk, "GET");
     Response response = await get(
       Uri.parse(fileURI),
@@ -37,8 +37,8 @@ class HomePageNet {
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   ///        query - the sparql query to edit the specific file
   /// @return void
-  void updateFile(
-      String fileURI, String accessToken, dynamic rsaKeyPair, dynamic publicKeyJwk, String query) async {
+  void updateFile(String fileURI, String accessToken, dynamic rsaKeyPair,
+      dynamic publicKeyJwk, String query) async {
     String dPopToken = genDpopToken(fileURI, rsaKeyPair, publicKeyJwk, "PATCH");
     Response response = await patch(
       Uri.parse(fileURI),
@@ -52,7 +52,8 @@ class HomePageNet {
       },
       body: query,
     );
-    if (response.statusCode != Constants.ok && response.statusCode != Constants.reset) {
+    if (response.statusCode != Constants.ok &&
+        response.statusCode != Constants.reset) {
       throw Exception("Error on updating a file");
     }
   }
@@ -64,8 +65,8 @@ class HomePageNet {
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   ///        containerName - the name of your new container (folder)
   /// @return void
-  void mkdir(String rootURI, String accessToken, dynamic rsaKeyPair, dynamic publicKeyJwk,
-      String containerName) async {
+  void mkdir(String rootURI, String accessToken, dynamic rsaKeyPair,
+      dynamic publicKeyJwk, String containerName) async {
     String dPopToken = genDpopToken(rootURI, rsaKeyPair, publicKeyJwk, "POST");
     Response response = await post(
       Uri.parse(rootURI),
@@ -91,9 +92,10 @@ class HomePageNet {
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   ///        fileName - the name of your new file
   /// @return void
-  void touch(String containerURI, String accessToken, dynamic rsaKeyPair, dynamic pubKeyJwk,
-      String fileName) async {
-    String dPopToken = genDpopToken(containerURI, rsaKeyPair, pubKeyJwk, "POST");
+  void touch(String containerURI, String accessToken, dynamic rsaKeyPair,
+      dynamic pubKeyJwk, String fileName) async {
+    String dPopToken =
+        genDpopToken(containerURI, rsaKeyPair, pubKeyJwk, "POST");
     Response response = await post(
       Uri.parse(containerURI),
       headers: <String, String>{

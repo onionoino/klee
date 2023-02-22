@@ -12,7 +12,8 @@ class Constants {
       RegExp(r"(https?)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
 
   // Default LatLng
-  static final LatLng defaultLatLng = LatLng(-35.27527648107207, 149.12062976407165);
+  static final LatLng defaultLatLng =
+      LatLng(-35.27527648107207, 149.12062976407165);
 
   // Auth Data Keys
   static const String accessToken = "accessToken";
@@ -46,10 +47,22 @@ class Constants {
   static const String lastFinishTime = "lastFinishTime";
 
   // Klee File Geo Key List
-  static const Set<String> kleeFileGeoKeyList = <String>{latitude, longitude, dateTime};
+  static const Set<String> kleeFileGeoKeyList = <String>{
+    latitude,
+    longitude,
+    dateTime
+  };
 
   // Klee File Survey Key List
-  static const Set<String> kleeFileSurveyKeyList = <String>{q1, q2, q3, q4, q5, q6, lastFinishTime};
+  static const Set<String> kleeFileSurveyKeyList = <String>{
+    q1,
+    q2,
+    q3,
+    q4,
+    q5,
+    q6,
+    lastFinishTime
+  };
 
   // HTTP Status Constants
   static const int ok = 200;

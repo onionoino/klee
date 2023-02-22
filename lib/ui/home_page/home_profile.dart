@@ -47,14 +47,15 @@ class _HomeProfileState extends State<HomeProfile> {
               bool? isLogout = await showDialog<bool>(
                   context: context,
                   builder: (context) {
-                    return BaseWidget.getConfirmationDialog(
-                        context, "Message", "Are you sure to logout?", "Emm, not yet", "Goodbye");
+                    return BaseWidget.getConfirmationDialog(context, "Message",
+                        "Are you sure to logout?", "Emm, not yet", "Goodbye");
                   });
               if (isLogout == null || !isLogout || !mounted) {
                 return;
               }
               homePageService.logout(widget.authData!["logoutUrl"]);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) {
                 return const LoginPage();
               }));
             }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),

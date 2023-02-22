@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Klee Compass",
       theme: ThemeData(
-        colorScheme: const ColorScheme.light()
-            .copyWith(primary: Color(int.parse("e74c3c", radix: 16) | 0xFF000000)),
+        colorScheme: const ColorScheme.light().copyWith(
+            primary: Color(int.parse("e74c3c", radix: 16) | 0xFF000000)),
       ),
       home: const LoginPage(),
     );

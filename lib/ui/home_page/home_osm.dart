@@ -65,13 +65,15 @@ class _HomeOSMState extends State<HomeOSM> {
             keepAlive: true,
             onMapReady: () {
               LogUtil.e("map init complete");
-              timer = Timer.periodic(const Duration(seconds: Constants.interval), (timer) async {
+              timer = Timer.periodic(
+                  const Duration(seconds: Constants.interval), (timer) async {
                 LogUtil.e("refresh the map and write position info into pod");
                 Position position = await GeoUtils.getCurrentLocation();
                 setState(() {
                   curLatLng = LatLng(position.latitude, position.longitude);
                 });
-                homePageService.saveGeoInfo(curLatLng!, widget.authData, DateTime.now());
+                homePageService.saveGeoInfo(
+                    curLatLng!, widget.authData, DateTime.now());
               });
             }),
         nonRotatedChildren: [

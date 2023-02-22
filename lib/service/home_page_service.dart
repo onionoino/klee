@@ -13,7 +13,8 @@ class HomePageService {
   /// this method is to get and parse out a specific attribute
   /// @param authData - the authentication Data received after login
   /// @return value - the result or 'none' if failed
-  Future<String?> getValueOfAttribute(Map<dynamic, dynamic>? authData, String attribute) async {
+  Future<String?> getValueOfAttribute(
+      Map<dynamic, dynamic>? authData, String attribute) async {
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
     String? accessToken = podInfo[Constants.accessToken];
     String? podURI = podInfo[Constants.podURI];
@@ -21,13 +22,14 @@ class HomePageService {
     String? kleeFileURI = podInfo[Constants.kleeFileURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    if (!SolidUtils.isContainerExist(
-            await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk)) ||
-        !SolidUtils.isKleeFileExist(
-            await homePageNet.readFile(containerURI!, accessToken, rsa, pubKeyJwk))) {
+    if (!SolidUtils.isContainerExist(await homePageNet.readFile(
+            podURI!, accessToken!, rsa, pubKeyJwk)) ||
+        !SolidUtils.isKleeFileExist(await homePageNet.readFile(
+            containerURI!, accessToken, rsa, pubKeyJwk))) {
       return Constants.none;
     }
-    String content = await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
+    String content =
+        await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
     return SolidUtils.parseKleeFile(content)[attribute];
   }
 
@@ -38,8 +40,15 @@ class HomePageService {
   ///        authData - the authentication Data received after login
   ///        dateTime - the timestamp collected when submitting the survey
   /// @return isSuccess - TRUE is success and FALSE is failure
-  Future<bool> saveSurveyInfo(String answer1, String answer2, String answer3, String answer4,
-      String answer5, String answer6, Map<dynamic, dynamic>? authData, DateTime dateTime) async {
+  Future<bool> saveSurveyInfo(
+      String answer1,
+      String answer2,
+      String answer3,
+      String answer4,
+      String answer5,
+      String answer6,
+      Map<dynamic, dynamic>? authData,
+      DateTime dateTime) async {
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
     String? accessToken = podInfo[Constants.accessToken];
     String? webId = podInfo[Constants.webId];
@@ -48,30 +57,34 @@ class HomePageService {
     String? kleeFileURI = podInfo[Constants.kleeFileURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    Map<String, String> surveyInfo =
-        SurveyUtils.getFormattedSurvey(answer1, answer2, answer3, answer4, answer5, answer6, dateTime);
+    Map<String, String> surveyInfo = SurveyUtils.getFormattedSurvey(
+        answer1, answer2, answer3, answer4, answer5, answer6, dateTime);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk))) {
-        homePageNet.mkdir(podURI, accessToken, rsa, pubKeyJwk, Constants.containerName);
+        homePageNet.mkdir(
+            podURI, accessToken, rsa, pubKeyJwk, Constants.containerName);
       }
-      if (!SolidUtils.isKleeFileExist(
-          await homePageNet.readFile(containerURI!, accessToken, rsa, pubKeyJwk))) {
-        homePageNet.touch(containerURI, accessToken, rsa, pubKeyJwk, Constants.kleeFileName);
+      if (!SolidUtils.isKleeFileExist(await homePageNet.readFile(
+          containerURI!, accessToken, rsa, pubKeyJwk))) {
+        homePageNet.touch(
+            containerURI, accessToken, rsa, pubKeyJwk, Constants.kleeFileName);
       }
-      String content = await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
+      String content =
+          await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
       String sparqlQuery;
       SolidUtils.parseKleeFile(content).forEach((subject, prevObject) {
         if (Constants.kleeFileSurveyKeyList.contains(subject)) {
           String predicate = SolidUtils.genPredicate(subject);
           if (prevObject == Constants.none) {
-            sparqlQuery = SolidUtils.genSparqlQuery(
-                Constants.insert, webId!, predicate, surveyInfo[subject]!, null);
+            sparqlQuery = SolidUtils.genSparqlQuery(Constants.insert, webId!,
+                predicate, surveyInfo[subject]!, null);
           } else {
-            sparqlQuery = SolidUtils.genSparqlQuery(
-                Constants.update, webId!, predicate, surveyInfo[subject]!, prevObject);
+            sparqlQuery = SolidUtils.genSparqlQuery(Constants.update, webId!,
+                predicate, surveyInfo[subject]!, prevObject);
           }
-          homePageNet.updateFile(kleeFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
+          homePageNet.updateFile(
+              kleeFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
         }
       });
     } catch (e) {
@@ -86,7 +99,8 @@ class HomePageService {
   ///        authData - the authentication Data received after login
   ///        dateTime - the timestamp collected along with geographical information collection
   /// @return isSuccess - TRUE is success and FALSE is failure
-  Future<bool> saveGeoInfo(LatLng latLng, Map<dynamic, dynamic>? authData, DateTime dateTime) async {
+  Future<bool> saveGeoInfo(
+      LatLng latLng, Map<dynamic, dynamic>? authData, DateTime dateTime) async {
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
     String? accessToken = podInfo[Constants.accessToken];
     String? webId = podInfo[Constants.webId];
@@ -95,31 +109,37 @@ class HomePageService {
     String? kleeFileURI = podInfo[Constants.kleeFileURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    Map<String, String> positionInfo = GeoUtils.getFormattedPosition(latLng, dateTime);
+    Map<String, String> positionInfo =
+        GeoUtils.getFormattedPosition(latLng, dateTime);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk))) {
-        homePageNet.mkdir(podURI, accessToken, rsa, pubKeyJwk, Constants.containerName);
+        homePageNet.mkdir(
+            podURI, accessToken, rsa, pubKeyJwk, Constants.containerName);
       }
-      if (!SolidUtils.isKleeFileExist(
-          await homePageNet.readFile(containerURI!, accessToken, rsa, pubKeyJwk))) {
-        homePageNet.touch(containerURI, accessToken, rsa, pubKeyJwk, Constants.kleeFileName);
+      if (!SolidUtils.isKleeFileExist(await homePageNet.readFile(
+          containerURI!, accessToken, rsa, pubKeyJwk))) {
+        homePageNet.touch(
+            containerURI, accessToken, rsa, pubKeyJwk, Constants.kleeFileName);
       }
-      String content = await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
+      String content =
+          await homePageNet.readFile(kleeFileURI!, accessToken, rsa, pubKeyJwk);
       String sparqlQuery;
       SolidUtils.parseKleeFile(content).forEach((subject, prevObject) {
         if (Constants.kleeFileGeoKeyList.contains(subject)) {
           String predicate = SolidUtils.genPredicate(subject);
           if (prevObject == Constants.none) {
-            sparqlQuery = SolidUtils.genSparqlQuery(
-                Constants.insert, webId!, predicate, positionInfo[subject]!, null);
+            sparqlQuery = SolidUtils.genSparqlQuery(Constants.insert, webId!,
+                predicate, positionInfo[subject]!, null);
           } else {
             // only add not overwrite for geo info
-            String newObject = SolidUtils.getNewGeoObject(prevObject, positionInfo[subject]!);
-            sparqlQuery =
-                SolidUtils.genSparqlQuery(Constants.update, webId!, predicate, newObject, prevObject);
+            String newObject =
+                SolidUtils.getNewGeoObject(prevObject, positionInfo[subject]!);
+            sparqlQuery = SolidUtils.genSparqlQuery(
+                Constants.update, webId!, predicate, newObject, prevObject);
           }
-          homePageNet.updateFile(kleeFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
+          homePageNet.updateFile(
+              kleeFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
         }
       });
     } catch (e) {

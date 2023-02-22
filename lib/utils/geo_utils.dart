@@ -22,7 +22,8 @@ class GeoUtils {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
     return await Geolocator.getCurrentPosition();
   }
@@ -43,7 +44,8 @@ class GeoUtils {
   /// @param latLng - geographical information collected from the device
   ///        dateTime - the timestamp collected along with geographical information collection
   /// @return formattedPositionMap - the formatted K-V position map for further processing
-  static Map<String, String> getFormattedPosition(LatLng latLng, DateTime dateTime) {
+  static Map<String, String> getFormattedPosition(
+      LatLng latLng, DateTime dateTime) {
     return <String, String>{
       Constants.latitude: _getFormattedLatitude(latLng),
       Constants.longitude: _getFormattedLongitude(latLng),

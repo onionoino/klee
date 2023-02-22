@@ -9,7 +9,8 @@ class LoginPageNet {
   ///        context - the context of login widget
   ///        mounted - to eliminate the warning from a async method
   /// @return authData - a map that contains all information after authentication, -including accessToken and dPopToken
-  Future<Map?> getAuthData(String webId, BuildContext context, bool mounted) async {
+  Future<Map?> getAuthData(
+      String webId, BuildContext context, bool mounted) async {
     String issuerUri = await getIssuer(webId);
     if (!mounted) {
       return null;
