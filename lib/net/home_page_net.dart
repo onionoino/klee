@@ -30,6 +30,26 @@ class HomePageNet {
     }
   }
 
+  Future<String> readTest(String fileURI, String accessToken,
+      dynamic rsaKeyPair, dynamic publicKeyJwk, String cookie) async {
+    String dPopToken = genDpopToken(fileURI, rsaKeyPair, publicKeyJwk, "GET");
+    Response response = await get(
+      Uri.parse(fileURI),
+      headers: <String, String>{
+        "Accept": "*/*",
+        "Authorization": "DPoP $accessToken",
+        "Connection": "keep-alive",
+        "DPoP": dPopToken,
+        "Cookie": cookie,
+      },
+    );
+    if (response.statusCode == Constants.ok) {
+      return response.body;
+    } else {
+      throw Exception("Error on reading a file");
+    }
+  }
+
   /// this method is to update a file
   /// @param fileURI - the uri of a file users would like to read in a pod
   ///        accessToken - the access token parsed from authentication data after login
@@ -37,8 +57,8 @@ class HomePageNet {
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   ///        query - the sparql query to edit the specific file
   /// @return void
-  void updateFile(String fileURI, String accessToken, dynamic rsaKeyPair,
-      dynamic publicKeyJwk, String query) async {
+  Future<void> updateFile(String fileURI, String accessToken,
+      dynamic rsaKeyPair, dynamic publicKeyJwk, String query) async {
     String dPopToken = genDpopToken(fileURI, rsaKeyPair, publicKeyJwk, "PATCH");
     Response response = await patch(
       Uri.parse(fileURI),
@@ -65,7 +85,7 @@ class HomePageNet {
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   ///        containerName - the name of your new container (folder)
   /// @return void
-  void mkdir(String rootURI, String accessToken, dynamic rsaKeyPair,
+  Future<void> mkdir(String rootURI, String accessToken, dynamic rsaKeyPair,
       dynamic publicKeyJwk, String containerName) async {
     String dPopToken = genDpopToken(rootURI, rsaKeyPair, publicKeyJwk, "POST");
     Response response = await post(
@@ -92,8 +112,8 @@ class HomePageNet {
   ///        pubKeyJwk - pubKeyJwk to help generate dPopToken
   ///        fileName - the name of your new file
   /// @return void
-  void touch(String containerURI, String accessToken, dynamic rsaKeyPair,
-      dynamic pubKeyJwk, String fileName) async {
+  Future<void> touch(String containerURI, String accessToken,
+      dynamic rsaKeyPair, dynamic pubKeyJwk, String fileName) async {
     String dPopToken =
         genDpopToken(containerURI, rsaKeyPair, pubKeyJwk, "POST");
     Response response = await post(

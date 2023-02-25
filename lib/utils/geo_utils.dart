@@ -28,28 +28,21 @@ class GeoUtils {
     return await Geolocator.getCurrentPosition();
   }
 
+  /// get a map of formatted position information for further processing
+  /// @param latLng - geographical information collected from the device
+  /// @return formattedPositionMap - the formatted K-V position map for further processing
+  static Map<String, String> getFormattedPosition(LatLng latLng) {
+    return <String, String>{
+      Constants.latitudeKey: _getFormattedLatitude(latLng),
+      Constants.longitudeKey: _getFormattedLongitude(latLng),
+    };
+  }
+
   static String _getFormattedLatitude(LatLng latLng) {
     return latLng.latitude.toString();
   }
 
   static String _getFormattedLongitude(LatLng latLng) {
     return latLng.longitude.toString();
-  }
-
-  static String _getFormattedDateTime(DateTime dateTime) {
-    return dateTime.toString().substring(0, 19);
-  }
-
-  /// get a map of formatted position information for further processing
-  /// @param latLng - geographical information collected from the device
-  ///        dateTime - the timestamp collected along with geographical information collection
-  /// @return formattedPositionMap - the formatted K-V position map for further processing
-  static Map<String, String> getFormattedPosition(
-      LatLng latLng, DateTime dateTime) {
-    return <String, String>{
-      Constants.latitude: _getFormattedLatitude(latLng),
-      Constants.longitude: _getFormattedLongitude(latLng),
-      Constants.dateTime: _getFormattedDateTime(dateTime),
-    };
   }
 }
