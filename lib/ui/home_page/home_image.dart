@@ -12,8 +12,14 @@ class HomeImage extends StatelessWidget {
           "images/KleeIcon.jpg",
           alignment: Alignment.center,
           colorBlendMode: BlendMode.saturation,
-          width: MediaQuery.of(context).size.width / 1.25,
-          height: MediaQuery.of(context).size.width / 1.25,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width / 1.25,
+          height: MediaQuery
+              .of(context)
+              .size
+              .width / 1.25,
           fit: BoxFit.cover,
         ),
       ),

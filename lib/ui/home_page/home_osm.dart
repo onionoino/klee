@@ -23,7 +23,7 @@ class HomeOSM extends StatefulWidget {
 
 class _HomeOSMState extends State<HomeOSM> {
   final MapController mapController = MapController();
-  LatLng? curLatLng;
+  LatLng? curLatLng = Constants.defaultLatLng;
   final HomePageService homePageService = HomePageService();
   Timer? timer;
 
@@ -31,16 +31,10 @@ class _HomeOSMState extends State<HomeOSM> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      try {
-        Position position = await GeoUtils.getCurrentLocation();
-        setState(() {
-          curLatLng = LatLng(position.latitude, position.longitude);
-        });
-      } catch (e) {
-        setState(() {
-          curLatLng = Constants.defaultLatLng;
-        });
-      }
+      Position position = await GeoUtils.getCurrentLocation();
+      setState(() {
+        curLatLng = LatLng(position.latitude, position.longitude);
+      });
       homePageService.saveGeoInfo(curLatLng!, widget.authData, DateTime.now());
       mapController.move(curLatLng!, 17);
     });

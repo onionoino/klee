@@ -7,6 +7,11 @@ class Constants {
   static const success = 1;
   static const podNotFound = 2;
 
+  // HTTP Status Constants
+  static const int ok = 200;
+  static const int created = 201;
+  static const int reset = 205;
+
   // WebId Url Reg Check
   static final RegExp urlRegExp =
       RegExp(r"(https?)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
@@ -20,54 +25,41 @@ class Constants {
   static const String webId = "webId";
   static const String podURI = "podURI";
   static const String containerURI = "containerURI";
-  static const String kleeFileURI = "kleeFileURI";
+  static const String geoContainerURI = "geoContainerURI";
+  static const String surveyContainerURI = "surveyContainerURI";
   static const String rsaInfo = "rsaInfo";
   static const String rsa = "rsa";
   static const String pubKeyJwk = "pubKeyJwk";
+
+  // Mark
+  static const String mark = "*";
 
   // Container Info
   static const String relativeContainerURI = "klee/";
   static const String containerName = "klee";
 
-  // Klee File Info
-  static const String relativeKleeFileURI = "klee";
+  // Geo Container Info
+  static const String relativeGeoContainerURI = "geo/";
+  static const String geoContainerName = "geo";
+
+  // Survey Container Info
+  static const String relativeSurveyContainerURI = "survey/";
+  static const String surveyContainerName = "survey";
+
+  // TTL File Info
   static const String ttlSuffix = ".ttl";
-  static const String kleeFileName = "klee";
 
-  // Klee File Keys
-  static const String latitude = "latitude";
-  static const String longitude = "longitude";
-  static const String dateTime = "dateTime";
-  static const String q1 = "cough";
-  static const String q2 = "soreThroat";
-  static const String q3 = "temperature";
-  static const String q4 = "systolic";
-  static const String q5 = "diastolic";
-  static const String q6 = "heartRate";
-  static const String lastFinishTime = "lastFinishTime";
+  // Geo File Keys
+  static const String latitudeKey = "latitude";
+  static const String longitudeKey = "longitude";
 
-  // Klee File Geo Key List
-  static const Set<String> kleeFileGeoKeyList = <String>{
-    latitude,
-    longitude,
-    dateTime
-  };
-
-  // Klee File Survey Key List
-  static const Set<String> kleeFileSurveyKeyList = <String>{
-    q1,
-    q2,
-    q3,
-    q4,
-    q5,
-    q6,
-    lastFinishTime
-  };
-
-  // HTTP Status Constants
-  static const int ok = 200;
-  static const int created = 201;
-  static const int reset = 205;
+  // Survey File Keys
+  static const String q1Key = "isCough";
+  static const String q2Key = "isSoreThroat";
+  static const String q3Key = "temperature";
+  static const String q4Key = "systolic";
+  static const String q5Key = "diastolic";
+  static const String q6Key = "heartRate";
 
   // None Value
   static const String none = "none";
@@ -75,7 +67,6 @@ class Constants {
   // Sparql Action
   static const String insert = "insert";
   static const String delete = "delete";
-  static const String update = "update";
 
   // Predicate Prefix
   static const String predicate = "http://xmlns.com/foaf/0.1/";
@@ -99,8 +90,8 @@ class Constants {
   static const String q6Text = "What's your heart rate today?";
 
   // Geo Info Saving Interval (seconds)
-  static const int interval = 20;
+  static const int interval = 60;
 
-  // The Notify Hour
+  // The Notify Hour Every Day (hour)
   static const int notificationHour = 9;
 }

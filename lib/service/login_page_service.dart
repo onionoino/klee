@@ -19,8 +19,8 @@ class LoginPageService {
   ///        context - the context of login widget
   ///        mounted - to eliminate the warning from a async method
   /// @return authData - a map that contains all information after authentication, including accessToken and dPopToken
-  Future<Map<dynamic, dynamic>?> loginAndAuth(
-      String webId, BuildContext context, bool mounted) async {
+  Future<Map<dynamic, dynamic>?> loginAndAuth(String webId,
+      BuildContext context, bool mounted) async {
     return await loginPageNet.getAuthData(webId, context, mounted);
   }
 }

@@ -3,16 +3,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
 
+/// this class is a util class related to notification affairs
 class NotifyUtils {
   /// schedule notifications accordingly.
+  /// @return void
   static Future<void> scheduleNotifications() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     // reload here is necessary to get the updated scheduledDate value
     await prefs.reload();
     final String? lastScheduledDate = prefs.getString("lastScheduledDate");
     final String curDate =
         "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}";
-
     if (lastScheduledDate == null || lastScheduledDate != curDate) {
       await prefs.setString("lastScheduledDate", curDate);
       await _scheduleToday();
@@ -24,6 +25,7 @@ class NotifyUtils {
   }
 
   /// cancel all notifications scheduled today
+  /// @return void
   static Future<void> _cancelAll() async {
     for (int id = 1; id < 31; id++) {
       await AwesomeNotifications().cancel(id);
@@ -31,6 +33,7 @@ class NotifyUtils {
   }
 
   /// schedule notifications today after Constants.notificationHour
+  /// @return void
   static Future<void> _scheduleToday() async {
     DateTime now = DateTime.now();
     DateTime scheduleDateTime = DateTime.now();
@@ -45,6 +48,7 @@ class NotifyUtils {
   }
 
   /// schedule notification for the next days at Constants.notificationHour per day
+  /// @return void
   static Future<void> _scheduleNextDays() async {
     DateTime now = DateTime.now();
     DateTime scheduleDateTime = DateTime(now.year, now.month, now.day + 1,
@@ -56,6 +60,7 @@ class NotifyUtils {
   }
 
   /// create notifications
+  /// @return void
   static Future<void> _createNotification(int id, DateTime dateTime) async {
     await AwesomeNotifications().createNotification(
         content: NotificationContent(
@@ -69,6 +74,6 @@ class NotifyUtils {
           category: NotificationCategory.Reminder,
         ),
         schedule: NotificationCalendar.fromDate(
-            date: dateTime.add(const Duration(seconds: 15))));
+            date: dateTime.add(const Duration(seconds: 5))));
   }
 }

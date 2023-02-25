@@ -6,9 +6,9 @@ import 'package:klee/ui/home_page/home_survey.dart';
 import 'package:klee/utils/base_widget.dart';
 import 'package:klee/utils/notify_utils.dart';
 import 'package:klee/utils/survey_utils.dart';
+import 'package:klee/utils/time_utils.dart';
 
 import '../../service/home_page_service.dart';
-import '../../utils/constants.dart';
 
 /// the view layer of home page, a stateful widget
 class HomePage extends StatefulWidget {
@@ -44,11 +44,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> receiveMethod(ReceivedAction receivedAction) async {
-    String? lastFinishTime = await homePageService.getValueOfAttribute(
-        widget.authData, Constants.lastFinishTime);
-    String? currentTime =
-        SurveyUtils.getFormattedLastFinishTime(DateTime.now());
-    if (lastFinishTime == currentTime) {
+    String? lastSurveyTime =
+        await SurveyUtils.getLastSurveyTime(widget.authData);
+    String? currentTime = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
+    if (lastSurveyTime == currentTime) {
       await showDialog<bool>(
           context: context,
           builder: (context) {
@@ -102,21 +101,23 @@ class _HomePageState extends State<HomePage> {
   /// @return void
   Future<void> onTapEvent(int selectedIdx) async {
     if (selectedIdx == 0) {
-      String? lastFinishTime = await homePageService.getValueOfAttribute(
-          widget.authData, Constants.lastFinishTime);
-      String? currentTime =
-          SurveyUtils.getFormattedLastFinishTime(DateTime.now());
-      if (lastFinishTime == currentTime) {
-        await showDialog<bool>(
+      String? lastSurveyTime =
+          await SurveyUtils.getLastSurveyTime(widget.authData);
+      String? currentTime = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
+      if (lastSurveyTime == currentTime) {
+        bool? isGoBack = await showDialog<bool>(
             context: context,
             builder: (context) {
-              return BaseWidget.getNoticeDialog(
+              return BaseWidget.getConfirmationDialog(
                   context,
                   "Message",
-                  "Thank you for reporting your condition today, please come back tomorrow ^_^",
-                  "Got it");
+                  "Thank you for reporting condition today ^_^ Would you like to submit a new report?",
+                  "New report",
+                  "Come back tmr");
             });
-        return;
+        if (isGoBack == null || isGoBack || !mounted) {
+          return;
+        }
       }
     }
     setState(() {
