@@ -82,8 +82,8 @@ class HomePageService {
             curRecordFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
       });
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(
-          "lastSurveyDate", TimeUtils.getFormattedTimeYYYYmmDD(dateTime));
+      prefs.setString(Constants.lastSurveyDateKey,
+          TimeUtils.getFormattedTimeYYYYmmDD(dateTime));
     } catch (e) {
       LogUtil.e("Error on saving survey information");
       return false;

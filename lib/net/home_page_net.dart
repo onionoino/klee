@@ -30,26 +30,6 @@ class HomePageNet {
     }
   }
 
-  Future<String> readTest(String fileURI, String accessToken,
-      dynamic rsaKeyPair, dynamic publicKeyJwk, String cookie) async {
-    String dPopToken = genDpopToken(fileURI, rsaKeyPair, publicKeyJwk, "GET");
-    Response response = await get(
-      Uri.parse(fileURI),
-      headers: <String, String>{
-        "Accept": "*/*",
-        "Authorization": "DPoP $accessToken",
-        "Connection": "keep-alive",
-        "DPoP": dPopToken,
-        "Cookie": cookie,
-      },
-    );
-    if (response.statusCode == Constants.ok) {
-      return response.body;
-    } else {
-      throw Exception("Error on reading a file");
-    }
-  }
-
   /// this method is to update a file
   /// @param fileURI - the uri of a file users would like to read in a pod
   ///        accessToken - the access token parsed from authentication data after login

@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:klee/utils/time_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
@@ -11,11 +12,11 @@ class NotifyUtils {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // reload here is necessary to get the updated scheduledDate value
     await prefs.reload();
-    final String? lastScheduledDate = prefs.getString("lastScheduledDate");
-    final String curDate =
-        "${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}";
+    final String? lastScheduledDate =
+        prefs.getString(Constants.lastScheduledDateKey);
+    final String curDate = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
     if (lastScheduledDate == null || lastScheduledDate != curDate) {
-      await prefs.setString("lastScheduledDate", curDate);
+      await prefs.setString(Constants.lastScheduledDateKey, curDate);
       await _scheduleToday();
       await _scheduleNextDays();
     } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:klee/net/login_page_net.dart';
 import 'package:klee/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// the model-view layer of login page, including all services the very view layer needs
 class LoginPageService {
@@ -19,8 +20,18 @@ class LoginPageService {
   ///        context - the context of login widget
   ///        mounted - to eliminate the warning from a async method
   /// @return authData - a map that contains all information after authentication, including accessToken and dPopToken
-  Future<Map<dynamic, dynamic>?> loginAndAuth(String webId,
-      BuildContext context, bool mounted) async {
+  Future<Map<dynamic, dynamic>?> loginAndAuth(
+      String webId, BuildContext context, bool mounted) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!mounted) {
+      return null;
+    }
+    String? lastInputURL = prefs.getString(Constants.lastInputURLKey);
+    if (lastInputURL != webId) {
+      prefs.setString(Constants.lastScheduledDateKey, Constants.none);
+      prefs.setString(Constants.lastSurveyDateKey, Constants.none);
+    }
+    prefs.setString(Constants.lastInputURLKey, webId);
     return await loginPageNet.getAuthData(webId, context, mounted);
   }
 }
