@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
             label: "POD",
           )
         ],
-        onTap: onTapEvent,
+        onTap: _onTapEvent,
       ),
     );
   }
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
   /// tap event logic when taping bottomNavigationBar, set selected idx to current idx
   /// @param selectedIdx - selected index of the bottomNavigationBar
   /// @return void
-  Future<void> onTapEvent(int selectedIdx) async {
+  Future<void> _onTapEvent(int selectedIdx) async {
     if (selectedIdx == 0) {
       String? lastSurveyTime =
           await SurveyUtils.getLastSurveyTime(widget.authData);

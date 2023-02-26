@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klee/utils/base_widget.dart';
+import 'package:klee/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/login_page_service.dart';
 import '../home_page/home_page.dart';
@@ -19,9 +21,29 @@ class _LoginPageState extends State<LoginPage> {
   // TextEditingController webIdController = TextEditingController()
   //   ..text = 'https://podtest123.solidcommunity.net/profile/card#me';
 
-  TextEditingController webIdController = TextEditingController()
-    ..text = 'https://solid.ecosysl.net/podtest123/profile/card#me';
+  // TextEditingController webIdController = TextEditingController()
+  //   ..text = 'https://solid.ecosysl.net/podtest123/profile/card#me';
+
+  TextEditingController webIdController = TextEditingController();
   final LoginPageService loginPageService = LoginPageService();
+
+  _load() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? lastInputURL = prefs.getString(Constants.lastInputURLKey);
+    if (lastInputURL != null && lastInputURL != Constants.none) {
+      webIdController = TextEditingController()..text = lastInputURL;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+        Duration.zero,
+        () => setState(() {
+              _load();
+            }));
+  }
 
   @override
   Widget build(BuildContext context) {

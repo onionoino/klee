@@ -94,4 +94,9 @@ class Constants {
 
   // The Notify Hour Every Day (hour)
   static const int notificationHour = 9;
+
+  // Shared Preference Keys
+  static const String lastScheduledDateKey = "lastScheduledDate";
+  static const String lastSurveyDateKey = "lastSurveyDate";
+  static const String lastInputURLKey = "lastInputURL";
 }
