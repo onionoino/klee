@@ -31,9 +31,6 @@ class Constants {
   static const String rsa = "rsa";
   static const String pubKeyJwk = "pubKeyJwk";
 
-  // Mark
-  static const String mark = "*";
-
   // Container Info
   static const String relativeContainerURI = "klee/";
   static const String containerName = "klee";

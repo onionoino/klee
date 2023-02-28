@@ -55,8 +55,7 @@ class HomePageService {
         await homePageNet.mkdir(containerURI, accessToken, rsa, pubKeyJwk,
             Constants.surveyContainerName);
       }
-      String todayContainerName =
-          Constants.mark + TimeUtils.getFormattedTimeYYYYmmDD(dateTime);
+      String todayContainerName = TimeUtils.getFormattedTimeYYYYmmDD(dateTime);
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(
               surveyContainerURI!, accessToken, rsa, pubKeyJwk),
@@ -65,8 +64,7 @@ class HomePageService {
             todayContainerName);
       }
       String todayContainerURI = "$surveyContainerURI$todayContainerName/";
-      String curRecordFileName =
-          Constants.mark + TimeUtils.getFormattedTimeHHmmSS(dateTime);
+      String curRecordFileName = TimeUtils.getFormattedTimeHHmmSS(dateTime);
       await homePageNet.touch(
           todayContainerURI, accessToken, rsa, pubKeyJwk, curRecordFileName);
       String curRecordFileURI = SolidUtils.genCurRecordFileURI(
@@ -121,8 +119,7 @@ class HomePageService {
         await homePageNet.mkdir(containerURI, accessToken, rsa, pubKeyJwk,
             Constants.geoContainerName);
       }
-      String todayContainerName =
-          Constants.mark + TimeUtils.getFormattedTimeYYYYmmDD(dateTime);
+      String todayContainerName = TimeUtils.getFormattedTimeYYYYmmDD(dateTime);
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(
               geoContainerURI!, accessToken, rsa, pubKeyJwk),
@@ -131,8 +128,7 @@ class HomePageService {
             geoContainerURI, accessToken, rsa, pubKeyJwk, todayContainerName);
       }
       String todayContainerURI = "$geoContainerURI$todayContainerName/";
-      String curRecordFileName =
-          Constants.mark + TimeUtils.getFormattedTimeHHmmSS(dateTime);
+      String curRecordFileName = TimeUtils.getFormattedTimeHHmmSS(dateTime);
       await homePageNet.touch(
           todayContainerURI, accessToken, rsa, pubKeyJwk, curRecordFileName);
       String curRecordFileURI = SolidUtils.genCurRecordFileURI(
