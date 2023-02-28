@@ -14,14 +14,17 @@ class SurveyUtils {
   }
 
   /// check if a string complies with body temperature format,
-  /// a body temperature format is XX.X and it should <= 42.0 && >= 35.0
+  /// a body temperature input format is XX.X or XX and it should <= 42.0 && >= 35.0
   /// @param temperatureText - a string text of body temperature
   /// @return isValid - TRUE means it valid, FALSE means not
   static bool checkBodyTemperatureText(String temperatureText) {
-    double temperature;
-    if (!temperatureText.contains(".")) {
+    if (temperatureText.trim() == "") {
+      return true;
+    }
+    if (temperatureText.endsWith(".")) {
       return false;
     }
+    double temperature;
     try {
       temperature = double.parse(temperatureText);
       if (temperature < 35.0 || temperature > 42.0) {
@@ -38,6 +41,9 @@ class SurveyUtils {
   /// @param systolicText - a string text of systolic
   /// @return isValid - TRUE means it valid, FALSE means not
   static bool checkSystolicText(String systolicText) {
+    if (systolicText.trim() == "") {
+      return true;
+    }
     int systolic;
     try {
       systolic = int.parse(systolicText);
@@ -55,6 +61,9 @@ class SurveyUtils {
   /// @param diastolicText - a string text of diastolic
   /// @return isValid - TRUE means it valid, FALSE means not
   static bool checkDiastolicText(String diastolicText) {
+    if (diastolicText.trim() == "") {
+      return true;
+    }
     int diastolic;
     try {
       diastolic = int.parse(diastolicText);
@@ -72,6 +81,9 @@ class SurveyUtils {
   /// @param heartRateText - a string text of heart rate
   /// @return isValid - TRUE means it valid, FALSE means not
   static bool checkHeartRateText(String heartRateText) {
+    if (heartRateText.trim() == "") {
+      return true;
+    }
     int heartRate;
     try {
       heartRate = int.parse(heartRateText);
