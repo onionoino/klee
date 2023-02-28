@@ -160,8 +160,16 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       errorText3 = "Invalid body temperature";
                       q3Answer = null;
                     } else {
+                      if (temperatureText.trim() == "") {
+                        q3Answer = null;
+                      } else {
+                        if (temperatureText.contains(".")) {
+                          q3Answer = temperatureText;
+                        } else {
+                          q3Answer = "$temperatureText.0";
+                        }
+                      }
                       errorText3 = null;
-                      q3Answer = temperatureText;
                     }
                   });
                 },
@@ -196,7 +204,11 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       q4Answer = null;
                     } else {
                       errorText4 = null;
-                      q4Answer = systolicText;
+                      if (systolicText.trim() == "") {
+                        q4Answer = null;
+                      } else {
+                        q4Answer = systolicText;
+                      }
                     }
                   });
                 },
@@ -231,7 +243,11 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       q5Answer = null;
                     } else {
                       errorText5 = null;
-                      q5Answer = diastolicText;
+                      if (diastolicText.trim() == "") {
+                        q5Answer = null;
+                      } else {
+                        q5Answer = diastolicText;
+                      }
                     }
                   });
                 },
@@ -266,7 +282,11 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       q6Answer = null;
                     } else {
                       errorText6 = null;
-                      q6Answer = heartRateText;
+                      if (heartRateText.trim() == "") {
+                        q6Answer = null;
+                      } else {
+                        q6Answer = heartRateText;
+                      }
                     }
                   });
                 },
@@ -274,11 +294,11 @@ class _HomeSurveyState extends State<HomeSurvey> {
             ),
             BaseWidget.getPadding(15.0),
             BaseWidget.getElevatedButton(() async {
-              if (q1Answer == null ||
-                  q2Answer == null ||
-                  q3Answer == null ||
-                  q4Answer == null ||
-                  q5Answer == null ||
+              if (q1Answer == null &&
+                  q2Answer == null &&
+                  q3Answer == null &&
+                  q4Answer == null &&
+                  q5Answer == null &&
                   q6Answer == null) {
                 await showDialog<bool>(
                     context: context,
@@ -286,10 +306,16 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       return BaseWidget.getNoticeDialog(
                           context,
                           "Warning",
-                          "Questions may not be completed or answers are not valid",
+                          "An empty report can not be submitted, pls answer at least one question",
                           "Continue");
                     });
               } else {
+                q1Answer ??= Constants.none;
+                q2Answer ??= Constants.none;
+                q3Answer ??= Constants.none;
+                q4Answer ??= Constants.none;
+                q5Answer ??= Constants.none;
+                q6Answer ??= Constants.none;
                 if (await homePageService.saveSurveyInfo(
                     q1Answer!,
                     q2Answer!,
