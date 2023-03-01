@@ -1,5 +1,6 @@
+import 'package:klee/utils/redis_utils.dart';
+import 'package:klee/utils/solid_utils.dart';
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
 
@@ -10,8 +11,8 @@ class SurveyUtils {
   /// @return lastSurveyTime - user's last survey time
   static Future<String?> getLastSurveyTime(
       Map<dynamic, dynamic>? authData) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString("lastSurveyDate");
+    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
+    return RedisUtils.getString(podInfo[Constants.webId]);
   }
 
   /// check if a string complies with body temperature format,

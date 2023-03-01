@@ -29,7 +29,6 @@ class LoginPageService {
     String? lastInputURL = prefs.getString(Constants.lastInputURLKey);
     if (lastInputURL != webId) {
       prefs.setString(Constants.lastScheduledDateKey, Constants.none);
-      prefs.setString(Constants.lastSurveyDateKey, Constants.none);
     }
     prefs.setString(Constants.lastInputURLKey, webId);
     return await loginPageNet.getAuthData(webId, context, mounted);
