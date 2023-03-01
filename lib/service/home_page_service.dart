@@ -39,7 +39,7 @@ class HomePageService {
     String? surveyContainerURI = podInfo[Constants.surveyContainerURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    Map<String, String> surveyInfo = SurveyUtils.getFormattedSurvey(
+    Map<String, String> surveyInfo = await SurveyUtils.getFormattedSurvey(
         answer1, answer2, answer3, answer4, answer5, answer6);
     try {
       if (!SolidUtils.isContainerExist(
@@ -104,7 +104,8 @@ class HomePageService {
     String? geoContainerURI = podInfo[Constants.geoContainerURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    Map<String, String> positionInfo = GeoUtils.getFormattedPosition(latLng);
+    Map<String, String> positionInfo =
+        await GeoUtils.getFormattedPosition(latLng);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
