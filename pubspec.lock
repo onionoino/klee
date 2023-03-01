@@ -478,6 +478,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.2"
+  redis_dart:
+    dependency: "direct main"
+    description:
+      name: redis_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0+4"
   shared_preferences:
     dependency: "direct main"
     description:

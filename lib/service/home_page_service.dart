@@ -2,11 +2,11 @@ import 'package:common_utils/common_utils.dart';
 import 'package:klee/net/home_page_net.dart';
 import 'package:klee/utils/constants.dart';
 import 'package:klee/utils/geo_utils.dart';
+import 'package:klee/utils/redis_utils.dart';
 import 'package:klee/utils/solid_utils.dart';
 import 'package:klee/utils/survey_utils.dart';
 import 'package:klee/utils/time_utils.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// the model-view layer of home page, including all services the very view layer needs
 class HomePageService {
@@ -79,9 +79,7 @@ class HomePageService {
         await homePageNet.updateFile(
             curRecordFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
       });
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(Constants.lastSurveyDateKey,
-          TimeUtils.getFormattedTimeYYYYmmDD(dateTime));
+      RedisUtils.setString(webId, TimeUtils.getFormattedTimeYYYYmmDD(dateTime));
     } catch (e) {
       LogUtil.e("Error on saving survey information");
       return false;

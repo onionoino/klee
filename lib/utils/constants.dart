@@ -97,6 +97,9 @@ class Constants {
 
   // Shared Preference Keys
   static const String lastScheduledDateKey = "lastScheduledDate";
-  static const String lastSurveyDateKey = "lastSurveyDate";
   static const String lastInputURLKey = "lastInputURL";
+
+  // Redis Configs
+  static const String redisIp = "54.95.123.162";
+  static const int redisPort = 6379;
 }
