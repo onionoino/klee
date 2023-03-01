@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   awesome_notifications
   fast_rsa
+  platform_device_id_linux
   url_launcher_linux
 )
 

@@ -1,3 +1,4 @@
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
@@ -104,8 +105,14 @@ class SurveyUtils {
   ///        answer5 - q5's answer
   ///        answer6 - q6's answer
   /// @return surveyMap - K-V structure to make further process more convenient
-  static Map<String, String> getFormattedSurvey(String answer1, String answer2,
-      String answer3, String answer4, String answer5, String answer6) {
+  static Future<Map<String, String>> getFormattedSurvey(
+      String answer1,
+      String answer2,
+      String answer3,
+      String answer4,
+      String answer5,
+      String answer6) async {
+    String? deviceInfo = await PlatformDeviceId.getDeviceId;
     return <String, String>{
       Constants.q1Key: answer1,
       Constants.q2Key: answer2,
@@ -113,6 +120,7 @@ class SurveyUtils {
       Constants.q4Key: answer4,
       Constants.q5Key: answer5,
       Constants.q6Key: answer6,
+      Constants.deviceKey: deviceInfo!,
     };
   }
 }

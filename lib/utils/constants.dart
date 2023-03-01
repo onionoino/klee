@@ -58,6 +58,9 @@ class Constants {
   static const String q5Key = "diastolic";
   static const String q6Key = "heartRate";
 
+  // Common Keys
+  static const String deviceKey = "device";
+
   // None Value
   static const String none = "none";
 

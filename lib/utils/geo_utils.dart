@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 import 'constants.dart';
 
@@ -31,10 +32,12 @@ class GeoUtils {
   /// get a map of formatted position information for further processing
   /// @param latLng - geographical information collected from the device
   /// @return formattedPositionMap - the formatted K-V position map for further processing
-  static Map<String, String> getFormattedPosition(LatLng latLng) {
+  static Future<Map<String, String>> getFormattedPosition(LatLng latLng) async {
+    String? deviceInfo = await PlatformDeviceId.getDeviceId;
     return <String, String>{
       Constants.latitudeKey: _getFormattedLatitude(latLng),
       Constants.longitudeKey: _getFormattedLongitude(latLng),
+      Constants.deviceKey: deviceInfo!,
     };
   }
 
