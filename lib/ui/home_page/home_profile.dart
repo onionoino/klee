@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:klee/utils/base_widget.dart';
 
 import '../../service/home_page_service.dart';
-import '../../utils/base_widget.dart';
 import '../login_page/login_page.dart';
-import 'home_image.dart';
+import 'home_charts/bar_chart_widget.dart';
+import 'home_charts/line_chart_widget.dart';
 
 /// the view layer of profile widget in home page
 class HomeProfile extends StatefulWidget {
@@ -40,9 +41,43 @@ class _HomeProfileState extends State<HomeProfile> {
                 ),
               ),
             ),
-            BaseWidget.getPadding(20.0),
-            const HomeImage(),
-            BaseWidget.getPadding(25.0),
+            BaseWidget.getPadding(15),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: const BarChartWidget(),
+            ),
+            BaseWidget.getPadding(15),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: const BarChartWidget(),
+            ),
+            BaseWidget.getPadding(15),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: const LineChartWidget(),
+            ),
+            BaseWidget.getPadding(15),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: const LineChartWidget(),
+            ),
+            BaseWidget.getPadding(15),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: const LineChartWidget(),
+            ),
+            BaseWidget.getPadding(15),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: const LineChartWidget(),
+            ),
+            BaseWidget.getPadding(25),
             BaseWidget.getElevatedButton(() async {
               bool? isLogout = await showDialog<bool>(
                   context: context,
