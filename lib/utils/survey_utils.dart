@@ -1,5 +1,6 @@
 import 'package:klee/utils/redis_utils.dart';
 import 'package:klee/utils/solid_utils.dart';
+import 'package:klee/utils/time_utils.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
 import 'constants.dart';
@@ -105,6 +106,7 @@ class SurveyUtils {
   ///        answer4 - q4's answer
   ///        answer5 - q5's answer
   ///        answer6 - q6's answer
+  ///        dateTime - time of survey submitting
   /// @return surveyMap - K-V structure to make further process more convenient
   static Future<Map<String, String>> getFormattedSurvey(
       String answer1,
@@ -112,7 +114,8 @@ class SurveyUtils {
       String answer3,
       String answer4,
       String answer5,
-      String answer6) async {
+      String answer6,
+      DateTime dateTime) async {
     String? deviceInfo = await PlatformDeviceId.getDeviceId;
     return <String, String>{
       Constants.q1Key: answer1,
@@ -122,6 +125,7 @@ class SurveyUtils {
       Constants.q5Key: answer5,
       Constants.q6Key: answer6,
       Constants.deviceKey: deviceInfo!,
+      Constants.obTimeKey: TimeUtils.getFormattedTimeClockHHmm(dateTime),
     };
   }
 }

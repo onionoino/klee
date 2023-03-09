@@ -2,11 +2,33 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:klee/extensions/color_extensions.dart';
 
-class BarChartWidget extends StatelessWidget {
-  const BarChartWidget({super.key});
+import '../../../utils/constants.dart';
+
+class BarChartWidget extends StatefulWidget {
+  final List<double> yList;
+  final List<String> xList;
+  final double maxY;
+
+  const BarChartWidget(this.yList, this.xList, this.maxY, {Key? key})
+      : super(key: key);
 
   @override
+  State<BarChartWidget> createState() => _BarChartWidgetState();
+}
+
+class _BarChartWidgetState extends State<BarChartWidget> {
+  @override
   Widget build(BuildContext context) {
+    if (widget.yList.length < Constants.barNumber) {
+      for (int i = widget.yList.length; i < Constants.barNumber; i++) {
+        widget.yList.add(Constants.optionNull);
+      }
+    }
+    if (widget.xList.length < Constants.barNumber) {
+      for (int i = widget.xList.length; i < Constants.barNumber; i++) {
+        widget.xList.add("N/A");
+      }
+    }
     return BarChart(
       BarChartData(
         barTouchData: barTouchData,
@@ -15,7 +37,7 @@ class BarChartWidget extends StatelessWidget {
         barGroups: barGroups,
         gridData: FlGridData(show: false),
         alignment: BarChartAlignment.spaceAround,
-        maxY: 10,
+        maxY: widget.maxY,
       ),
     );
   }
@@ -32,13 +54,39 @@ class BarChartWidget extends StatelessWidget {
             BarChartRodData rod,
             int rodIndex,
           ) {
-            return BarTooltipItem(
-              "aa",
-              const TextStyle(
-                color: Colors.cyan,
-                fontWeight: FontWeight.bold,
-              ),
-            );
+            if (rod.toY == Constants.optionNo) {
+              return BarTooltipItem(
+                "( ᕑᗢᓫ )",
+                const TextStyle(
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            } else if (rod.toY == Constants.optionMild) {
+              return BarTooltipItem(
+                "(>﹏<)",
+                const TextStyle(
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            } else if (rod.toY == Constants.optionYes) {
+              return BarTooltipItem(
+                "( ºΔº )",
+                const TextStyle(
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            } else {
+              return BarTooltipItem(
+                "Null",
+                const TextStyle(
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            }
           },
         ),
       );
@@ -49,31 +97,31 @@ class BarChartWidget extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    String text;
+    String text = "";
     switch (value.toInt()) {
       case 0:
-        text = 'Mn';
+        text = widget.xList[0];
         break;
       case 1:
-        text = 'Te';
+        text = widget.xList[1];
         break;
       case 2:
-        text = 'Wd';
+        text = widget.xList[2];
         break;
       case 3:
-        text = 'Tu';
+        text = widget.xList[3];
         break;
       case 4:
-        text = 'Fr';
+        text = widget.xList[4];
         break;
       case 5:
-        text = 'St';
+        text = widget.xList[5];
         break;
       case 6:
-        text = 'Sn';
+        text = widget.xList[6];
         break;
       default:
-        text = '';
+        text = "N/A";
         break;
     }
     return SideTitleWidget(
@@ -121,7 +169,7 @@ class BarChartWidget extends StatelessWidget {
           x: 0,
           barRods: [
             BarChartRodData(
-              toY: 2,
+              toY: widget.yList[0],
               gradient: _barsGradient,
             )
           ],
@@ -131,7 +179,7 @@ class BarChartWidget extends StatelessWidget {
           x: 1,
           barRods: [
             BarChartRodData(
-              toY: 4,
+              toY: widget.yList[1],
               gradient: _barsGradient,
             )
           ],
@@ -141,7 +189,7 @@ class BarChartWidget extends StatelessWidget {
           x: 2,
           barRods: [
             BarChartRodData(
-              toY: 6,
+              toY: widget.yList[2],
               gradient: _barsGradient,
             )
           ],
@@ -151,7 +199,7 @@ class BarChartWidget extends StatelessWidget {
           x: 3,
           barRods: [
             BarChartRodData(
-              toY: 4,
+              toY: widget.yList[3],
               gradient: _barsGradient,
             )
           ],
@@ -161,7 +209,7 @@ class BarChartWidget extends StatelessWidget {
           x: 4,
           barRods: [
             BarChartRodData(
-              toY: 2,
+              toY: widget.yList[4],
               gradient: _barsGradient,
             )
           ],
@@ -171,7 +219,7 @@ class BarChartWidget extends StatelessWidget {
           x: 5,
           barRods: [
             BarChartRodData(
-              toY: 4,
+              toY: widget.yList[5],
               gradient: _barsGradient,
             )
           ],
@@ -181,28 +229,11 @@ class BarChartWidget extends StatelessWidget {
           x: 6,
           barRods: [
             BarChartRodData(
-              toY: 6,
+              toY: widget.yList[6],
               gradient: _barsGradient,
             )
           ],
           showingTooltipIndicators: [0],
         ),
       ];
-}
-
-class BarChartSample3 extends StatefulWidget {
-  const BarChartSample3({super.key});
-
-  @override
-  State<StatefulWidget> createState() => BarChartSample3State();
-}
-
-class BarChartSample3State extends State<BarChartSample3> {
-  @override
-  Widget build(BuildContext context) {
-    return const AspectRatio(
-      aspectRatio: 1.6,
-      child: BarChartWidget(),
-    );
-  }
 }
