@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:current_location/current_location.dart';
+import 'package:current_location/model/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:klee/utils/constants.dart';
@@ -31,12 +34,21 @@ class _HomeOSMState extends State<HomeOSM> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Position position = await GeoUtils.getCurrentLocation();
-      setState(() {
-        curLatLng = LatLng(position.latitude, position.longitude);
-      });
-      homePageService.saveGeoInfo(curLatLng!, widget.authData, DateTime.now());
-      mapController.move(curLatLng!, Constants.defaultZoom);
+      if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+        Location? location = await UserLocation.getValue();
+        setState(() {
+          curLatLng = LatLng(location!.latitude!, location.longitude!);
+        });
+        mapController.move(curLatLng!, Constants.defaultZoom);
+      } else {
+        Position position = await GeoUtils.getCurrentLocation();
+        setState(() {
+          curLatLng = LatLng(position.latitude, position.longitude);
+        });
+        homePageService.saveGeoInfo(
+            curLatLng!, widget.authData, DateTime.now());
+        mapController.move(curLatLng!, Constants.defaultZoom);
+      }
     });
   }
 
@@ -115,9 +127,11 @@ class _HomeOSMState extends State<HomeOSM> {
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 90),
             child: FloatingActionButton(
               onPressed: () {
-                if (mapController.zoom + Constants.stepZoom < Constants.maxZoom) {
+                if (mapController.zoom + Constants.stepZoom <
+                    Constants.maxZoom) {
                   setState(() {
-                    mapController.move(curLatLng!, mapController.zoom + Constants.stepZoom);
+                    mapController.move(
+                        curLatLng!, mapController.zoom + Constants.stepZoom);
                   });
                 } else {
                   setState(() {
@@ -138,9 +152,11 @@ class _HomeOSMState extends State<HomeOSM> {
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 25),
             child: FloatingActionButton(
               onPressed: () {
-                if (mapController.zoom - Constants.stepZoom > Constants.minZoom) {
+                if (mapController.zoom - Constants.stepZoom >
+                    Constants.minZoom) {
                   setState(() {
-                    mapController.move(curLatLng!, mapController.zoom - Constants.stepZoom);
+                    mapController.move(
+                        curLatLng!, mapController.zoom - Constants.stepZoom);
                   });
                 } else {
                   setState(() {
