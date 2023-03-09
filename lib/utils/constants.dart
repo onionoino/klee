@@ -118,4 +118,10 @@ class Constants {
   static const double diastolicMinY = 25;
   static const double heartRateMinY = 35;
   static const double systolicMinY = 45;
+
+  // Map Parameters
+  static const double maxZoom = 18;
+  static const double minZoom = 3;
+  static const double defaultZoom = 16.5;
+  static const double stepZoom = 1.5;
 }
