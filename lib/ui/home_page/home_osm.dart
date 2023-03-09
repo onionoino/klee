@@ -36,7 +36,7 @@ class _HomeOSMState extends State<HomeOSM> {
         curLatLng = LatLng(position.latitude, position.longitude);
       });
       homePageService.saveGeoInfo(curLatLng!, widget.authData, DateTime.now());
-      mapController.move(curLatLng!, 17);
+      mapController.move(curLatLng!, Constants.defaultZoom);
     });
   }
 
@@ -54,8 +54,8 @@ class _HomeOSMState extends State<HomeOSM> {
         mapController: mapController,
         options: MapOptions(
             center: curLatLng,
-            minZoom: 1.0,
-            maxZoom: 18.0,
+            minZoom: Constants.minZoom,
+            maxZoom: Constants.maxZoom,
             keepAlive: true,
             onMapReady: () {
               LogUtil.e("map init complete");
@@ -74,6 +74,87 @@ class _HomeOSMState extends State<HomeOSM> {
           AttributionWidget.defaultWidget(
             source: 'OpenStreetMap',
             onSourceTapped: null,
+          ),
+          Container(
+            alignment: Alignment.bottomLeft,
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 25),
+            child: FloatingActionButton(
+              onPressed: () {
+                // TODO
+                print("TOGGLE");
+              },
+              backgroundColor: Colors.redAccent,
+              child: const Icon(
+                Icons.slideshow,
+                color: Colors.white,
+                size: 42,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
+            child: FloatingActionButton(
+              onPressed: () async {
+                Position position = await GeoUtils.getCurrentLocation();
+                setState(() {
+                  curLatLng = LatLng(position.latitude, position.longitude);
+                  mapController.move(curLatLng!, Constants.defaultZoom);
+                });
+              },
+              backgroundColor: Colors.redAccent,
+              child: const Icon(
+                Icons.gps_fixed,
+                color: Colors.white,
+                size: 40,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.bottomRight,
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 90),
+            child: FloatingActionButton(
+              onPressed: () {
+                if (mapController.zoom + Constants.stepZoom < Constants.maxZoom) {
+                  setState(() {
+                    mapController.move(curLatLng!, mapController.zoom + Constants.stepZoom);
+                  });
+                } else {
+                  setState(() {
+                    mapController.move(curLatLng!, Constants.maxZoom);
+                  });
+                }
+              },
+              backgroundColor: Colors.redAccent,
+              child: const Icon(
+                Icons.add_circle_outline,
+                color: Colors.white,
+                size: 45,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.bottomRight,
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 25),
+            child: FloatingActionButton(
+              onPressed: () {
+                if (mapController.zoom - Constants.stepZoom > Constants.minZoom) {
+                  setState(() {
+                    mapController.move(curLatLng!, mapController.zoom - Constants.stepZoom);
+                  });
+                } else {
+                  setState(() {
+                    mapController.move(curLatLng!, Constants.minZoom);
+                  });
+                }
+              },
+              backgroundColor: Colors.redAccent,
+              child: const Icon(
+                Icons.remove_circle_outline,
+                color: Colors.white,
+                size: 45,
+              ),
+            ),
           ),
         ],
         children: [
