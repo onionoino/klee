@@ -1,8 +1,67 @@
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:klee/model/survey_info.dart';
 import 'package:klee/utils/constants.dart';
+import 'package:rdflib/rdflib.dart';
 
 /// this class is a util class related to solid server affairs
 class SolidUtils {
+  static SurveyInfo parseSurveyFile(String content) {
+    SurveyInfo surveyInfo = SurveyInfo();
+    List<String> lines = content.split("\n");
+    for (int i = 0; i < lines.length; i++) {
+      String line = lines[i];
+      String val = "";
+      if (line.contains(" \"")) {
+        val = line.split(" \"")[1];
+      } else {
+        continue;
+      }
+      if (line.contains(Constants.q1Key)) {
+        surveyInfo
+            .setIsCough(val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      } else if (line.contains(Constants.q2Key)) {
+        surveyInfo.setIsSoreThroat(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      } else if (line.contains(Constants.q3Key)) {
+        surveyInfo.setTemperature(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      } else if (line.contains(Constants.q4Key)) {
+        surveyInfo.setSystolic(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      } else if (line.contains(Constants.q5Key)) {
+        surveyInfo.setDiastolic(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      } else if (line.contains(Constants.q6Key)) {
+        surveyInfo.setHeartRate(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      } else if (line.contains(Constants.obTimeKey)) {
+        surveyInfo
+            .setObTime(val.replaceAll("\".", "").replaceAll("\";", "").trim());
+      }
+    }
+    return surveyInfo;
+  }
+
+  static List<String> getSurveyFileNameList(
+      String content, String webId, int num) {
+    List<String> nameList = [];
+    if (_isSolidCommunityHost(webId)) {
+      // solid community needs to be parsed differently
+      List<String> lines = content.split("\n");
+      for (int i = lines.length - 1; i >= 0 && nameList.length < num; i--) {
+        String line = lines[i];
+        if (line.contains(".ttl>") && !line.contains(".ttl>,")) {
+          String fileName = line.substring(1, 19);
+          nameList.insert(0, fileName);
+        }
+      }
+    } else {
+      Graph graph = Graph();
+      // TODO
+    }
+    return nameList;
+  }
+
   /// check if the container the app need to use is already exist, if it is, no need to create
   /// a new one, if not, the app need to create a new container in the root directory of the POD
   /// @param content - the content read from the root directory of the POD

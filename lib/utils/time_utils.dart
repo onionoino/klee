@@ -17,4 +17,11 @@ class TimeUtils {
         dateTime.minute.toString().padLeft(2, '0') +
         dateTime.second.toString().padLeft(2, '0');
   }
+
+  /// this method format a datetime into clock HHmm format
+  /// @param dateTime - the current date time
+  /// @return formattedTimeStr - formatted time
+  static String getFormattedTimeClockHHmm(DateTime dateTime) {
+    return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+  }
 }

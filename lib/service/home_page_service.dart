@@ -1,4 +1,5 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:klee/model/survey_info.dart';
 import 'package:klee/net/home_page_net.dart';
 import 'package:klee/utils/constants.dart';
 import 'package:klee/utils/geo_utils.dart';
@@ -11,6 +12,49 @@ import 'package:latlong2/latlong.dart';
 /// the model-view layer of home page, including all services the very view layer needs
 class HomePageService {
   final HomePageNet homePageNet = HomePageNet();
+
+  /// this method is to get a list of survey info from a POD
+  Future<List<SurveyInfo>?> getSurveyInfoList(
+      int num, Map<dynamic, dynamic>? authData) async {
+    List<SurveyInfo> surveyInfoList = [];
+    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
+    String? accessToken = podInfo[Constants.accessToken];
+    String? webId = podInfo[Constants.webId];
+    String? podURI = podInfo[Constants.podURI];
+    String? containerURI = podInfo[Constants.containerURI];
+    String? surveyContainerURI = podInfo[Constants.surveyContainerURI];
+    dynamic rsa = podInfo[Constants.rsa];
+    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    try {
+      if (!SolidUtils.isContainerExist(
+          await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
+          Constants.containerName)) {
+        return null;
+      }
+      if (!SolidUtils.isContainerExist(
+          await homePageNet.readFile(
+              containerURI!, accessToken, rsa, pubKeyJwk),
+          Constants.surveyContainerName)) {
+        return null;
+      }
+      String surveyContainerContent = await homePageNet.readFile(
+          surveyContainerURI!, accessToken, rsa, pubKeyJwk);
+      List<String> fileNameList =
+          SolidUtils.getSurveyFileNameList(surveyContainerContent, webId!, num);
+      for (int i = 0; i < fileNameList.length; i++) {
+        String fileName = fileNameList[i];
+        String fileURI = surveyContainerURI + fileName;
+        String fileContent =
+            await homePageNet.readFile(fileURI, accessToken, rsa, pubKeyJwk);
+        SurveyInfo surveyInfo = SolidUtils.parseSurveyFile(fileContent);
+        surveyInfoList.add(surveyInfo);
+      }
+    } catch (e) {
+      LogUtil.e("Error on fetching survey data");
+      return null;
+    }
+    return surveyInfoList;
+  }
 
   /// the method is to save the answered survey information into a POD
   /// @param answer1 - q1's answer
@@ -40,7 +84,7 @@ class HomePageService {
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
     Map<String, String> surveyInfo = await SurveyUtils.getFormattedSurvey(
-        answer1, answer2, answer3, answer4, answer5, answer6);
+        answer1, answer2, answer3, answer4, answer5, answer6, dateTime);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
@@ -55,20 +99,12 @@ class HomePageService {
         await homePageNet.mkdir(containerURI, accessToken, rsa, pubKeyJwk,
             Constants.surveyContainerName);
       }
-      String todayContainerName = TimeUtils.getFormattedTimeYYYYmmDD(dateTime);
-      if (!SolidUtils.isContainerExist(
-          await homePageNet.readFile(
-              surveyContainerURI!, accessToken, rsa, pubKeyJwk),
-          todayContainerName)) {
-        await homePageNet.mkdir(surveyContainerURI, accessToken, rsa, pubKeyJwk,
-            todayContainerName);
-      }
-      String todayContainerURI = "$surveyContainerURI$todayContainerName/";
-      String curRecordFileName = TimeUtils.getFormattedTimeHHmmSS(dateTime);
+      String curSurveyFileName = TimeUtils.getFormattedTimeYYYYmmDD(dateTime) +
+          TimeUtils.getFormattedTimeHHmmSS(dateTime);
       await homePageNet.touch(
-          todayContainerURI, accessToken, rsa, pubKeyJwk, curRecordFileName);
+          surveyContainerURI!, accessToken, rsa, pubKeyJwk, curSurveyFileName);
       String curRecordFileURI = SolidUtils.genCurRecordFileURI(
-          todayContainerURI, curRecordFileName, webId!);
+          surveyContainerURI, curSurveyFileName, webId!);
       String sparqlQuery;
       String predicate;
       // start saving

@@ -57,6 +57,7 @@ class Constants {
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
   static const String q6Key = "heartRate";
+  static const String obTimeKey = "obTime";
 
   // Common Keys
   static const String deviceKey = "device";
@@ -102,4 +103,19 @@ class Constants {
   // Redis Configs
   static const String redisIp = "54.95.123.162";
   static const int redisPort = 6379;
+
+  // Survey CheckBox Level
+  static const double optionNo = 2;
+  static const double optionMild = 4;
+  static const double optionYes = 6;
+  static const double optionNull = 0;
+  static const double optionMaxY = 10;
+
+  // Survey Charts
+  static const int barNumber = 7;
+  static const int lineNumber = 7;
+  static const double temperatureMinY = 30;
+  static const double diastolicMinY = 25;
+  static const double heartRateMinY = 35;
+  static const double systolicMinY = 45;
 }

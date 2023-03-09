@@ -1,35 +1,27 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartWidget extends StatelessWidget {
-  const LineChartWidget({
-    super.key,
-    Color? gradientColor1,
-    Color? gradientColor2,
-    Color? gradientColor3,
-    Color? indicatorStrokeColor,
-  })  : gradientColor1 = gradientColor1 ?? Colors.blue,
-        gradientColor2 = gradientColor2 ?? Colors.pink,
-        gradientColor3 = gradientColor3 ?? Colors.red,
-        indicatorStrokeColor = indicatorStrokeColor ?? Colors.black;
+import '../../../utils/constants.dart';
 
-  final Color gradientColor1;
-  final Color gradientColor2;
-  final Color gradientColor3;
-  final Color indicatorStrokeColor;
+class LineChartWidget extends StatefulWidget {
+  final List<double> yList;
+  final List<String> xList;
+  final double minY;
 
-  List<int> get showIndexes => const [0, 4, 7];
+  const LineChartWidget(this.yList, this.xList, this.minY, {Key? key})
+      : super(key: key);
 
-  List<FlSpot> get allSpots => const [
-        FlSpot(0, 1),
-        FlSpot(1, 2),
-        FlSpot(2, 1.5),
-        FlSpot(3, 3),
-        FlSpot(4, 3.5),
-        FlSpot(5, 5),
-        FlSpot(6, 4),
-        FlSpot(7, 4),
-      ];
+  @override
+  State<LineChartWidget> createState() => _LineChartWidgetState();
+}
+
+class _LineChartWidgetState extends State<LineChartWidget> {
+  final Color gradientColor1 = Colors.blue;
+  final Color gradientColor2 = Colors.pink;
+  final Color gradientColor3 = Colors.red;
+  final Color indicatorStrokeColor = Colors.black;
+
+  List<int> get showIndexes => const [0, 2, 4, 6];
 
   Widget bottomTitleWidgets(double value, TitleMeta meta, double chartWidth) {
     final style = TextStyle(
@@ -41,31 +33,29 @@ class LineChartWidget extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = '00:00';
+        text = widget.xList[0];
         break;
       case 1:
-        text = '04:00';
+        text = widget.xList[1];
         break;
       case 2:
-        text = '08:00';
+        text = widget.xList[2];
         break;
       case 3:
-        text = '12:00';
+        text = widget.xList[3];
         break;
       case 4:
-        text = '16:00';
+        text = widget.xList[4];
         break;
       case 5:
-        text = '20:00';
+        text = widget.xList[5];
         break;
       case 6:
-        text = '23:59';
-        break;
-      case 7:
-        text = '00:00';
+        text = widget.xList[6];
         break;
       default:
-        return Container();
+        text = "N/A";
+        break;
     }
 
     return SideTitleWidget(
@@ -76,6 +66,22 @@ class LineChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.yList.length < Constants.barNumber) {
+      for (int i = widget.yList.length; i < Constants.barNumber; i++) {
+        widget.yList.add(Constants.optionNull);
+      }
+    }
+    if (widget.xList.length < Constants.barNumber) {
+      for (int i = widget.xList.length; i < Constants.barNumber; i++) {
+        widget.xList.add("N/A");
+      }
+    }
+
+    List<FlSpot> allSpots = [];
+    for (int i = 0; i < Constants.lineNumber; i++) {
+      allSpots.add(FlSpot(i.toDouble(), widget.yList[i]));
+    }
+
     final lineBarsData = [
       LineChartBarData(
         showingIndicators: showIndexes,
@@ -142,7 +148,7 @@ class LineChartWidget extends StatelessWidget {
                         getDotPainter: (spot, percent, barData, index) =>
                             FlDotCirclePainter(
                           radius: 8,
-                          color: lerpGradient(
+                          color: _lerpGradient(
                             barData.gradient!.colors,
                             barData.gradient!.stops!,
                             percent / 100,
@@ -159,19 +165,29 @@ class LineChartWidget extends StatelessWidget {
                   tooltipRoundedRadius: 8,
                   getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                     return lineBarsSpot.map((lineBarSpot) {
-                      return LineTooltipItem(
-                        lineBarSpot.y.toString(),
-                        const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
+                      if (lineBarSpot.y == widget.minY) {
+                        return LineTooltipItem(
+                          "Null",
+                          const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      } else {
+                        return LineTooltipItem(
+                          lineBarSpot.y.toString(),
+                          const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      }
                     }).toList();
                   },
                 ),
               ),
               lineBarsData: lineBarsData,
-              minY: 0,
+              minY: widget.minY,
               titlesData: FlTitlesData(
                 leftTitles: AxisTitles(
                   axisNameWidget: const Text(''),
@@ -218,8 +234,7 @@ class LineChartWidget extends StatelessWidget {
   }
 }
 
-/// Lerps between a [LinearGradient] colors, based on [t]
-Color lerpGradient(List<Color> colors, List<double> stops, double t) {
+Color _lerpGradient(List<Color> colors, List<double> stops, double t) {
   if (colors.isEmpty) {
     throw ArgumentError('"colors" is empty.');
   } else if (colors.length == 1) {
