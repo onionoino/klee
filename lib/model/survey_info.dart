@@ -1,13 +1,13 @@
 import 'package:klee/utils/constants.dart';
 
 class SurveyInfo {
-  late double isCough;
-  late double isSoreThroat;
-  late double temperature;
-  late double diastolic;
-  late double heartRate;
-  late double systolic;
-  late String obTime;
+  late double isCough = Constants.optionNull;
+  late double isSoreThroat = Constants.optionNull;
+  late double temperature = Constants.temperatureMinY;
+  late double diastolic = Constants.diastolicMinY;
+  late double heartRate = Constants.heartRateMinY;
+  late double systolic = Constants.systolicMinY;
+  late String obTime = Constants.defaultObTime;
 
   setDiastolic(String diastolic) {
     try {

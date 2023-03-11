@@ -57,7 +57,15 @@ class SolidUtils {
       }
     } else {
       Graph graph = Graph();
-      // TODO
+      graph.parseTurtle(content);
+      graph.groups.forEach((key, value) {
+        if (nameList.length >= num) {
+          return;
+        }
+        if (key.value.trim() != "") {
+          nameList.add(key.value);
+        }
+      });
     }
     return nameList;
   }

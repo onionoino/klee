@@ -53,6 +53,11 @@ class HomePageService {
       LogUtil.e("Error on fetching survey data");
       return null;
     }
+    if (surveyInfoList.length < num) {
+      for (int i = surveyInfoList.length; i < num; i++) {
+        surveyInfoList.add(SurveyInfo());
+      }
+    }
     return surveyInfoList;
   }
 

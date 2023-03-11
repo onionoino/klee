@@ -28,6 +28,7 @@ class _HomeOSMState extends State<HomeOSM> {
   final MapController mapController = MapController();
   LatLng? curLatLng = Constants.defaultLatLng;
   final HomePageService homePageService = HomePageService();
+  bool autoGeo = true;
   Timer? timer;
 
   @override
@@ -65,23 +66,35 @@ class _HomeOSMState extends State<HomeOSM> {
       child: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-            center: curLatLng,
-            minZoom: Constants.minZoom,
-            maxZoom: Constants.maxZoom,
-            keepAlive: true,
-            onMapReady: () {
-              LogUtil.e("map init complete");
-              timer = Timer.periodic(
-                  const Duration(seconds: Constants.interval), (timer) async {
-                LogUtil.e("refresh the map and write position info into pod");
+          center: curLatLng,
+          minZoom: Constants.minZoom,
+          maxZoom: Constants.maxZoom,
+          keepAlive: true,
+          onMapReady: () {
+            LogUtil.e("map init complete");
+            timer = Timer.periodic(const Duration(seconds: Constants.interval),
+                (timer) async {
+              LogUtil.e("refresh the map and write position info into pod");
+              if (autoGeo) {
                 Position position = await GeoUtils.getCurrentLocation();
                 setState(() {
                   curLatLng = LatLng(position.latitude, position.longitude);
                 });
                 homePageService.saveGeoInfo(
                     curLatLng!, widget.authData, DateTime.now());
-              });
-            }),
+              } else {
+                homePageService.saveGeoInfo(
+                    curLatLng!, widget.authData, DateTime.now());
+              }
+            });
+          },
+          onTap: (tapPosition, latLng) {
+            autoGeo = false;
+            setState(() {
+              curLatLng = latLng;
+            });
+          },
+        ),
         nonRotatedChildren: [
           AttributionWidget.defaultWidget(
             source: 'OpenStreetMap',
@@ -108,6 +121,7 @@ class _HomeOSMState extends State<HomeOSM> {
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
             child: FloatingActionButton(
               onPressed: () async {
+                autoGeo = true;
                 Position position = await GeoUtils.getCurrentLocation();
                 setState(() {
                   curLatLng = LatLng(position.latitude, position.longitude);
