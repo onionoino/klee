@@ -19,16 +19,6 @@ class BarChartWidget extends StatefulWidget {
 class _BarChartWidgetState extends State<BarChartWidget> {
   @override
   Widget build(BuildContext context) {
-    if (widget.yList.length < Constants.barNumber) {
-      for (int i = widget.yList.length; i < Constants.barNumber; i++) {
-        widget.yList.add(Constants.optionNull);
-      }
-    }
-    if (widget.xList.length < Constants.barNumber) {
-      for (int i = widget.xList.length; i < Constants.barNumber; i++) {
-        widget.xList.add("N/A");
-      }
-    }
     return BarChart(
       BarChartData(
         barTouchData: barTouchData,
@@ -121,7 +111,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         text = widget.xList[6];
         break;
       default:
-        text = "N/A";
+        text = Constants.defaultObTime;
         break;
     }
     return SideTitleWidget(

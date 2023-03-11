@@ -118,6 +118,7 @@ class Constants {
   static const double diastolicMinY = 25;
   static const double heartRateMinY = 35;
   static const double systolicMinY = 45;
+  static const String defaultObTime = "N/A";
 
   // Map Parameters
   static const double maxZoom = 18;

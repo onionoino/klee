@@ -54,7 +54,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
         text = widget.xList[6];
         break;
       default:
-        text = "N/A";
+        text = Constants.defaultObTime;
         break;
     }
 
@@ -66,17 +66,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.yList.length < Constants.barNumber) {
-      for (int i = widget.yList.length; i < Constants.barNumber; i++) {
-        widget.yList.add(Constants.optionNull);
-      }
-    }
-    if (widget.xList.length < Constants.barNumber) {
-      for (int i = widget.xList.length; i < Constants.barNumber; i++) {
-        widget.xList.add("N/A");
-      }
-    }
-
     List<FlSpot> allSpots = [];
     for (int i = 0; i < Constants.lineNumber; i++) {
       allSpots.add(FlSpot(i.toDouble(), widget.yList[i]));

@@ -45,7 +45,63 @@ class _HomeProfileState extends State<HomeProfile> {
                 List<String> obTimeList = [];
                 List<SurveyInfo>? surveyInfoList = snapshot.data;
                 if (surveyInfoList == null) {
-                  return const Text("Error: No Data Found");
+                  return Column(
+                    children: <Widget>[
+                      BaseWidget.getPadding(15.0),
+                      Center(
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width,
+                          ),
+                          child: const Text(
+                            "Welcome to your POD",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontFamily: "KleeOne",
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      BaseWidget.getPadding(25),
+                      Container(
+                        height: 200,
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          """Ops, something wrong when fetching your reports' data (::>_<::)\nThe data analysis function will only start working after reporting at least one Q&A survey""",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: "KleeOne",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      BaseWidget.getPadding(25),
+                      BaseWidget.getElevatedButton(() async {
+                        bool? isLogout = await showDialog<bool>(
+                            context: context,
+                            builder: (context) {
+                              return BaseWidget.getConfirmationDialog(
+                                  context,
+                                  "Message",
+                                  "Are you sure to logout?",
+                                  "Emm, not yet",
+                                  "Goodbye");
+                            });
+                        if (isLogout == null || !isLogout || !mounted) {
+                          return;
+                        }
+                        homePageService.logout(widget.authData!["logoutUrl"]);
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) {
+                          return const LoginPage();
+                        }));
+                      }, "Logout", MediaQuery.of(context).size.width / 1.25,
+                          50),
+                    ],
+                  );
                 }
                 for (SurveyInfo surveyInfo in surveyInfoList) {
                   isCoughList.add(surveyInfo.isCough);
