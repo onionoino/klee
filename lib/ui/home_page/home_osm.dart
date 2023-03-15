@@ -76,12 +76,21 @@ class _HomeOSMState extends State<HomeOSM> {
                 (timer) async {
               LogUtil.e("refresh the map and write position info into pod");
               if (autoGeo) {
-                Position position = await GeoUtils.getCurrentLocation();
-                setState(() {
-                  curLatLng = LatLng(position.latitude, position.longitude);
-                });
-                homePageService.saveGeoInfo(
-                    curLatLng!, widget.authData, DateTime.now());
+                if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+                  Location? location = await UserLocation.getValue();
+                  setState(() {
+                    curLatLng = LatLng(location!.latitude!, location.longitude!);
+                  });
+                  homePageService.saveGeoInfo(
+                      curLatLng!, widget.authData, DateTime.now());
+                } else {
+                  Position position = await GeoUtils.getCurrentLocation();
+                  setState(() {
+                    curLatLng = LatLng(position.latitude, position.longitude);
+                  });
+                  homePageService.saveGeoInfo(
+                      curLatLng!, widget.authData, DateTime.now());
+                }
               } else {
                 homePageService.saveGeoInfo(
                     curLatLng!, widget.authData, DateTime.now());
@@ -122,11 +131,19 @@ class _HomeOSMState extends State<HomeOSM> {
             child: FloatingActionButton(
               onPressed: () async {
                 autoGeo = true;
-                Position position = await GeoUtils.getCurrentLocation();
-                setState(() {
-                  curLatLng = LatLng(position.latitude, position.longitude);
-                  mapController.move(curLatLng!, Constants.defaultZoom);
-                });
+                if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+                  Location? location = await UserLocation.getValue();
+                  setState(() {
+                    curLatLng = LatLng(location!.latitude!, location.longitude!);
+                    mapController.move(curLatLng!, Constants.defaultZoom);
+                  });
+                } else {
+                  Position position = await GeoUtils.getCurrentLocation();
+                  setState(() {
+                    curLatLng = LatLng(position.latitude, position.longitude);
+                    mapController.move(curLatLng!, Constants.defaultZoom);
+                  });
+                }
               },
               backgroundColor: Colors.redAccent,
               child: const Icon(
