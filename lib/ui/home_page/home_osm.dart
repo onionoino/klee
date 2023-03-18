@@ -6,13 +6,31 @@ import 'package:current_location/current_location.dart';
 import 'package:current_location/model/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:klee/model/geo_info.dart';
 import 'package:klee/utils/constants.dart';
+import 'package:klee/utils/device_file_utils.dart';
 import 'package:klee/utils/geo_utils.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:workmanager/workmanager.dart';
 
 import '../../service/home_page_service.dart';
 import '../../utils/base_widget.dart';
+
+/// dispatch background tasks
+/// @return void
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    if (task == Constants.simplePeriodicTask) {
+      LogUtil.e("Background task starts");
+      Position position = await GeoUtils.getCurrentLocation();
+      String str = GeoUtils.positionToString(position);
+      await DeviceFileUtils.writeContent("$str\n");
+    }
+    return Future.value(true);
+  });
+}
 
 /// the view layer of open street map widget in home page
 class HomeOSM extends StatefulWidget {
@@ -24,7 +42,7 @@ class HomeOSM extends StatefulWidget {
   State<HomeOSM> createState() => _HomeOSMState();
 }
 
-class _HomeOSMState extends State<HomeOSM> {
+class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
   final MapController mapController = MapController();
   LatLng? curLatLng = Constants.defaultLatLng;
   final HomePageService homePageService = HomePageService();
@@ -34,6 +52,7 @@ class _HomeOSMState extends State<HomeOSM> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
         Location? location = await UserLocation.getValue();
@@ -51,6 +70,10 @@ class _HomeOSMState extends State<HomeOSM> {
         mapController.move(curLatLng!, Constants.defaultZoom);
       }
     });
+    Workmanager().initialize(
+      callbackDispatcher,
+      isInDebugMode: true,
+    );
   }
 
   @override
@@ -76,10 +99,13 @@ class _HomeOSMState extends State<HomeOSM> {
                 (timer) async {
               LogUtil.e("refresh the map and write position info into pod");
               if (autoGeo) {
-                if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+                if (Platform.isLinux ||
+                    Platform.isWindows ||
+                    Platform.isMacOS) {
                   Location? location = await UserLocation.getValue();
                   setState(() {
-                    curLatLng = LatLng(location!.latitude!, location.longitude!);
+                    curLatLng =
+                        LatLng(location!.latitude!, location.longitude!);
                   });
                   homePageService.saveGeoInfo(
                       curLatLng!, widget.authData, DateTime.now());
@@ -131,10 +157,13 @@ class _HomeOSMState extends State<HomeOSM> {
             child: FloatingActionButton(
               onPressed: () async {
                 autoGeo = true;
-                if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+                if (Platform.isLinux ||
+                    Platform.isWindows ||
+                    Platform.isMacOS) {
                   Location? location = await UserLocation.getValue();
                   setState(() {
-                    curLatLng = LatLng(location!.latitude!, location.longitude!);
+                    curLatLng =
+                        LatLng(location!.latitude!, location.longitude!);
                     mapController.move(curLatLng!, Constants.defaultZoom);
                   });
                 } else {
@@ -222,5 +251,40 @@ class _HomeOSMState extends State<HomeOSM> {
         ],
       ),
     );
+  }
+
+  /// detect current app status
+  /// @param state - current app status
+  /// @return void
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    LogUtil.e("App lifecycle state monitor: $state");
+    switch (state) {
+      case AppLifecycleState.resumed:
+        Workmanager().cancelAll().then((value) async {
+          String content = await DeviceFileUtils.readContent();
+          List<String> lines = content.split("\n");
+          for (String geoStr in lines) {
+            if (geoStr.trim() == "") {
+              continue;
+            }
+            GeoInfo geoInfo = GeoUtils.bgStringToGeoInfo(geoStr);
+            await homePageService.saveBgGeoInfo(widget.authData, geoInfo);
+          }
+          await DeviceFileUtils.clear();
+          LogUtil.e("All bg-tasks have been canceled");
+          LogUtil.e("Local geographical info has been refreshed into POD");
+        });
+        break;
+      case AppLifecycleState.paused:
+        Workmanager().registerPeriodicTask(
+          Constants.simplePeriodicTask,
+          Constants.simplePeriodicTask,
+          frequency: const Duration(minutes: 15),
+        );
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -52,6 +52,7 @@ dependencies:
   redis_dart: ^0.1.0+4
   fl_chart: ^0.61.0
   current_location: ^0.0.3
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:

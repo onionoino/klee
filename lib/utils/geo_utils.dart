@@ -1,4 +1,6 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:klee/model/geo_info.dart';
+import 'package:klee/utils/time_utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
@@ -29,6 +31,25 @@ class GeoUtils {
     return await Geolocator.getCurrentPosition();
   }
 
+  /// this method convert a position object into a formatted string
+  /// @param position - position object
+  /// @return str - formatted string
+  static String positionToString(Position position) {
+    return "${position.longitude}|${position.latitude}|${TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now())}|${TimeUtils.getFormattedTimeHHmmSS(DateTime.now())}";
+  }
+
+  /// this method convert a formatted geo string into a geoInfo object
+  /// @param posStr - formatted string
+  /// @return geoInfo - geoInfo object
+  static GeoInfo bgStringToGeoInfo(String posStr) {
+    GeoInfo geoInfo = GeoInfo();
+    geoInfo.longitude = double.parse(posStr.split("|")[0]);
+    geoInfo.latitude = double.parse(posStr.split("|")[1]);
+    geoInfo.date = posStr.split("|")[2];
+    geoInfo.time = posStr.split("|")[3];
+    return geoInfo;
+  }
+
   /// get a map of formatted position information for further processing
   /// @param latLng - geographical information collected from the device
   /// @return formattedPositionMap - the formatted K-V position map for further processing
@@ -37,6 +58,19 @@ class GeoUtils {
     return <String, String>{
       Constants.latitudeKey: _getFormattedLatitude(latLng),
       Constants.longitudeKey: _getFormattedLongitude(latLng),
+      Constants.deviceKey: deviceInfo!,
+    };
+  }
+
+  /// get a map of formatted position information from geoInfo for further processing
+  /// @param geoInfo - geoInfo object
+  /// @return formattedPositionMap - the formatted K-V position map for further processing
+  static Future<Map<String, String>> getFormattedPositionFromGeoInfo(
+      GeoInfo geoInfo) async {
+    String? deviceInfo = await PlatformDeviceId.getDeviceId;
+    return <String, String>{
+      Constants.latitudeKey: geoInfo.latitude.toString(),
+      Constants.longitudeKey: geoInfo.longitude.toString(),
       Constants.deviceKey: deviceInfo!,
     };
   }
