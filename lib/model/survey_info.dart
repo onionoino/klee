@@ -1,5 +1,6 @@
 import 'package:klee/utils/constants.dart';
 
+/// the model of survey info
 class SurveyInfo {
   late double isCough = Constants.optionNull;
   late double isSoreThroat = Constants.optionNull;

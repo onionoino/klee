@@ -125,4 +125,8 @@ class Constants {
   static const double minZoom = 3;
   static const double defaultZoom = 16.5;
   static const double stepZoom = 1.5;
+
+  // Background Tasks
+  static const String simplePeriodicTask =
+      "onionoino.klee.klee.simplePeriodicTask";
 }

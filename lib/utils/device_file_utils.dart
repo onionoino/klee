@@ -2,30 +2,42 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-/// this class is a util class to operate local device files, may be deleted in the future
+/// this class is a util class to operate local device files
 class DeviceFileUtils {
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+  static Future<String> get _localPath async {
+    final Directory directory = await getApplicationDocumentsDirectory();
     return directory.path;
   }
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
+  static Future<File> get _localFile async {
+    final String path = await _localPath;
     return File("$path/GlobalKey.txt");
   }
 
-  Future<File> writeContent(String str) async {
-    final file = await _localFile;
-    return file.writeAsString(str);
+  /// write content into local file
+  /// @param content - content needs to be written
+  /// @return file - file object
+  static Future<File> writeContent(String content) async {
+    final File file = await _localFile;
+    return await file.writeAsString(content);
   }
 
-  Future<String> readContent() async {
+  /// read content from local file
+  /// @return content - content read from the local file
+  static Future<String> readContent() async {
     try {
-      final file = await _localFile;
-      final content = await file.readAsString();
+      final File file = await _localFile;
+      final String content = await file.readAsString();
       return content;
     } catch (e) {
       return '';
     }
+  }
+
+  /// clear current local file
+  /// @return void
+  static Future<void> clear() async {
+    final File file = await _localFile;
+    await file.delete();
   }
 }

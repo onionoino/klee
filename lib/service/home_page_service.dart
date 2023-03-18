@@ -1,4 +1,5 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:klee/model/geo_info.dart';
 import 'package:klee/model/survey_info.dart';
 import 'package:klee/net/home_page_net.dart';
 import 'package:klee/utils/constants.dart';
@@ -175,6 +176,67 @@ class HomePageService {
           todayContainerURI, curRecordFileName, webId!);
       String sparqlQuery;
       String predicate;
+      // start saving
+      positionInfo.forEach((subject, value) async {
+        predicate = SolidUtils.genPredicate(subject);
+        sparqlQuery = SolidUtils.genSparqlQuery(
+            Constants.insert, webId, predicate, positionInfo[subject]!, null);
+        await homePageNet.updateFile(
+            curRecordFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
+      });
+    } catch (e) {
+      LogUtil.e("Error on saving geographical information");
+      return false;
+    }
+    return true;
+  }
+
+  /// the method is to save the geographical information into a POD after recovering from a background status
+  /// @param geoInfo - the geo info model
+  ///        authData - the authentication Data received after login
+  /// @return isSuccess - TRUE is success and FALSE is failure
+  Future<bool> saveBgGeoInfo(
+      Map<dynamic, dynamic>? authData, GeoInfo geoInfo) async {
+    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
+    String? accessToken = podInfo[Constants.accessToken];
+    String? webId = podInfo[Constants.webId];
+    String? podURI = podInfo[Constants.podURI];
+    String? containerURI = podInfo[Constants.containerURI];
+    String? geoContainerURI = podInfo[Constants.geoContainerURI];
+    dynamic rsa = podInfo[Constants.rsa];
+    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    try {
+      if (!SolidUtils.isContainerExist(
+          await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
+          Constants.containerName)) {
+        await homePageNet.mkdir(
+            podURI, accessToken, rsa, pubKeyJwk, Constants.containerName);
+      }
+      if (!SolidUtils.isContainerExist(
+          await homePageNet.readFile(
+              containerURI!, accessToken, rsa, pubKeyJwk),
+          Constants.geoContainerName)) {
+        await homePageNet.mkdir(containerURI, accessToken, rsa, pubKeyJwk,
+            Constants.geoContainerName);
+      }
+      String todayContainerName = geoInfo.date;
+      if (!SolidUtils.isContainerExist(
+          await homePageNet.readFile(
+              geoContainerURI!, accessToken, rsa, pubKeyJwk),
+          todayContainerName)) {
+        await homePageNet.mkdir(
+            geoContainerURI, accessToken, rsa, pubKeyJwk, todayContainerName);
+      }
+      String todayContainerURI = "$geoContainerURI$todayContainerName/";
+      String curRecordFileName = geoInfo.time;
+      await homePageNet.touch(
+          todayContainerURI, accessToken, rsa, pubKeyJwk, curRecordFileName);
+      String curRecordFileURI = SolidUtils.genCurRecordFileURI(
+          todayContainerURI, curRecordFileName, webId!);
+      String sparqlQuery;
+      String predicate;
+      Map<String, String> positionInfo =
+          await GeoUtils.getFormattedPositionFromGeoInfo(geoInfo);
       // start saving
       positionInfo.forEach((subject, value) async {
         predicate = SolidUtils.genPredicate(subject);
