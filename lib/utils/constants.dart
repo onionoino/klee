@@ -2,10 +2,16 @@ import 'package:latlong2/latlong.dart';
 
 /// this class contains some constants used in this project
 class Constants {
+  // Page Indices
+  static const int indexPage = 0;
+  static const int mapPage = 1;
+  static const int surveyPage = 2;
+  static const int podPage = 3;
+
   // Login State Constants
-  static const invalidURL = 0;
-  static const success = 1;
-  static const podNotFound = 2;
+  static const int invalidURL = 0;
+  static const int success = 1;
+  static const int podNotFound = 2;
 
   // HTTP Status Constants
   static const int ok = 200;
@@ -104,10 +110,6 @@ class Constants {
   // Shared Preference Keys
   static const String lastScheduledDateKey = "lastScheduledDate";
   static const String lastInputURLKey = "lastInputURL";
-
-  // Redis Configs
-  static const String redisIp = "54.95.123.162";
-  static const int redisPort = 6379;
 
   // Survey CheckBox Level
   static const double optionNo = 2;

@@ -340,7 +340,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomePage(widget.authData)),
+                        builder: (context) =>
+                            HomePage(widget.authData, Constants.mapPage)),
                   );
                 } else {
                   await showDialog<bool>(

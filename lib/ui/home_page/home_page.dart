@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:klee/ui/home_page/home_index.dart';
 import 'package:klee/ui/home_page/home_osm.dart';
 import 'package:klee/ui/home_page/home_profile.dart';
 import 'package:klee/ui/home_page/home_survey.dart';
@@ -13,8 +14,9 @@ import '../../utils/constants.dart';
 /// the view layer of home page, a stateful widget
 class HomePage extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
+  final int defaultPage;
 
-  const HomePage(this.authData, {Key? key}) : super(key: key);
+  const HomePage(this.authData, this.defaultPage, {Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,14 +25,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HomePageService homePageService = HomePageService();
   List<Widget> widgetList = <Widget>[];
-  int curWidgetIdx = 1;
+  int curWidgetIdx = Constants.indexPage;
 
   @override
   void initState() {
+    curWidgetIdx = widget.defaultPage;
     super.initState();
     widgetList
-      ..add(HomeSurvey(widget.authData))
+      ..add(HomeIndex(widget.authData))
       ..add(HomeOSM(widget.authData))
+      ..add(HomeSurvey(widget.authData))
       ..add(HomeProfile(widget.authData));
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
@@ -48,7 +52,7 @@ class _HomePageState extends State<HomePage> {
         await homePageService.getLastSurveyTime(widget.authData!);
     if (lastSurveyTime == Constants.none) {
       setState(() {
-        curWidgetIdx = 0;
+        curWidgetIdx = Constants.surveyPage;
       });
       return;
     }
@@ -71,16 +75,16 @@ class _HomePageState extends State<HomePage> {
           });
       if (isGoBack == null || isGoBack || !mounted) {
         setState(() {
-          curWidgetIdx = 1;
+          curWidgetIdx = Constants.mapPage;
         });
       } else {
         setState(() {
-          curWidgetIdx = 0;
+          curWidgetIdx = Constants.surveyPage;
         });
       }
     } else {
       setState(() {
-        curWidgetIdx = 0;
+        curWidgetIdx = Constants.surveyPage;
       });
     }
   }
@@ -95,19 +99,11 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: curWidgetIdx,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: "Q&A",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.zoom_in_map),
-            label: "MAP",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "POD",
-          )
+        items: [
+          BaseWidget.getNavBarItem(Icons.home, "HOME"),
+          BaseWidget.getNavBarItem(Icons.zoom_in_map, "MAP"),
+          BaseWidget.getNavBarItem(Icons.newspaper, "SURVEY"),
+          BaseWidget.getNavBarItem(Icons.person_outline, "POD"),
         ],
         onTap: _onTapEvent,
       ),
@@ -118,12 +114,12 @@ class _HomePageState extends State<HomePage> {
   /// @param selectedIdx - selected index of the bottomNavigationBar
   /// @return void
   Future<void> _onTapEvent(int selectedIdx) async {
-    if (selectedIdx == 0) {
+    if (selectedIdx == Constants.surveyPage) {
       String? lastSurveyTime =
           await homePageService.getLastSurveyTime(widget.authData!);
       if (lastSurveyTime == Constants.none) {
         setState(() {
-          curWidgetIdx = 0;
+          curWidgetIdx = Constants.surveyPage;
         });
         return;
       }
