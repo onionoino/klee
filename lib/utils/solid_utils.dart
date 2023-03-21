@@ -5,6 +5,24 @@ import 'package:rdflib/rdflib.dart';
 
 /// this class is a util class related to solid server affairs
 class SolidUtils {
+  static String? getLastObTime(String content) {
+    List<String> lines = content.split("\n");
+    for (int i = 0; i < lines.length; i++) {
+      String line = lines[i];
+      if (line.trim() == "") {
+        continue;
+      }
+      if (line.contains(Constants.lastObTimeKey)) {
+        return line
+            .split(" \"")[1]
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
+      }
+    }
+    return null;
+  }
+
   static SurveyInfo parseSurveyFile(String content) {
     SurveyInfo surveyInfo = SurveyInfo();
     List<String> lines = content.split("\n");
@@ -71,13 +89,22 @@ class SolidUtils {
   }
 
   /// check if the container the app need to use is already exist, if it is, no need to create
-  /// a new one, if not, the app need to create a new container in the root directory of the POD
-  /// @param content - the content read from the root directory of the POD
+  /// a new one, if not, the app need to create a new container
+  /// @param content - the content read from the directory of the POD
   /// @param name - specific container name of being checked
   /// @return isExist - TRUE means it exists, FALSE means not
   static bool isContainerExist(String content, String name) {
     return content.contains("$name/") ||
         content.contains("@prefix $name: </$name/>.");
+  }
+
+  /// check if the file the app need to use is already exist, if it is, no need to create
+  /// a new one, if not, the app need to create a new file
+  /// @param content - the content read from the directory of the POD
+  /// @param name - specific file name of being checked
+  /// @return isExist - TRUE means it exists, FALSE means not
+  static bool isFileExist(String content, String name) {
+    return content.contains("<$name>") || content.contains("<$name.ttl>");
   }
 
   /// parse the received authentication data into a map data structure to reduce the repeated parsing
@@ -126,6 +153,10 @@ class SolidUtils {
         break;
       case Constants.delete:
         query = "DELETE DATA {<$subject> <$predicate> \"$object\"}";
+        break;
+      case Constants.update:
+        query =
+            "DELETE DATA {<$subject> <$predicate> \"$prevObject\"}; INSERT DATA {<$subject> <$predicate> \"$object\"}";
         break;
       default:
         throw Exception("Invalid action");

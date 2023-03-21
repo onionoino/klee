@@ -5,10 +5,10 @@ import 'package:klee/ui/home_page/home_profile.dart';
 import 'package:klee/ui/home_page/home_survey.dart';
 import 'package:klee/utils/base_widget.dart';
 import 'package:klee/utils/notify_utils.dart';
-import 'package:klee/utils/survey_utils.dart';
 import 'package:klee/utils/time_utils.dart';
 
 import '../../service/home_page_service.dart';
+import '../../utils/constants.dart';
 
 /// the view layer of home page, a stateful widget
 class HomePage extends StatefulWidget {
@@ -45,21 +45,39 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> receiveMethod(ReceivedAction receivedAction) async {
     String? lastSurveyTime =
-        await SurveyUtils.getLastSurveyTime(widget.authData);
-    String? currentTime = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
-    if (lastSurveyTime == currentTime) {
-      await showDialog<bool>(
+        await homePageService.getLastSurveyTime(widget.authData!);
+    if (lastSurveyTime == Constants.none) {
+      setState(() {
+        curWidgetIdx = 0;
+      });
+      return;
+    }
+    String lastSurveyDate = lastSurveyTime.substring(0, 8);
+    String? currentDate = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
+    if (lastSurveyDate == currentDate) {
+      String lastSurveyHH = lastSurveyTime.substring(8, 10);
+      String lastSurveyMM = lastSurveyTime.substring(10, 12);
+      String lastSurveySS = lastSurveyTime.substring(12);
+      String lastSurveyHHmmSS = "$lastSurveyHH:$lastSurveyMM:$lastSurveySS";
+      bool? isGoBack = await showDialog<bool>(
           context: context,
           builder: (context) {
-            return BaseWidget.getNoticeDialog(
+            return BaseWidget.getConfirmationDialog(
                 context,
                 "Message",
-                "Thank you for reporting today, please come back tomorrow ^_^",
-                "Got it");
+                "Thank you for reporting condition today ^_^ Would you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
+                "New report",
+                "Come back tmr");
           });
-      setState(() {
-        curWidgetIdx = 1;
-      });
+      if (isGoBack == null || isGoBack || !mounted) {
+        setState(() {
+          curWidgetIdx = 1;
+        });
+      } else {
+        setState(() {
+          curWidgetIdx = 0;
+        });
+      }
     } else {
       setState(() {
         curWidgetIdx = 0;
@@ -102,16 +120,27 @@ class _HomePageState extends State<HomePage> {
   Future<void> _onTapEvent(int selectedIdx) async {
     if (selectedIdx == 0) {
       String? lastSurveyTime =
-          await SurveyUtils.getLastSurveyTime(widget.authData);
-      String? currentTime = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
-      if (lastSurveyTime == currentTime) {
+          await homePageService.getLastSurveyTime(widget.authData!);
+      if (lastSurveyTime == Constants.none) {
+        setState(() {
+          curWidgetIdx = 0;
+        });
+        return;
+      }
+      String lastSurveyDate = lastSurveyTime.substring(0, 8);
+      String? currentDate = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
+      if (lastSurveyDate == currentDate) {
+        String lastSurveyHH = lastSurveyTime.substring(8, 10);
+        String lastSurveyMM = lastSurveyTime.substring(10, 12);
+        String lastSurveySS = lastSurveyTime.substring(12);
+        String lastSurveyHHmmSS = "$lastSurveyHH:$lastSurveyMM:$lastSurveySS";
         bool? isGoBack = await showDialog<bool>(
             context: context,
             builder: (context) {
               return BaseWidget.getConfirmationDialog(
                   context,
                   "Message",
-                  "Thank you for reporting condition today ^_^ Would you like to submit a new report?",
+                  "Thank you for reporting condition today ^_^ Would you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
                   "New report",
                   "Come back tmr");
             });

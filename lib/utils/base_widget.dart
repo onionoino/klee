@@ -87,8 +87,8 @@ class BaseWidget {
   static AlertDialog getConfirmationDialog(BuildContext context, String title,
       String content, String textButtonF, String textButtonT) {
     return AlertDialog(
-      title: Text(title),
-      content: Text(content),
+      title: Text(textAlign: TextAlign.center, title),
+      content: Text(textAlign: TextAlign.center, content),
       actions: <Widget>[
         TextButton(
           child: Text(textButtonF),

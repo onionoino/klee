@@ -1,5 +1,3 @@
-import 'package:klee/utils/redis_utils.dart';
-import 'package:klee/utils/solid_utils.dart';
 import 'package:klee/utils/time_utils.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
@@ -7,15 +5,6 @@ import 'constants.dart';
 
 /// this class is a util class related to survey affairs
 class SurveyUtils {
-  /// get last survey time to decide whether pop up a reminder to user when they click Q&A tab
-  /// @param authData - the authentication data get from login procedure
-  /// @return lastSurveyTime - user's last survey time
-  static Future<String?> getLastSurveyTime(
-      Map<dynamic, dynamic>? authData) async {
-    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
-    return RedisUtils.getString(podInfo[Constants.webId]);
-  }
-
   /// check if a string complies with body temperature format,
   /// a body temperature input format is XX.X or XX and it should <= 42.0 && >= 35.0
   /// @param temperatureText - a string text of body temperature
@@ -125,7 +114,7 @@ class SurveyUtils {
       Constants.q5Key: answer5,
       Constants.q6Key: answer6,
       Constants.deviceKey: deviceInfo!,
-      Constants.obTimeKey: TimeUtils.getFormattedTimeClockHHmm(dateTime),
+      Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
     };
   }
 }
