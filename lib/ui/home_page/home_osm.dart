@@ -72,7 +72,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
     });
     Workmanager().initialize(
       callbackDispatcher,
-      isInDebugMode: true,
+      isInDebugMode: false,
     );
   }
 

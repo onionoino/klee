@@ -45,6 +45,7 @@ class Constants {
 
   // TTL File Info
   static const String ttlSuffix = ".ttl";
+  static const String commonFileName = "common";
 
   // Geo File Keys
   static const String latitudeKey = "latitude";
@@ -59,6 +60,9 @@ class Constants {
   static const String q6Key = "heartRate";
   static const String obTimeKey = "obTime";
 
+  // Common File Keys
+  static const String lastObTimeKey = "lastObTime";
+
   // Common Keys
   static const String deviceKey = "device";
 
@@ -68,6 +72,7 @@ class Constants {
   // Sparql Action
   static const String insert = "insert";
   static const String delete = "delete";
+  static const String update = "update";
 
   // Predicate Prefix
   static const String predicate = "http://xmlns.com/foaf/0.1/";

@@ -4,7 +4,6 @@ import 'package:klee/model/survey_info.dart';
 import 'package:klee/net/home_page_net.dart';
 import 'package:klee/utils/constants.dart';
 import 'package:klee/utils/geo_utils.dart';
-import 'package:klee/utils/redis_utils.dart';
 import 'package:klee/utils/solid_utils.dart';
 import 'package:klee/utils/survey_utils.dart';
 import 'package:klee/utils/time_utils.dart';
@@ -121,12 +120,79 @@ class HomePageService {
         await homePageNet.updateFile(
             curRecordFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
       });
-      RedisUtils.setString(webId, TimeUtils.getFormattedTimeYYYYmmDD(dateTime));
+      setLastSurveyTime(podInfo, surveyInfo[Constants.obTimeKey]!);
     } catch (e) {
       LogUtil.e("Error on saving survey information");
       return false;
     }
     return true;
+  }
+
+  Future<String> getLastSurveyTime(Map<dynamic, dynamic> authData) async {
+    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
+    String? accessToken = podInfo[Constants.accessToken];
+    String? webId = podInfo[Constants.webId];
+    String? podURI = podInfo[Constants.podURI];
+    String? containerURI = podInfo[Constants.containerURI];
+    dynamic rsa = podInfo[Constants.rsa];
+    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    try {
+      if (!SolidUtils.isContainerExist(
+          await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
+          Constants.containerName)) {
+        return Constants.none;
+      }
+      if (!SolidUtils.isFileExist(
+          await homePageNet.readFile(
+              containerURI!, accessToken, rsa, pubKeyJwk),
+          Constants.commonFileName)) {
+        return Constants.none;
+      }
+      String commonFileURI = SolidUtils.genCurRecordFileURI(
+          containerURI, Constants.commonFileName, webId!);
+      String content = await homePageNet.readFile(
+          commonFileURI, accessToken, rsa, pubKeyJwk);
+      String? lastObTime = SolidUtils.getLastObTime(content);
+      if (lastObTime == null) {
+        return Constants.none;
+      }
+      return lastObTime;
+    } catch (e) {
+      LogUtil.e("Error on fetching lastObTime");
+      return Constants.none;
+    }
+  }
+
+  Future<void> setLastSurveyTime(
+      Map<String, dynamic> podInfo, String obTime) async {
+    String? accessToken = podInfo[Constants.accessToken];
+    String? webId = podInfo[Constants.webId];
+    String? containerURI = podInfo[Constants.containerURI];
+    dynamic rsa = podInfo[Constants.rsa];
+    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    if (!SolidUtils.isFileExist(
+        await homePageNet.readFile(containerURI!, accessToken!, rsa, pubKeyJwk),
+        Constants.commonFileName)) {
+      await homePageNet.touch(
+          containerURI, accessToken, rsa, pubKeyJwk, Constants.commonFileName);
+    }
+    String commonFileURI = SolidUtils.genCurRecordFileURI(
+        containerURI, Constants.commonFileName, webId!);
+    String content =
+        await homePageNet.readFile(commonFileURI, accessToken, rsa, pubKeyJwk);
+    String? lastObTime = SolidUtils.getLastObTime(content);
+    String subject = Constants.lastObTimeKey;
+    String predicate = SolidUtils.genPredicate(subject);
+    String sparqlQuery;
+    if (lastObTime == null) {
+      sparqlQuery = SolidUtils.genSparqlQuery(
+          Constants.insert, subject, predicate, obTime, null);
+    } else {
+      sparqlQuery = SolidUtils.genSparqlQuery(
+          Constants.update, subject, predicate, obTime, lastObTime);
+    }
+    await homePageNet.updateFile(
+        commonFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
   }
 
   /// the method is to save the geographical information into a POD
