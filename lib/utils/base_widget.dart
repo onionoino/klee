@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 /// this class contains a lot of base widgets to reduce repeated codes and improve decoupling
 class BaseWidget {
+  static BottomNavigationBarItem getNavBarItem(IconData icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Icon(icon, color: Colors.white),
+      label: label,
+      backgroundColor: Color(int.parse("e74c3c", radix: 16) | 0xFF000000),
+    );
+  }
+
   static AppBar getAppBar(String barName) {
     return AppBar(
       title: Text(barName),
@@ -71,8 +79,8 @@ class BaseWidget {
   static AlertDialog getNoticeDialog(
       BuildContext context, String title, String content, String textButton) {
     return AlertDialog(
-      title: Text(title),
-      content: Text(content),
+      title: Text(textAlign: TextAlign.center, title),
+      content: Text(textAlign: TextAlign.center, content),
       actions: <Widget>[
         TextButton(
           child: Text(textButton),
