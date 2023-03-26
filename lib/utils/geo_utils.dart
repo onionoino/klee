@@ -52,12 +52,15 @@ class GeoUtils {
 
   /// get a map of formatted position information for further processing
   /// @param latLng - geographical information collected from the device
+  /// @param dateTime - observation time
   /// @return formattedPositionMap - the formatted K-V position map for further processing
-  static Future<Map<String, String>> getFormattedPosition(LatLng latLng) async {
+  static Future<Map<String, String>> getFormattedPosition(
+      LatLng latLng, DateTime dateTime) async {
     String? deviceInfo = await PlatformDeviceId.getDeviceId;
     return <String, String>{
       Constants.latitudeKey: _getFormattedLatitude(latLng),
       Constants.longitudeKey: _getFormattedLongitude(latLng),
+      Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
       Constants.deviceKey: deviceInfo!,
     };
   }
@@ -71,6 +74,7 @@ class GeoUtils {
     return <String, String>{
       Constants.latitudeKey: geoInfo.latitude.toString(),
       Constants.longitudeKey: geoInfo.longitude.toString(),
+      Constants.obTimeKey: geoInfo.date + geoInfo.time,
       Constants.deviceKey: deviceInfo!,
     };
   }

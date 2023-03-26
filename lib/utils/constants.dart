@@ -64,6 +64,8 @@ class Constants {
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
   static const String q6Key = "heartRate";
+
+  // Common Keys
   static const String obTimeKey = "obTime";
 
   // Common File Keys
@@ -114,7 +116,8 @@ class Constants {
   // Survey CheckBox Level
   static const double optionNo = 2;
   static const double optionMild = 4;
-  static const double optionYes = 6;
+  static const double optionModerate = 6;
+  static const double optionSevere = 8;
   static const double optionNull = 0;
   static const double optionMaxY = 10;
 
@@ -136,4 +139,7 @@ class Constants {
   // Background Tasks
   static const String simplePeriodicTask =
       "onionoino.klee.klee.simplePeriodicTask";
+
+  // Radio List Hint Text
+  static const String radioListHintText = "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
 }

@@ -211,7 +211,7 @@ class HomePageService {
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
     Map<String, String> positionInfo =
-        await GeoUtils.getFormattedPosition(latLng);
+        await GeoUtils.getFormattedPosition(latLng, dateTime);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),

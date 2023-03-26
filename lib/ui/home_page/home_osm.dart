@@ -16,6 +16,7 @@ import 'package:workmanager/workmanager.dart';
 
 import '../../service/home_page_service.dart';
 import '../../utils/base_widget.dart';
+import '../../utils/global.dart';
 
 /// dispatch background tasks
 /// @return void
@@ -54,20 +55,29 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
-        Location? location = await UserLocation.getValue();
+      if (Global.globalLatLng != null) {
         setState(() {
-          curLatLng = LatLng(location!.latitude!, location.longitude!);
+          curLatLng = Global.globalLatLng;
+          mapController.move(curLatLng!, Constants.defaultZoom);
         });
-        mapController.move(curLatLng!, Constants.defaultZoom);
       } else {
-        Position position = await GeoUtils.getCurrentLocation();
-        setState(() {
-          curLatLng = LatLng(position.latitude, position.longitude);
-        });
-        homePageService.saveGeoInfo(
-            curLatLng!, widget.authData, DateTime.now());
-        mapController.move(curLatLng!, Constants.defaultZoom);
+        if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+          Location? location = await UserLocation.getValue();
+          setState(() {
+            curLatLng = LatLng(location!.latitude!, location.longitude!);
+            Global.globalLatLng = curLatLng;
+          });
+          mapController.move(curLatLng!, Constants.defaultZoom);
+        } else {
+          Position position = await GeoUtils.getCurrentLocation();
+          setState(() {
+            curLatLng = LatLng(position.latitude, position.longitude);
+            Global.globalLatLng = curLatLng;
+          });
+          homePageService.saveGeoInfo(
+              curLatLng!, widget.authData, DateTime.now());
+          mapController.move(curLatLng!, Constants.defaultZoom);
+        }
       }
     });
     Workmanager().initialize(
@@ -106,6 +116,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
                   setState(() {
                     curLatLng =
                         LatLng(location!.latitude!, location.longitude!);
+                    Global.globalLatLng = curLatLng;
                   });
                   homePageService.saveGeoInfo(
                       curLatLng!, widget.authData, DateTime.now());
@@ -113,6 +124,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
                   Position position = await GeoUtils.getCurrentLocation();
                   setState(() {
                     curLatLng = LatLng(position.latitude, position.longitude);
+                    Global.globalLatLng = curLatLng;
                   });
                   homePageService.saveGeoInfo(
                       curLatLng!, widget.authData, DateTime.now());
@@ -127,7 +139,10 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             autoGeo = false;
             setState(() {
               curLatLng = latLng;
+              Global.globalLatLng = curLatLng;
             });
+            print("cur----$curLatLng");
+            print("global----${Global.globalLatLng}");
           },
         ),
         nonRotatedChildren: [
@@ -164,12 +179,14 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
                   setState(() {
                     curLatLng =
                         LatLng(location!.latitude!, location.longitude!);
+                    Global.globalLatLng = curLatLng;
                     mapController.move(curLatLng!, Constants.defaultZoom);
                   });
                 } else {
                   Position position = await GeoUtils.getCurrentLocation();
                   setState(() {
                     curLatLng = LatLng(position.latitude, position.longitude);
+                    Global.globalLatLng = curLatLng;
                     mapController.move(curLatLng!, Constants.defaultZoom);
                   });
                 }

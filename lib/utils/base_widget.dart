@@ -40,6 +40,17 @@ class BaseWidget {
     );
   }
 
+  static Text getHintText(String hintText) {
+    return Text(
+      hintText,
+      style: const TextStyle(
+        fontSize: 15,
+        fontFamily: "KleeOne",
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   static Text getQuestionText(String questionText) {
     return Text(
       questionText,
