@@ -42,12 +42,13 @@ class _HomeSurveyState extends State<HomeSurvey> {
             BaseWidget.getPadding(15.0),
             BaseWidget.getQuestionText(Constants.q1Text),
             BaseWidget.getPadding(2.5),
+            BaseWidget.getHintText(Constants.radioListHintText),
             Row(
               children: <Widget>[
                 Flexible(
                   child: RadioListTile<String>(
                     value: "No",
-                    title: BaseWidget.getRadioBoxAnswerText("No"),
+                    title: BaseWidget.getRadioBoxAnswerText("0"),
                     activeColor: Colors.red,
                     groupValue: q1Answer,
                     onChanged: (value) {
@@ -60,7 +61,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 Flexible(
                   child: RadioListTile<String>(
                     value: "Mild",
-                    title: BaseWidget.getRadioBoxAnswerText("Mild"),
+                    title: BaseWidget.getRadioBoxAnswerText("1"),
                     groupValue: q1Answer,
                     activeColor: Colors.red,
                     onChanged: (value) {
@@ -72,8 +73,21 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: "Yes",
-                    title: BaseWidget.getRadioBoxAnswerText("Yes"),
+                    value: "Moderate",
+                    title: BaseWidget.getRadioBoxAnswerText("2"),
+                    groupValue: q1Answer,
+                    activeColor: Colors.red,
+                    onChanged: (value) {
+                      setState(() {
+                        q1Answer = value;
+                      });
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: RadioListTile<String>(
+                    value: "Severe",
+                    title: BaseWidget.getRadioBoxAnswerText("3"),
                     groupValue: q1Answer,
                     activeColor: Colors.red,
                     onChanged: (value) {
@@ -88,12 +102,13 @@ class _HomeSurveyState extends State<HomeSurvey> {
             BaseWidget.getPadding(15.0),
             BaseWidget.getQuestionText(Constants.q2Text),
             BaseWidget.getPadding(2.5),
+            BaseWidget.getHintText(Constants.radioListHintText),
             Row(
               children: <Widget>[
                 Flexible(
                   child: RadioListTile<String>(
                     value: "No",
-                    title: BaseWidget.getRadioBoxAnswerText("No"),
+                    title: BaseWidget.getRadioBoxAnswerText("0"),
                     activeColor: Colors.red,
                     groupValue: q2Answer,
                     onChanged: (value) {
@@ -106,7 +121,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 Flexible(
                   child: RadioListTile<String>(
                     value: "Mild",
-                    title: BaseWidget.getRadioBoxAnswerText("Mild"),
+                    title: BaseWidget.getRadioBoxAnswerText("1"),
                     groupValue: q2Answer,
                     activeColor: Colors.red,
                     onChanged: (value) {
@@ -118,8 +133,21 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 ),
                 Flexible(
                   child: RadioListTile<String>(
-                    value: "Yes",
-                    title: BaseWidget.getRadioBoxAnswerText("Yes"),
+                    value: "Moderate",
+                    title: BaseWidget.getRadioBoxAnswerText("2"),
+                    groupValue: q2Answer,
+                    activeColor: Colors.red,
+                    onChanged: (value) {
+                      setState(() {
+                        q2Answer = value;
+                      });
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: RadioListTile<String>(
+                    value: "Severe",
+                    title: BaseWidget.getRadioBoxAnswerText("3"),
                     groupValue: q2Answer,
                     activeColor: Colors.red,
                     onChanged: (value) {

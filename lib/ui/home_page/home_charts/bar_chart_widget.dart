@@ -46,7 +46,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           ) {
             if (rod.toY == Constants.optionNo) {
               return BarTooltipItem(
-                "( ᕑᗢᓫ )",
+                "No",
                 const TextStyle(
                   color: Colors.cyan,
                   fontWeight: FontWeight.bold,
@@ -54,15 +54,23 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               );
             } else if (rod.toY == Constants.optionMild) {
               return BarTooltipItem(
-                "(>﹏<)",
+                "Mild",
                 const TextStyle(
                   color: Colors.cyan,
                   fontWeight: FontWeight.bold,
                 ),
               );
-            } else if (rod.toY == Constants.optionYes) {
+            } else if (rod.toY == Constants.optionModerate) {
               return BarTooltipItem(
-                "( ºΔº )",
+                "Moderate",
+                const TextStyle(
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            } else if (rod.toY == Constants.optionSevere) {
+              return BarTooltipItem(
+                "Severe",
                 const TextStyle(
                   color: Colors.cyan,
                   fontWeight: FontWeight.bold,

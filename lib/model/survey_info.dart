@@ -50,8 +50,11 @@ class SurveyInfo {
       case "Mild":
         this.isCough = Constants.optionMild;
         break;
-      case "Yes":
-        this.isCough = Constants.optionYes;
+      case "Moderate":
+        this.isCough = Constants.optionModerate;
+        break;
+      case "Severe":
+        this.isCough = Constants.optionSevere;
         break;
       default:
         this.isCough = Constants.optionNull;
@@ -67,8 +70,11 @@ class SurveyInfo {
       case "Mild":
         this.isSoreThroat = Constants.optionMild;
         break;
-      case "Yes":
-        this.isSoreThroat = Constants.optionYes;
+      case "Moderate":
+        this.isSoreThroat = Constants.optionModerate;
+        break;
+      case "Severe":
+        this.isSoreThroat = Constants.optionSevere;
         break;
       default:
         this.isSoreThroat = Constants.optionNull;
