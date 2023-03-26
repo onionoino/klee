@@ -1,3 +1,4 @@
+import 'package:klee/utils/global.dart';
 import 'package:klee/utils/time_utils.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
@@ -115,6 +116,8 @@ class SurveyUtils {
       Constants.q6Key: answer6,
       Constants.deviceKey: deviceInfo!,
       Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
+      Constants.latitudeKey: Global.globalLatLng!.latitude.toString(),
+      Constants.longitudeKey: Global.globalLatLng!.longitude.toString(),
     };
   }
 }

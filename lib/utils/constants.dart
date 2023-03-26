@@ -53,26 +53,20 @@ class Constants {
   static const String ttlSuffix = ".ttl";
   static const String commonFileName = "common";
 
-  // Geo File Keys
+  // Geo File Keys & Survey File Keys
   static const String latitudeKey = "latitude";
   static const String longitudeKey = "longitude";
-
-  // Survey File Keys
   static const String q1Key = "isCough";
   static const String q2Key = "isSoreThroat";
   static const String q3Key = "temperature";
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
   static const String q6Key = "heartRate";
-
-  // Common Keys
   static const String obTimeKey = "obTime";
+  static const String deviceKey = "device";
 
   // Common File Keys
   static const String lastObTimeKey = "lastObTime";
-
-  // Common Keys
-  static const String deviceKey = "device";
 
   // None Value
   static const String none = "none";
@@ -141,5 +135,6 @@ class Constants {
       "onionoino.klee.klee.simplePeriodicTask";
 
   // Radio List Hint Text
-  static const String radioListHintText = "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
+  static const String radioListHintText =
+      "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
 }
