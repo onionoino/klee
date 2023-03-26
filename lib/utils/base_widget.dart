@@ -21,8 +21,8 @@ class BaseWidget {
 
   static Icon getMapMarkerIconRed() {
     return const Icon(
-      Icons.location_on,
-      size: 50,
+      Icons.adjust,
+      size: 40,
       color: Colors.redAccent,
     );
   }
