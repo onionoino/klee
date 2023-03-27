@@ -44,6 +44,7 @@ dependencies:
   common_utils: ^2.1.0
   solid_auth: ^0.1.5
   solid_encrypt: ^0.1.5
+  crypto: ^3.0.1
   jwt_decoder: ^2.0.1
   url_launcher: ^6.1.7
   awesome_notifications: ^0.7.4+1

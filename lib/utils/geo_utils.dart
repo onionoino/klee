@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:klee/model/geo_info.dart';
+import 'package:klee/utils/encrpt_utils.dart';
 import 'package:klee/utils/time_utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:solid_encrypt/solid_encrypt.dart';
 
 import 'constants.dart';
 
@@ -55,13 +60,20 @@ class GeoUtils {
   /// @param dateTime - observation time
   /// @return formattedPositionMap - the formatted K-V position map for further processing
   static Future<Map<String, String>> getFormattedPosition(
-      LatLng latLng, DateTime dateTime) async {
+      LatLng latLng, DateTime dateTime, EncryptClient encryptClient) async {
     String? deviceInfo = await PlatformDeviceId.getDeviceId;
+    if ((deviceInfo == null || deviceInfo.trim() == "") && Platform.isLinux) {
+      deviceInfo = DeviceInfoPlugin().linuxInfo.toString();
+    }
+    String latitudeKey = EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
+    String longitudeKey = EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
+    String obTimeKey = EncryptUtils.encode(Constants.obTimeKey, encryptClient)!;
+    String deviceKey = EncryptUtils.encode(Constants.deviceKey, encryptClient)!;
     return <String, String>{
-      Constants.latitudeKey: _getFormattedLatitude(latLng),
-      Constants.longitudeKey: _getFormattedLongitude(latLng),
-      Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
-      Constants.deviceKey: deviceInfo!,
+      latitudeKey: EncryptUtils.encode(_getFormattedLatitude(latLng), encryptClient)!,
+      longitudeKey: EncryptUtils.encode(_getFormattedLongitude(latLng), encryptClient)!,
+      obTimeKey: EncryptUtils.encode(TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
+      deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
     };
   }
 
@@ -69,13 +81,20 @@ class GeoUtils {
   /// @param geoInfo - geoInfo object
   /// @return formattedPositionMap - the formatted K-V position map for further processing
   static Future<Map<String, String>> getFormattedPositionFromGeoInfo(
-      GeoInfo geoInfo) async {
+      GeoInfo geoInfo, EncryptClient encryptClient) async {
     String? deviceInfo = await PlatformDeviceId.getDeviceId;
+    if ((deviceInfo == null || deviceInfo.trim() == "") && Platform.isLinux) {
+      deviceInfo = DeviceInfoPlugin().linuxInfo.toString();
+    }
+    String latitudeKey = EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
+    String longitudeKey = EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
+    String obTimeKey = EncryptUtils.encode(Constants.obTimeKey, encryptClient)!;
+    String deviceKey = EncryptUtils.encode(Constants.deviceKey, encryptClient)!;
     return <String, String>{
-      Constants.latitudeKey: geoInfo.latitude.toString(),
-      Constants.longitudeKey: geoInfo.longitude.toString(),
-      Constants.obTimeKey: geoInfo.date + geoInfo.time,
-      Constants.deviceKey: deviceInfo!,
+      latitudeKey: EncryptUtils.encode(geoInfo.latitude.toString(), encryptClient)!,
+      longitudeKey: EncryptUtils.encode(geoInfo.longitude.toString(), encryptClient)!,
+      obTimeKey: EncryptUtils.encode(geoInfo.date + geoInfo.time, encryptClient)!,
+      deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
     };
   }
 

@@ -98,7 +98,7 @@ class Constants {
   static const String q6Text = "What's your heart rate today?";
 
   // Geo Info Saving Interval (seconds)
-  static const int interval = 60;
+  static const int interval = 6000;
 
   // The Notify Hour Every Day (hour)
   static const int notificationHour = 9;

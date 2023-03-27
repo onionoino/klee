@@ -8,6 +8,9 @@ import 'package:klee/utils/solid_utils.dart';
 import 'package:klee/utils/survey_utils.dart';
 import 'package:klee/utils/time_utils.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:solid_encrypt/solid_encrypt.dart';
+
+import '../utils/encrpt_utils.dart';
 
 /// the model-view layer of home page, including all services the very view layer needs
 class HomePageService {
@@ -25,6 +28,7 @@ class HomePageService {
     String? surveyContainerURI = podInfo[Constants.surveyContainerURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    EncryptClient? encryptClient = await EncryptUtils.getClient(authData!, webId!);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
@@ -40,13 +44,13 @@ class HomePageService {
       String surveyContainerContent = await homePageNet.readFile(
           surveyContainerURI!, accessToken, rsa, pubKeyJwk);
       List<String> fileNameList =
-          SolidUtils.getSurveyFileNameList(surveyContainerContent, webId!, num);
+          SolidUtils.getSurveyFileNameList(surveyContainerContent, webId, num);
       for (int i = 0; i < fileNameList.length; i++) {
         String fileName = fileNameList[i];
         String fileURI = surveyContainerURI + fileName;
         String fileContent =
             await homePageNet.readFile(fileURI, accessToken, rsa, pubKeyJwk);
-        SurveyInfo surveyInfo = SolidUtils.parseSurveyFile(fileContent);
+        SurveyInfo surveyInfo = SolidUtils.parseSurveyFile(fileContent, encryptClient!);
         surveyInfoList.add(surveyInfo);
       }
     } catch (e) {
@@ -88,8 +92,9 @@ class HomePageService {
     String? surveyContainerURI = podInfo[Constants.surveyContainerURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    EncryptClient? encryptClient = await EncryptUtils.getClient(authData!, webId!);
     Map<String, String> surveyInfo = await SurveyUtils.getFormattedSurvey(
-        answer1, answer2, answer3, answer4, answer5, answer6, dateTime);
+        answer1, answer2, answer3, answer4, answer5, answer6, dateTime, encryptClient!);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
@@ -109,7 +114,7 @@ class HomePageService {
       await homePageNet.touch(
           surveyContainerURI!, accessToken, rsa, pubKeyJwk, curSurveyFileName);
       String curRecordFileURI = SolidUtils.genCurRecordFileURI(
-          surveyContainerURI, curSurveyFileName, webId!);
+          surveyContainerURI, curSurveyFileName, webId);
       String sparqlQuery;
       String predicate;
       // start saving
@@ -120,12 +125,44 @@ class HomePageService {
         await homePageNet.updateFile(
             curRecordFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
       });
-      setLastSurveyTime(podInfo, surveyInfo[Constants.obTimeKey]!);
+      setLastSurveyTime(podInfo, TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime));
     } catch (e) {
       LogUtil.e("Error on saving survey information");
       return false;
     }
     return true;
+  }
+
+  Future<void> setLastSurveyTime(
+      Map<String, dynamic> podInfo, String obTime) async {
+    String? accessToken = podInfo[Constants.accessToken];
+    String? webId = podInfo[Constants.webId];
+    String? containerURI = podInfo[Constants.containerURI];
+    dynamic rsa = podInfo[Constants.rsa];
+    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    if (!SolidUtils.isFileExist(
+        await homePageNet.readFile(containerURI!, accessToken!, rsa, pubKeyJwk),
+        Constants.commonFileName)) {
+      await homePageNet.touch(
+          containerURI, accessToken, rsa, pubKeyJwk, Constants.commonFileName);
+    }
+    String commonFileURI = SolidUtils.genCurRecordFileURI(
+        containerURI, Constants.commonFileName, webId!);
+    String content =
+        await homePageNet.readFile(commonFileURI, accessToken, rsa, pubKeyJwk);
+    String? lastObTime = SolidUtils.getLastObTime(content);
+    String subject = Constants.lastObTimeKey;
+    String predicate = SolidUtils.genPredicate(subject);
+    String sparqlQuery;
+    if (lastObTime == null) {
+      sparqlQuery = SolidUtils.genSparqlQuery(
+          Constants.insert, subject, predicate, obTime, null);
+    } else {
+      sparqlQuery = SolidUtils.genSparqlQuery(
+          Constants.update, subject, predicate, obTime, lastObTime);
+    }
+    await homePageNet.updateFile(
+        commonFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
   }
 
   Future<String> getLastSurveyTime(Map<dynamic, dynamic> authData) async {
@@ -163,38 +200,6 @@ class HomePageService {
     }
   }
 
-  Future<void> setLastSurveyTime(
-      Map<String, dynamic> podInfo, String obTime) async {
-    String? accessToken = podInfo[Constants.accessToken];
-    String? webId = podInfo[Constants.webId];
-    String? containerURI = podInfo[Constants.containerURI];
-    dynamic rsa = podInfo[Constants.rsa];
-    dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
-    if (!SolidUtils.isFileExist(
-        await homePageNet.readFile(containerURI!, accessToken!, rsa, pubKeyJwk),
-        Constants.commonFileName)) {
-      await homePageNet.touch(
-          containerURI, accessToken, rsa, pubKeyJwk, Constants.commonFileName);
-    }
-    String commonFileURI = SolidUtils.genCurRecordFileURI(
-        containerURI, Constants.commonFileName, webId!);
-    String content =
-        await homePageNet.readFile(commonFileURI, accessToken, rsa, pubKeyJwk);
-    String? lastObTime = SolidUtils.getLastObTime(content);
-    String subject = Constants.lastObTimeKey;
-    String predicate = SolidUtils.genPredicate(subject);
-    String sparqlQuery;
-    if (lastObTime == null) {
-      sparqlQuery = SolidUtils.genSparqlQuery(
-          Constants.insert, subject, predicate, obTime, null);
-    } else {
-      sparqlQuery = SolidUtils.genSparqlQuery(
-          Constants.update, subject, predicate, obTime, lastObTime);
-    }
-    await homePageNet.updateFile(
-        commonFileURI, accessToken, rsa, pubKeyJwk, sparqlQuery);
-  }
-
   /// the method is to save the geographical information into a POD
   /// @param latLng - geographical information collected from the device
   ///        authData - the authentication Data received after login
@@ -210,8 +215,9 @@ class HomePageService {
     String? geoContainerURI = podInfo[Constants.geoContainerURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    EncryptClient? encryptClient = await EncryptUtils.getClient(authData!, webId!);
     Map<String, String> positionInfo =
-        await GeoUtils.getFormattedPosition(latLng, dateTime);
+    await GeoUtils.getFormattedPosition(latLng, dateTime, encryptClient!);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
@@ -227,6 +233,7 @@ class HomePageService {
             Constants.geoContainerName);
       }
       String todayContainerName = TimeUtils.getFormattedTimeYYYYmmDD(dateTime);
+      // todayContainerName = EncryptUtils.encode(todayContainerName, encryptClient)!.replaceAll("=", "%3D");
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(
               geoContainerURI!, accessToken, rsa, pubKeyJwk),
@@ -236,10 +243,11 @@ class HomePageService {
       }
       String todayContainerURI = "$geoContainerURI$todayContainerName/";
       String curRecordFileName = TimeUtils.getFormattedTimeHHmmSS(dateTime);
+      // curRecordFileName = EncryptUtils.encode(curRecordFileName, encryptClient)!.replaceAll("=", "%3D");
       await homePageNet.touch(
           todayContainerURI, accessToken, rsa, pubKeyJwk, curRecordFileName);
       String curRecordFileURI = SolidUtils.genCurRecordFileURI(
-          todayContainerURI, curRecordFileName, webId!);
+          todayContainerURI, curRecordFileName, webId);
       String sparqlQuery;
       String predicate;
       // start saving
@@ -271,6 +279,7 @@ class HomePageService {
     String? geoContainerURI = podInfo[Constants.geoContainerURI];
     dynamic rsa = podInfo[Constants.rsa];
     dynamic pubKeyJwk = podInfo[Constants.pubKeyJwk];
+    EncryptClient? encryptClient = await EncryptUtils.getClient(authData!, webId!);
     try {
       if (!SolidUtils.isContainerExist(
           await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
@@ -298,11 +307,11 @@ class HomePageService {
       await homePageNet.touch(
           todayContainerURI, accessToken, rsa, pubKeyJwk, curRecordFileName);
       String curRecordFileURI = SolidUtils.genCurRecordFileURI(
-          todayContainerURI, curRecordFileName, webId!);
+          todayContainerURI, curRecordFileName, webId);
       String sparqlQuery;
       String predicate;
       Map<String, String> positionInfo =
-          await GeoUtils.getFormattedPositionFromGeoInfo(geoInfo);
+          await GeoUtils.getFormattedPositionFromGeoInfo(geoInfo, encryptClient!);
       // start saving
       positionInfo.forEach((subject, value) async {
         predicate = SolidUtils.genPredicate(subject);
@@ -322,6 +331,7 @@ class HomePageService {
   /// @param logoutUrl - the logout url parsed from authentication data
   /// @return void
   void logout(String logoutURL) async {
+    EncryptUtils.revoke();
     homePageNet.logout(logoutURL);
   }
 }
