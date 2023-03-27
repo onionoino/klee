@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:klee/utils/global.dart';
 import 'package:klee/utils/time_utils.dart';
 import 'package:platform_device_id/platform_device_id.dart';
@@ -107,17 +110,35 @@ class SurveyUtils {
       String answer6,
       DateTime dateTime) async {
     String? deviceInfo = await PlatformDeviceId.getDeviceId;
-    return <String, String>{
-      Constants.q1Key: answer1,
-      Constants.q2Key: answer2,
-      Constants.q3Key: answer3,
-      Constants.q4Key: answer4,
-      Constants.q5Key: answer5,
-      Constants.q6Key: answer6,
-      Constants.deviceKey: deviceInfo!,
-      Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
-      Constants.latitudeKey: Global.globalLatLng!.latitude.toString(),
-      Constants.longitudeKey: Global.globalLatLng!.longitude.toString(),
-    };
+    if ((deviceInfo == null || deviceInfo.trim() == "") && Platform.isLinux) {
+      deviceInfo = DeviceInfoPlugin().linuxInfo.toString();
+    }
+    if (Global.globalLatLng == null) {
+      return <String, String>{
+        Constants.q1Key: answer1,
+        Constants.q2Key: answer2,
+        Constants.q3Key: answer3,
+        Constants.q4Key: answer4,
+        Constants.q5Key: answer5,
+        Constants.q6Key: answer6,
+        Constants.deviceKey: deviceInfo!,
+        Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
+        Constants.latitudeKey: Constants.defaultLatLng.latitude.toString(),
+        Constants.longitudeKey: Constants.defaultLatLng.longitude.toString(),
+      };
+    } else {
+      return <String, String>{
+        Constants.q1Key: answer1,
+        Constants.q2Key: answer2,
+        Constants.q3Key: answer3,
+        Constants.q4Key: answer4,
+        Constants.q5Key: answer5,
+        Constants.q6Key: answer6,
+        Constants.deviceKey: deviceInfo!,
+        Constants.obTimeKey: TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime),
+        Constants.latitudeKey: Global.globalLatLng!.latitude.toString(),
+        Constants.longitudeKey: Global.globalLatLng!.longitude.toString(),
+      };
+    }
   }
 }
