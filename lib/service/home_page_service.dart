@@ -330,8 +330,14 @@ class HomePageService {
   /// the method is to log out from a logged-in status, once log out, users need to reenter the username and password
   /// @param logoutUrl - the logout url parsed from authentication data
   /// @return void
-  void logout(String logoutURL) async {
+  Future<void> logout(String logoutURL) async {
     EncryptUtils.revoke();
     homePageNet.logout(logoutURL);
+  }
+
+  Future<bool> checkAndSetEncKey(Map<dynamic, dynamic>? authData, String encKeyText) async {
+    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
+    String? webId = podInfo[Constants.webId];
+    return EncryptUtils.checkAndSet(authData!, encKeyText, webId!);
   }
 }

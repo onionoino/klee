@@ -87,6 +87,34 @@ class BaseWidget {
     return Padding(padding: EdgeInsets.all(value));
   }
 
+  static Container getHorizontalLine(double width) {
+    return Container(width: width, height: 2, color: Colors.black26);
+  }
+
+  static Text getSubTitleText(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.justify,
+      style: const TextStyle(
+        fontSize: 18,
+        fontFamily: "KleeOne",
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  static Text getInstructionText(String text, double width, double padding) {
+    return Text(
+      text,
+      textAlign: TextAlign.justify,
+      style: const TextStyle(
+        fontSize: 18,
+        fontFamily: "KleeOne",
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   static AlertDialog getNoticeDialog(
       BuildContext context, String title, String content, String textButton) {
     return AlertDialog(

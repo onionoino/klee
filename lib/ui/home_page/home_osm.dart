@@ -141,8 +141,6 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
               curLatLng = latLng;
               Global.globalLatLng = curLatLng;
             });
-            print("cur----$curLatLng");
-            print("global----${Global.globalLatLng}");
           },
         ),
         nonRotatedChildren: [
@@ -154,6 +152,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             alignment: Alignment.bottomLeft,
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 25),
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () {
                 // TODO
                 print("TOGGLE");
@@ -170,6 +169,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () async {
                 autoGeo = true;
                 if (Platform.isLinux ||
@@ -203,6 +203,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             alignment: Alignment.bottomRight,
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 90),
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () {
                 if (mapController.zoom + Constants.stepZoom <
                     Constants.maxZoom) {
@@ -228,6 +229,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             alignment: Alignment.bottomRight,
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 25),
             child: FloatingActionButton(
+              heroTag: null,
               onPressed: () {
                 if (mapController.zoom - Constants.stepZoom >
                     Constants.minZoom) {
