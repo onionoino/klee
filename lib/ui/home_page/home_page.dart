@@ -10,6 +10,7 @@ import 'package:klee/utils/time_utils.dart';
 
 import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
+import '../../utils/global.dart';
 
 /// the view layer of home page, a stateful widget
 class HomePage extends StatefulWidget {
@@ -48,8 +49,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> receiveMethod(ReceivedAction receivedAction) async {
-    String? lastSurveyTime =
-        await homePageService.getLastSurveyTime(widget.authData!);
+    String? lastSurveyTime = await homePageService.getLastSurveyTime(widget.authData!);
     if (lastSurveyTime == Constants.none) {
       setState(() {
         curWidgetIdx = Constants.surveyPage;
@@ -114,39 +114,53 @@ class _HomePageState extends State<HomePage> {
   /// @param selectedIdx - selected index of the bottomNavigationBar
   /// @return void
   Future<void> _onTapEvent(int selectedIdx) async {
-    if (selectedIdx == Constants.surveyPage) {
-      String? lastSurveyTime =
-          await homePageService.getLastSurveyTime(widget.authData!);
-      if (lastSurveyTime == Constants.none) {
-        setState(() {
-          curWidgetIdx = Constants.surveyPage;
-        });
-        return;
-      }
-      String lastSurveyDate = lastSurveyTime.substring(0, 8);
-      String? currentDate = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
-      if (lastSurveyDate == currentDate) {
-        String lastSurveyHH = lastSurveyTime.substring(8, 10);
-        String lastSurveyMM = lastSurveyTime.substring(10, 12);
-        String lastSurveySS = lastSurveyTime.substring(12);
-        String lastSurveyHHmmSS = "$lastSurveyHH:$lastSurveyMM:$lastSurveySS";
-        bool? isGoBack = await showDialog<bool>(
-            context: context,
-            builder: (context) {
-              return BaseWidget.getConfirmationDialog(
-                  context,
-                  "Message",
-                  "Thank you for reporting condition today ^_^ Would you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
-                  "New report",
-                  "Come back tmr");
-            });
-        if (isGoBack == null || isGoBack || !mounted) {
+    if (Global.isEncKeySet) {
+      if (selectedIdx == Constants.surveyPage) {
+        String? lastSurveyTime = await homePageService.getLastSurveyTime(widget.authData!);
+        if (lastSurveyTime == Constants.none) {
+          setState(() {
+            curWidgetIdx = Constants.surveyPage;
+          });
           return;
         }
+        String lastSurveyDate = lastSurveyTime.substring(0, 8);
+        String? currentDate = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
+        if (lastSurveyDate == currentDate) {
+          String lastSurveyHH = lastSurveyTime.substring(8, 10);
+          String lastSurveyMM = lastSurveyTime.substring(10, 12);
+          String lastSurveySS = lastSurveyTime.substring(12);
+          String lastSurveyHHmmSS = "$lastSurveyHH:$lastSurveyMM:$lastSurveySS";
+          bool? isGoBack = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return BaseWidget.getConfirmationDialog(
+                    context,
+                    "Message",
+                    "Thank you for reporting condition today ^_^ Would you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
+                    "New report",
+                    "Come back tmr");
+              });
+          if (isGoBack == null || isGoBack || !mounted) {
+            return;
+          }
+        }
+      }
+      setState(() {
+        curWidgetIdx = selectedIdx;
+      });
+    } else {
+      if (selectedIdx != Constants.indexPage) {
+        await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return BaseWidget.getNoticeDialog(
+                context,
+                "Warning",
+                "Pls enter or set your enc-key to verify your identity before using the feature",
+                "Enter now");
+          },
+        );
       }
     }
-    setState(() {
-      curWidgetIdx = selectedIdx;
-    });
   }
 }

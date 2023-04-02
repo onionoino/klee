@@ -23,8 +23,7 @@ class Constants {
       RegExp(r"(https?)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
 
   // Default LatLng
-  static final LatLng defaultLatLng =
-      LatLng(-35.27527648107207, 149.12062976407165);
+  static final LatLng defaultLatLng = LatLng(-35.27527648107207, 149.12062976407165);
 
   // Auth Data Keys
   static const String accessToken = "accessToken";
@@ -36,6 +35,10 @@ class Constants {
   static const String rsaInfo = "rsaInfo";
   static const String rsa = "rsa";
   static const String pubKeyJwk = "pubKeyJwk";
+
+  // Enc Container Info
+  static const String encRelativeContainerURI = "encryption/";
+  static const String encContainerName = "encryption";
 
   // Container Info
   static const String relativeContainerURI = "klee/";
@@ -98,7 +101,7 @@ class Constants {
   static const String q6Text = "What's your heart rate today?";
 
   // Geo Info Saving Interval (seconds)
-  static const int interval = 6000;
+  static const int interval = 60;
 
   // The Notify Hour Every Day (hour)
   static const int notificationHour = 9;
@@ -131,10 +134,20 @@ class Constants {
   static const double stepZoom = 1.5;
 
   // Background Tasks
-  static const String simplePeriodicTask =
-      "onionoino.klee.klee.simplePeriodicTask";
+  static const String simplePeriodicTask = "onionoino.klee.klee.simplePeriodicTask";
 
   // Radio List Hint Text
-  static const String radioListHintText =
-      "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
+  static const String radioListHintText = "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
+
+  // Index Page Instructions
+  static const String subTitle1 = "Home Page:";
+  static const String subTitle2 = "Map Page:";
+  static const String subTitle3 = "Survey Page:";
+  static const String subTitle4 = "POD Page:";
+  static const String indexPageInstructionText1 =
+      "The portal of this app, you can view instructions and set your enc-key here";
+  static const String indexPageInstructionText2 =
+      "The page you can locate & collect & modify your exact geographical information into your POD";
+  static const String indexPageInstructionText3 = "You can submit your health report here everyday";
+  static const String indexPageInstructionText4 = "A useful data exhibition and analysis interface";
 }
