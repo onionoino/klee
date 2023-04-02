@@ -37,12 +37,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   geolocator: ^9.0.2
+  geolocator_linux: ^0.1.0
   latlong2: ^0.8.1
   path_provider: ^2.0.11
   flutter_map: ^3.0.0
   http: ^0.13.5
   common_utils: ^2.1.0
-  solid_auth: ^0.1.5
+  solid_auth: ^0.1.6
   solid_encrypt: ^0.1.5
   crypto: ^3.0.1
   jwt_decoder: ^2.0.1
