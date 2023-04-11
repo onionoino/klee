@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:klee/ui/key_page/key_page.dart';
 import 'package:klee/utils/base_widget.dart';
 import 'package:klee/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/login_page_service.dart';
-import '../home_page/home_page.dart';
 import 'login_image.dart';
 
 /// the view layer of login page
@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // TODO for testing
+  // TODO for testing, will be deleted soon
   // TextEditingController webIdController = TextEditingController()
   //   ..text = 'https://podtest123.solidcommunity.net/profile/card#me';
 
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            HomePage(authData, Constants.indexPage)),
+                            KeyPage(authData)),
                   );
                 }
               },
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            HomePage(authData, Constants.indexPage)),
+                            KeyPage(authData)),
                   );
                 },
               ),
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        HomePage(authData, Constants.indexPage)),
+                        KeyPage(authData)),
               );
             }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
             BaseWidget.getPadding(150.0),

@@ -1,3 +1,5 @@
+import 'package:klee/utils/constants.dart';
+
 /// this class is a util class to process time formatting
 class TimeUtils {
   /// this method format a datetime into YYYYmmDD format
@@ -24,5 +26,17 @@ class TimeUtils {
   static String getFormattedTimeYYYYmmDDHHmmSS(DateTime dateTime) {
     return getFormattedTimeYYYYmmDD(dateTime) +
         getFormattedTimeHHmmSS(dateTime);
+  }
+
+  static String convertDateToWeekDay(String date) {
+    int year = int.parse(date.substring(0, 4));
+    int month = int.parse(date.substring(4, 6));
+    int day = int.parse(date.substring(6, 8));
+    DateTime dateTime = DateTime(year, month, day);
+    return Constants.weekMap[dateTime.weekday]!;
+  }
+
+  static String convertHHmmToClock(String time) {
+    return "${time.substring(0, 2)}:${time.substring(2, 4)}";
   }
 }

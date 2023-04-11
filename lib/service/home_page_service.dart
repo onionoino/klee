@@ -10,6 +10,7 @@ import 'package:klee/utils/time_utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:solid_encrypt/solid_encrypt.dart';
 
+import '../model/survey_day_info.dart';
 import '../utils/encrpt_utils.dart';
 
 /// the model-view layer of home page, including all services the very view layer needs
@@ -17,9 +18,9 @@ class HomePageService {
   final HomePageNet homePageNet = HomePageNet();
 
   /// this method is to get a list of survey info from a POD
-  Future<List<SurveyInfo>?> getSurveyInfoList(
-      int num, Map<dynamic, dynamic>? authData) async {
+  Future<List<SurveyDayInfo>?> getSurveyDayInfoList(int dayNum, Map<dynamic, dynamic>? authData) async {
     List<SurveyInfo> surveyInfoList = [];
+    List<SurveyDayInfo> surveyDayInfoList = [];
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
     String? accessToken = podInfo[Constants.accessToken];
     String? webId = podInfo[Constants.webId];
@@ -31,25 +32,22 @@ class HomePageService {
     EncryptClient? encryptClient = await EncryptUtils.getClient(authData!, webId!);
     try {
       if (!SolidUtils.isContainerExist(
-          await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk),
-          Constants.containerName)) {
+          await homePageNet.readFile(podURI!, accessToken!, rsa, pubKeyJwk), Constants.containerName)) {
         return null;
       }
       if (!SolidUtils.isContainerExist(
-          await homePageNet.readFile(
-              containerURI!, accessToken, rsa, pubKeyJwk),
+          await homePageNet.readFile(containerURI!, accessToken, rsa, pubKeyJwk),
           Constants.surveyContainerName)) {
         return null;
       }
-      String surveyContainerContent = await homePageNet.readFile(
-          surveyContainerURI!, accessToken, rsa, pubKeyJwk);
+      String surveyContainerContent =
+      await homePageNet.readFile(surveyContainerURI!, accessToken, rsa, pubKeyJwk);
       List<String> fileNameList =
-          SolidUtils.getSurveyFileNameList(surveyContainerContent, webId, num);
+      SolidUtils.getSurveyFileNameList(surveyContainerContent, webId, dayNum * 7);
       for (int i = 0; i < fileNameList.length; i++) {
         String fileName = fileNameList[i];
         String fileURI = surveyContainerURI + fileName;
-        String fileContent =
-            await homePageNet.readFile(fileURI, accessToken, rsa, pubKeyJwk);
+        String fileContent = await homePageNet.readFile(fileURI, accessToken, rsa, pubKeyJwk);
         SurveyInfo surveyInfo = SolidUtils.parseSurveyFile(fileContent, encryptClient!);
         surveyInfoList.add(surveyInfo);
       }
@@ -57,12 +55,30 @@ class HomePageService {
       LogUtil.e("Error on fetching survey data");
       return null;
     }
-    if (surveyInfoList.length < num) {
-      for (int i = surveyInfoList.length; i < num; i++) {
-        surveyInfoList.add(SurveyInfo());
+    // surveyInfoList to surveyDayInfoList
+    Map<String, List<SurveyInfo>> tempMap = {};
+    for (SurveyInfo surveyInfo in surveyInfoList) {
+      String obTime = surveyInfo.obTime;
+      String date = obTime.substring(0, 8);
+      if (!tempMap.containsKey(date)) {
+        List<SurveyInfo> tempList = [];
+        tempList.add(surveyInfo);
+        tempMap[date] = tempList;
+      } else {
+        List<SurveyInfo> tempList = tempMap[date]!;
+        tempList.add(surveyInfo);
+        tempMap[date] = tempList;
       }
     }
-    return surveyInfoList;
+    tempMap.forEach((date, surveyInfoList) {
+      SurveyDayInfo surveyDayInfo = SurveyDayInfo();
+      surveyDayInfo.date = date;
+      surveyDayInfo.surveyInfoList = surveyInfoList;
+      surveyDayInfoList.add(surveyDayInfo);
+    });
+    // sorting
+    surveyDayInfoList.sort((s1, s2) => s1.date.compareTo(s2.date));
+    return surveyDayInfoList;
   }
 
   /// the method is to save the answered survey information into a POD
@@ -333,11 +349,5 @@ class HomePageService {
   Future<void> logout(String logoutURL) async {
     EncryptUtils.revoke();
     homePageNet.logout(logoutURL);
-  }
-
-  Future<bool> checkAndSetEncKey(Map<dynamic, dynamic>? authData, String encKeyText) async {
-    Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
-    String? webId = podInfo[Constants.webId];
-    return EncryptUtils.checkAndSet(authData!, encKeyText, webId!);
   }
 }
