@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:klee/model/survey_info.dart';
+import 'package:klee/model/chart_point.dart';
+import 'package:klee/model/survey_day_info.dart';
 import 'package:klee/utils/base_widget.dart';
+import 'package:klee/utils/chart_utils.dart';
+import 'package:klee/utils/time_utils.dart';
 
+import '../../model/tooltip.dart';
 import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
 import '../login_page/login_page.dart';
@@ -25,15 +29,70 @@ class _HomeProfileState extends State<HomeProfile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        child: FutureBuilder<List<SurveyInfo>?>(
-          future: homePageService.getSurveyInfoList(
+        child: FutureBuilder<List<SurveyDayInfo>?>(
+          future: homePageService.getSurveyDayInfoList(
               Constants.barNumber, widget.authData),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             // request is complete
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 // request failed
-                return BaseWidget.getQuestionText("Error: ${snapshot.error}");
+                return Column(
+                  children: <Widget>[
+                    BaseWidget.getPadding(15.0),
+                    Center(
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width,
+                        ),
+                        child: const Text(
+                          "Welcome to your POD",
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontFamily: "KleeOne",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    BaseWidget.getPadding(25),
+                    Container(
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Server Error:${snapshot.error}",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: "KleeOne",
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    BaseWidget.getPadding(25),
+                    BaseWidget.getElevatedButton(() async {
+                      bool? isLogout = await showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return BaseWidget.getConfirmationDialog(
+                                context,
+                                "Message",
+                                "Are you sure to logout?",
+                                "Emm, not yet",
+                                "Goodbye");
+                          });
+                      if (isLogout == null || !isLogout || !mounted) {
+                        return;
+                      }
+                      homePageService.logout(widget.authData!["logoutUrl"]);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (_) {
+                        return const LoginPage();
+                      }));
+                    }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                  ],
+                );
               } else {
                 // request success
                 List<double> isCoughList = [];
@@ -43,8 +102,14 @@ class _HomeProfileState extends State<HomeProfile> {
                 List<double> heartRateList = [];
                 List<double> systolicList = [];
                 List<String> obTimeList = [];
-                List<SurveyInfo>? surveyInfoList = snapshot.data;
-                if (surveyInfoList == null) {
+                List<List<ToolTip>> isCoughToolTipsList = [];
+                List<List<ToolTip>> isSoreThroatToolTipsList = [];
+                List<List<ToolTip>> temperatureToolTipsList = [];
+                List<List<ToolTip>> diastolicToolTipsList = [];
+                List<List<ToolTip>> heartRateToolTipsList = [];
+                List<List<ToolTip>> systolicToolTipsList = [];
+                List<SurveyDayInfo>? surveyDayInfoList = snapshot.data;
+                if (surveyDayInfoList == null) {
                   return Column(
                     children: <Widget>[
                       BaseWidget.getPadding(15.0),
@@ -103,14 +168,23 @@ class _HomeProfileState extends State<HomeProfile> {
                     ],
                   );
                 }
-                for (SurveyInfo surveyInfo in surveyInfoList) {
-                  isCoughList.add(surveyInfo.isCough);
-                  isSoreThroatList.add(surveyInfo.isSoreThroat);
-                  temperatureList.add(surveyInfo.temperature);
-                  diastolicList.add(surveyInfo.diastolic);
-                  heartRateList.add(surveyInfo.heartRate);
-                  systolicList.add(surveyInfo.systolic);
-                  obTimeList.add(surveyInfo.obTime);
+                List<ChartPoint> chartPointList = ChartUtils.parseToChart(
+                    surveyDayInfoList, Constants.barNumber);
+                for (ChartPoint charPoint in chartPointList) {
+                  isCoughList.add(charPoint.isCoughMax);
+                  isSoreThroatList.add(charPoint.isSoreThroatMax);
+                  temperatureList.add(charPoint.temperatureMax);
+                  diastolicList.add(charPoint.diastolicMax);
+                  heartRateList.add(charPoint.heartRateMax);
+                  systolicList.add(charPoint.systolicMax);
+                  obTimeList
+                      .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
+                  isCoughToolTipsList.add(charPoint.otherIsCough);
+                  isSoreThroatToolTipsList.add(charPoint.otherIsSoreThroat);
+                  temperatureToolTipsList.add(charPoint.otherTemperature);
+                  diastolicToolTipsList.add(charPoint.otherDiastolic);
+                  heartRateToolTipsList.add(charPoint.otherHeartRate);
+                  systolicToolTipsList.add(charPoint.otherSystolic);
                 }
                 return Column(
                   children: <Widget>[
@@ -135,8 +209,8 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(
-                          isCoughList, obTimeList, Constants.optionMaxY),
+                      child: BarChartWidget(isCoughList, obTimeList,
+                          Constants.optionMaxY, isCoughToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Is Sore Throat"),
@@ -144,8 +218,8 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(
-                          isSoreThroatList, obTimeList, Constants.optionMaxY),
+                      child: BarChartWidget(isSoreThroatList, obTimeList,
+                          Constants.optionMaxY, isSoreThroatToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Temperature"),

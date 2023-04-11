@@ -1,15 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:klee/extensions/color_extensions.dart';
+import 'package:klee/utils/chart_utils.dart';
 
+import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
 
 class BarChartWidget extends StatefulWidget {
   final List<double> yList;
   final List<String> xList;
   final double maxY;
+  final List<List<ToolTip>> toolTipsList;
 
-  const BarChartWidget(this.yList, this.xList, this.maxY, {Key? key})
+  const BarChartWidget(this.yList, this.xList, this.maxY, this.toolTipsList, {Key? key})
       : super(key: key);
 
   @override
@@ -17,6 +20,14 @@ class BarChartWidget extends StatefulWidget {
 }
 
 class _BarChartWidgetState extends State<BarChartWidget> {
+  late int showingTooltip;
+
+  @override
+  void initState() {
+    showingTooltip = widget.xList.length - 1;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BarChart(
@@ -33,61 +44,51 @@ class _BarChartWidgetState extends State<BarChartWidget> {
   }
 
   BarTouchData get barTouchData => BarTouchData(
-        enabled: false,
-        touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.transparent,
-          tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 8,
-          getTooltipItem: (
-            BarChartGroupData group,
-            int groupIndex,
-            BarChartRodData rod,
-            int rodIndex,
-          ) {
-            if (rod.toY == Constants.optionNo) {
-              return BarTooltipItem(
-                "No",
-                const TextStyle(
-                  color: Colors.cyan,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            } else if (rod.toY == Constants.optionMild) {
-              return BarTooltipItem(
-                "Mild",
-                const TextStyle(
-                  color: Colors.cyan,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            } else if (rod.toY == Constants.optionModerate) {
-              return BarTooltipItem(
-                "Moderate",
-                const TextStyle(
-                  color: Colors.cyan,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            } else if (rod.toY == Constants.optionSevere) {
-              return BarTooltipItem(
-                "Severe",
-                const TextStyle(
-                  color: Colors.cyan,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
+      enabled: true,
+      handleBuiltInTouches: false,
+      touchCallback: (event, response) {
+        if (response != null &&
+            response.spot != null &&
+            event is FlTapUpEvent) {
+          setState(() {
+            final x = response.spot!.touchedBarGroup.x;
+            final isShowing = showingTooltip == x;
+            if (isShowing) {
+              showingTooltip = -1;
             } else {
-              return BarTooltipItem(
-                "Null",
-                const TextStyle(
-                  color: Colors.cyan,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
+              showingTooltip = x;
             }
-          },
-        ),
-      );
+          });
+        }
+      },
+      touchTooltipData: BarTouchTooltipData(
+        tooltipBgColor: Colors.black54,
+        tooltipPadding: const EdgeInsets.all(2),
+        tooltipMargin: 5,
+        getTooltipItem: (
+          BarChartGroupData group,
+          int groupIndex,
+          BarChartRodData rod,
+          int rodIndex,
+        ) {
+          if (rod.toY == Constants.optionNo) {
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "No");
+          } else if (rod.toY == Constants.optionMild) {
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Mild");
+          } else if (rod.toY == Constants.optionModerate) {
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Mod");
+          } else if (rod.toY == Constants.optionSevere) {
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Sev");
+          } else {
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Null");
+          }
+        },
+      ),
+      mouseCursorResolver: (event, response) {
+        return response == null || response.spot == null
+            ? MouseCursor.defer
+            : SystemMouseCursors.click;
+      });
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
@@ -171,7 +172,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 0 ? [0] : [],
         ),
         BarChartGroupData(
           x: 1,
@@ -181,7 +182,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 1 ? [0] : [],
         ),
         BarChartGroupData(
           x: 2,
@@ -191,7 +192,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 2 ? [0] : [],
         ),
         BarChartGroupData(
           x: 3,
@@ -201,7 +202,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 3 ? [0] : [],
         ),
         BarChartGroupData(
           x: 4,
@@ -211,7 +212,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 4 ? [0] : [],
         ),
         BarChartGroupData(
           x: 5,
@@ -221,7 +222,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 5 ? [0] : [],
         ),
         BarChartGroupData(
           x: 6,
@@ -231,7 +232,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
               gradient: _barsGradient,
             )
           ],
-          showingTooltipIndicators: [0],
+          showingTooltipIndicators: showingTooltip == 6 ? [0] : [],
         ),
       ];
 }

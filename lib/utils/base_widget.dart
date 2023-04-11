@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 /// this class contains a lot of base widgets to reduce repeated codes and improve decoupling
@@ -71,6 +72,18 @@ class BaseWidget {
     );
   }
 
+  static BarTooltipItem getBarTooltipItem(String tooltipText) {
+    return BarTooltipItem(
+      tooltipText,
+      textAlign: TextAlign.center,
+      const TextStyle(
+        color: Colors.limeAccent,
+        fontWeight: FontWeight.bold,
+        fontSize: 9,
+      ),
+    );
+  }
+
   static ElevatedButton getElevatedButton(
       Function() tapEvent, String label, double width, double height) {
     return ElevatedButton(
@@ -97,6 +110,18 @@ class BaseWidget {
       textAlign: TextAlign.justify,
       style: const TextStyle(
         fontSize: 18,
+        fontFamily: "KleeOne",
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  static Text getTitleText(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: 22,
         fontFamily: "KleeOne",
         fontWeight: FontWeight.bold,
       ),

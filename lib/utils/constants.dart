@@ -126,6 +126,14 @@ class Constants {
   static const double heartRateMinY = 35;
   static const double systolicMinY = 45;
   static const String defaultObTime = "N/A";
+  static const double toolTipNoneVal = -1;
+  static final Map<double, String> toolTipDoubleToStrMap = {
+    optionNull : "Null",
+    optionNo : "No",
+    optionMild : "Mild",
+    optionModerate : "Mod",
+    optionSevere : "Sev"
+  };
 
   // Map Parameters
   static const double maxZoom = 18;
@@ -150,4 +158,15 @@ class Constants {
       "The page you can locate & collect & modify your exact geographical information into your POD";
   static const String indexPageInstructionText3 = "You can submit your health report here everyday";
   static const String indexPageInstructionText4 = "A useful data exhibition and analysis interface";
+
+  // Week Day Name
+  static const Map<int, String> weekMap = {
+    1 : "MON",
+    2 : "TUE",
+    3 : "WED",
+    4 : "THU",
+    5 : "FRI",
+    6 : "SAT",
+    7 : "SUN",
+  };
 }
