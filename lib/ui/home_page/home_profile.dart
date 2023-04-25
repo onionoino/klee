@@ -96,11 +96,17 @@ class _HomeProfileState extends State<HomeProfile> {
               } else {
                 // request success
                 List<double> isCoughList = [];
+                List<String> isCoughTimeList = [];
                 List<double> isSoreThroatList = [];
+                List<String> isSoreThroatTimeList = [];
                 List<double> temperatureList = [];
+                List<String> temperatureTimeList = [];
                 List<double> diastolicList = [];
+                List<String> diastolicTimeList = [];
                 List<double> heartRateList = [];
+                List<String> heartRateTimeList = [];
                 List<double> systolicList = [];
+                List<String> systolicTimeList = [];
                 List<String> obTimeList = [];
                 List<List<ToolTip>> isCoughToolTipsList = [];
                 List<List<ToolTip>> isSoreThroatToolTipsList = [];
@@ -172,11 +178,17 @@ class _HomeProfileState extends State<HomeProfile> {
                     surveyDayInfoList, Constants.barNumber);
                 for (ChartPoint charPoint in chartPointList) {
                   isCoughList.add(charPoint.isCoughMax);
+                  isCoughTimeList.add(charPoint.isCoughMaxTime);
                   isSoreThroatList.add(charPoint.isSoreThroatMax);
+                  isSoreThroatTimeList.add(charPoint.isSoreThroatMaxTime);
                   temperatureList.add(charPoint.temperatureMax);
+                  temperatureTimeList.add(charPoint.temperatureMaxTime);
                   diastolicList.add(charPoint.diastolicMax);
+                  diastolicTimeList.add(charPoint.diastolicMaxTime);
                   heartRateList.add(charPoint.heartRateMax);
+                  heartRateTimeList.add(charPoint.heartRateMaxTime);
                   systolicList.add(charPoint.systolicMax);
+                  systolicTimeList.add(charPoint.systolicMaxTime);
                   obTimeList
                       .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
                   isCoughToolTipsList.add(charPoint.otherIsCough);
@@ -209,7 +221,7 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(isCoughList, obTimeList,
+                      child: BarChartWidget(isCoughList, isCoughTimeList, obTimeList,
                           Constants.optionMaxY, isCoughToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
@@ -218,7 +230,7 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(isSoreThroatList, obTimeList,
+                      child: BarChartWidget(isSoreThroatList, isSoreThroatTimeList, obTimeList,
                           Constants.optionMaxY, isSoreThroatToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
