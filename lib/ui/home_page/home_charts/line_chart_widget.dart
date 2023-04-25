@@ -21,7 +21,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   final Color gradientColor3 = Colors.red;
   final Color indicatorStrokeColor = Colors.black;
 
-  List<int> get showIndexes => const [0, 2, 4, 6];
+  List<int> get showIndexes => const [6];
 
   Widget bottomTitleWidgets(double value, TitleMeta meta, double chartWidth) {
     final style = TextStyle(

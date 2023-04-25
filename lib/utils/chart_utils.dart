@@ -10,15 +10,19 @@ import 'constants.dart';
 
 class ChartUtils {
   static BarTooltipItem getBarTooltipItem(
-      List<List<ToolTip>> toolTipsList, int showingTooltip, String peakVal) {
-    String tipText = _getToolTipText(toolTipsList[showingTooltip], peakVal);
+      List<List<ToolTip>> toolTipsList, int showingTooltip, String peakVal, String peakValTime) {
+    String tipText = _getToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime);
     return BaseWidget.getBarTooltipItem(tipText);
   }
 
-  static String _getToolTipText(List<ToolTip> toolTipList, String peakVal) {
-    String text = "Peak - $peakVal";
+  static String _getToolTipText(List<ToolTip> toolTipList, String peakVal, String peakValTime) {
+    String text = "$peakValTime - $peakVal";
+    if (peakValTime == Constants.none) {
+      text = "Null";
+      return text;
+    }
     if (toolTipList.isNotEmpty) {
-      text = "$text\n";
+      text = "$text\n--------------";
     }
     for (ToolTip toolTip in toolTipList) {
       String postfix =
@@ -151,11 +155,17 @@ class ChartUtils {
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
         chartPoint.isCoughMax = isCoughMax;
+        chartPoint.isCoughMaxTime = TimeUtils.convertHHmmToClock(isCoughMaxTime.substring(8, 12));
         chartPoint.isSoreThroatMax = isSoreThroatMax;
+        chartPoint.isSoreThroatMaxTime = TimeUtils.convertHHmmToClock(isSoreThroatMaxTime.substring(8, 12));
         chartPoint.temperatureMax = temperatureMax;
+        chartPoint.temperatureMaxTime = TimeUtils.convertHHmmToClock(temperatureMaxTime.substring(8, 12));
         chartPoint.diastolicMax = diastolicMax;
+        chartPoint.diastolicMaxTime = TimeUtils.convertHHmmToClock(diastolicMaxTime.substring(8, 12));
         chartPoint.heartRateMax = heartRateMax;
+        chartPoint.heartRateMaxTime = TimeUtils.convertHHmmToClock(heartRateMaxTime.substring(8, 12));
         chartPoint.systolicMax = systolicMax;
+        chartPoint.systolicMaxTime = TimeUtils.convertHHmmToClock(systolicMaxTime.substring(8, 12));
         chartPoint.otherIsCough = toolTipIsCough;
         chartPoint.otherIsSoreThroat = toolTipIsSoreThroat;
         chartPoint.otherTemperature = toolTipTemperature;
@@ -167,11 +177,17 @@ class ChartUtils {
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
         chartPoint.isCoughMax = Constants.optionNull;
+        chartPoint.isCoughMaxTime = Constants.none;
         chartPoint.isSoreThroatMax = Constants.optionNull;
+        chartPoint.isSoreThroatMaxTime = Constants.none;
         chartPoint.temperatureMax = Constants.temperatureMinY;
+        chartPoint.temperatureMaxTime = Constants.none;
         chartPoint.diastolicMax = Constants.diastolicMinY;
+        chartPoint.diastolicMaxTime = Constants.none;
         chartPoint.heartRateMax = Constants.heartRateMinY;
+        chartPoint.heartRateMaxTime = Constants.none;
         chartPoint.systolicMax = Constants.systolicMinY;
+        chartPoint.systolicMaxTime = Constants.none;
         chartPoint.otherIsCough = [];
         chartPoint.otherIsSoreThroat = [];
         chartPoint.otherTemperature = [];
