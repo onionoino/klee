@@ -84,6 +84,17 @@ class BaseWidget {
     );
   }
 
+  static LineTooltipItem getLineTooltipItem(String tooltipText) {
+    return LineTooltipItem(
+      tooltipText,
+      const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 9,
+      ),
+    );
+  }
+
   static ElevatedButton getElevatedButton(
       Function() tapEvent, String label, double width, double height) {
     return ElevatedButton(

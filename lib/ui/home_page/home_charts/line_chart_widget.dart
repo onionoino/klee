@@ -1,14 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:klee/utils/chart_utils.dart';
 
+import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
 
 class LineChartWidget extends StatefulWidget {
   final List<double> yList;
+  final List<String> timeList;
   final List<String> xList;
   final double minY;
+  final List<List<ToolTip>> toolTipsList;
 
-  const LineChartWidget(this.yList, this.xList, this.minY, {Key? key})
+  const LineChartWidget(this.yList, this.timeList, this.xList, this.minY, this.toolTipsList, {Key? key})
       : super(key: key);
 
   @override
@@ -124,7 +128,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                 ]);
               }).toList(),
               lineTouchData: LineTouchData(
-                enabled: false,
+                enabled: true,
                 getTouchedSpotIndicator:
                     (LineChartBarData barData, List<int> spotIndexes) {
                   return spotIndexes.map((index) {
@@ -152,25 +156,11 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                 touchTooltipData: LineTouchTooltipData(
                   tooltipBgColor: Colors.pink,
                   tooltipRoundedRadius: 8,
+                  tooltipPadding: const EdgeInsets.all(2),
                   getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                     return lineBarsSpot.map((lineBarSpot) {
-                      if (lineBarSpot.y == widget.minY) {
-                        return LineTooltipItem(
-                          "Null",
-                          const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      } else {
-                        return LineTooltipItem(
-                          lineBarSpot.y.toString(),
-                          const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      }
+                      int showingTooltip = lineBarSpot.x.toInt();
+                      return ChartUtils.getLineTooltipItem(widget.toolTipsList, showingTooltip, lineBarSpot.y.toString(), widget.timeList[showingTooltip], widget.minY);
                     }).toList();
                   },
                 ),

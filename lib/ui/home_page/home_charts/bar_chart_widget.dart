@@ -25,7 +25,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
 
   @override
   void initState() {
-    showingTooltip = widget.xList.length - 1;
+    showingTooltip = -1;
     super.initState();
   }
 

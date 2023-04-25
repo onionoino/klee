@@ -9,13 +9,36 @@ import 'base_widget.dart';
 import 'constants.dart';
 
 class ChartUtils {
+  static LineTooltipItem getLineTooltipItem(
+      List<List<ToolTip>> toolTipsList, int showingTooltip, String peakVal, String peakValTime, double minY) {
+    String tipText = _getLineToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime, minY);
+    return BaseWidget.getLineTooltipItem(tipText);
+  }
+
+  static String _getLineToolTipText(List<ToolTip> toolTipList, String peakVal, String peakValTime, double minY) {
+    String text = "$peakValTime - $peakVal";
+    if (peakValTime == Constants.none || double.parse(peakVal) == minY) {
+      text = "Null";
+      return text;
+    }
+    if (toolTipList.isNotEmpty) {
+      text = "$text\n--------------";
+    }
+    for (ToolTip toolTip in toolTipList) {
+      String postfix =
+          "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+      text = text + postfix;
+    }
+    return text;
+  }
+
   static BarTooltipItem getBarTooltipItem(
       List<List<ToolTip>> toolTipsList, int showingTooltip, String peakVal, String peakValTime) {
-    String tipText = _getToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime);
+    String tipText = _getBarToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime);
     return BaseWidget.getBarTooltipItem(tipText);
   }
 
-  static String _getToolTipText(List<ToolTip> toolTipList, String peakVal, String peakValTime) {
+  static String _getBarToolTipText(List<ToolTip> toolTipList, String peakVal, String peakValTime) {
     String text = "$peakValTime - $peakVal";
     if (peakValTime == Constants.none) {
       text = "Null";
