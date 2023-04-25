@@ -13,7 +13,9 @@ class BarChartWidget extends StatefulWidget {
   final double maxY;
   final List<List<ToolTip>> toolTipsList;
 
-  const BarChartWidget(this.yList, this.timeList, this.xList, this.maxY, this.toolTipsList, {Key? key})
+  const BarChartWidget(
+      this.yList, this.timeList, this.xList, this.maxY, this.toolTipsList,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -73,15 +75,20 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           int rodIndex,
         ) {
           if (rod.toY == Constants.optionNo) {
-            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "No", widget.timeList[showingTooltip]);
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList,
+                showingTooltip, "No", widget.timeList[showingTooltip]);
           } else if (rod.toY == Constants.optionMild) {
-            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Mild", widget.timeList[showingTooltip]);
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList,
+                showingTooltip, "Mild", widget.timeList[showingTooltip]);
           } else if (rod.toY == Constants.optionModerate) {
-            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Mod", widget.timeList[showingTooltip]);
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList,
+                showingTooltip, "Mod", widget.timeList[showingTooltip]);
           } else if (rod.toY == Constants.optionSevere) {
-            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Sev", widget.timeList[showingTooltip]);
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList,
+                showingTooltip, "Sev", widget.timeList[showingTooltip]);
           } else {
-            return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, "Null", widget.timeList[showingTooltip]);
+            return ChartUtils.getBarTooltipItem(widget.toolTipsList,
+                showingTooltip, "Null", widget.timeList[showingTooltip]);
           }
         },
       ),

@@ -124,8 +124,10 @@ class SurveyUtils {
     String q6Key = EncryptUtils.encode(Constants.q6Key, encryptClient)!;
     String deviceKey = EncryptUtils.encode(Constants.deviceKey, encryptClient)!;
     String obTimeKey = EncryptUtils.encode(Constants.obTimeKey, encryptClient)!;
-    String latitudeKey = EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
-    String longitudeKey = EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
+    String latitudeKey =
+        EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
+    String longitudeKey =
+        EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
     if (Global.globalLatLng == null) {
       return <String, String>{
         q1Key: EncryptUtils.encode(answer1, encryptClient)!,
@@ -135,9 +137,12 @@ class SurveyUtils {
         q5Key: EncryptUtils.encode(answer5, encryptClient)!,
         q6Key: EncryptUtils.encode(answer6, encryptClient)!,
         deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
-        obTimeKey: EncryptUtils.encode(TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
-        latitudeKey: EncryptUtils.encode(Constants.defaultLatLng.latitude.toString(), encryptClient)!,
-        longitudeKey: EncryptUtils.encode(Constants.defaultLatLng.longitude.toString(), encryptClient)!,
+        obTimeKey: EncryptUtils.encode(
+            TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
+        latitudeKey: EncryptUtils.encode(
+            Constants.defaultLatLng.latitude.toString(), encryptClient)!,
+        longitudeKey: EncryptUtils.encode(
+            Constants.defaultLatLng.longitude.toString(), encryptClient)!,
       };
     } else {
       return <String, String>{
@@ -148,9 +153,12 @@ class SurveyUtils {
         q5Key: EncryptUtils.encode(answer5, encryptClient)!,
         q6Key: EncryptUtils.encode(answer6, encryptClient)!,
         deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
-        obTimeKey: EncryptUtils.encode(TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
-        latitudeKey: EncryptUtils.encode(Global.globalLatLng!.latitude.toString(), encryptClient)!,
-        longitudeKey: EncryptUtils.encode(Global.globalLatLng!.longitude.toString(), encryptClient)!,
+        obTimeKey: EncryptUtils.encode(
+            TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
+        latitudeKey: EncryptUtils.encode(
+            Global.globalLatLng!.latitude.toString(), encryptClient)!,
+        longitudeKey: EncryptUtils.encode(
+            Global.globalLatLng!.longitude.toString(), encryptClient)!,
       };
     }
   }

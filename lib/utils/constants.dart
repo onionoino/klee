@@ -23,7 +23,8 @@ class Constants {
       RegExp(r"(https?)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
 
   // Default LatLng
-  static final LatLng defaultLatLng = LatLng(-35.27527648107207, 149.12062976407165);
+  static final LatLng defaultLatLng =
+      LatLng(-35.27527648107207, 149.12062976407165);
 
   // Auth Data Keys
   static const String accessToken = "accessToken";
@@ -128,11 +129,11 @@ class Constants {
   static const String defaultObTime = "N/A";
   static const double toolTipNoneVal = -1;
   static final Map<double, String> toolTipDoubleToStrMap = {
-    optionNull : "Null",
-    optionNo : "No",
-    optionMild : "Mild",
-    optionModerate : "Mod",
-    optionSevere : "Sev"
+    optionNull: "Null",
+    optionNo: "No",
+    optionMild: "Mild",
+    optionModerate: "Mod",
+    optionSevere: "Sev"
   };
 
   // Map Parameters
@@ -142,10 +143,12 @@ class Constants {
   static const double stepZoom = 1.5;
 
   // Background Tasks
-  static const String simplePeriodicTask = "onionoino.klee.klee.simplePeriodicTask";
+  static const String simplePeriodicTask =
+      "onionoino.klee.klee.simplePeriodicTask";
 
   // Radio List Hint Text
-  static const String radioListHintText = "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
+  static const String radioListHintText =
+      "0 - No | 1 - Mild | 2 - Moderate | 3 - Severe";
 
   // Index Page Instructions
   static const String subTitle1 = "Home Page:";
@@ -156,17 +159,19 @@ class Constants {
       "The portal of this app, you can view instructions and set your enc-key here";
   static const String indexPageInstructionText2 =
       "The page you can locate & collect & modify your exact geographical information into your POD";
-  static const String indexPageInstructionText3 = "You can submit your health report here everyday";
-  static const String indexPageInstructionText4 = "A useful data exhibition and analysis interface";
+  static const String indexPageInstructionText3 =
+      "You can submit your health report here everyday";
+  static const String indexPageInstructionText4 =
+      "A useful data exhibition and analysis interface";
 
   // Week Day Name
   static const Map<int, String> weekMap = {
-    1 : "MON",
-    2 : "TUE",
-    3 : "WED",
-    4 : "THU",
-    5 : "FRI",
-    6 : "SAT",
-    7 : "SUN",
+    1: "MON",
+    2: "TUE",
+    3: "WED",
+    4: "THU",
+    5: "FRI",
+    6: "SAT",
+    7: "SUN",
   };
 }

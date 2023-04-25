@@ -12,7 +12,9 @@ class LineChartWidget extends StatefulWidget {
   final double minY;
   final List<List<ToolTip>> toolTipsList;
 
-  const LineChartWidget(this.yList, this.timeList, this.xList, this.minY, this.toolTipsList, {Key? key})
+  const LineChartWidget(
+      this.yList, this.timeList, this.xList, this.minY, this.toolTipsList,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -160,7 +162,12 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                   getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
                     return lineBarsSpot.map((lineBarSpot) {
                       int showingTooltip = lineBarSpot.x.toInt();
-                      return ChartUtils.getLineTooltipItem(widget.toolTipsList, showingTooltip, lineBarSpot.y.toString(), widget.timeList[showingTooltip], widget.minY);
+                      return ChartUtils.getLineTooltipItem(
+                          widget.toolTipsList,
+                          showingTooltip,
+                          lineBarSpot.y.toString(),
+                          widget.timeList[showingTooltip],
+                          widget.minY);
                     }).toList();
                   },
                 ),

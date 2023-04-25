@@ -65,14 +65,19 @@ class GeoUtils {
     if ((deviceInfo == null || deviceInfo.trim() == "") && Platform.isLinux) {
       deviceInfo = DeviceInfoPlugin().linuxInfo.toString();
     }
-    String latitudeKey = EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
-    String longitudeKey = EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
+    String latitudeKey =
+        EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
+    String longitudeKey =
+        EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
     String obTimeKey = EncryptUtils.encode(Constants.obTimeKey, encryptClient)!;
     String deviceKey = EncryptUtils.encode(Constants.deviceKey, encryptClient)!;
     return <String, String>{
-      latitudeKey: EncryptUtils.encode(_getFormattedLatitude(latLng), encryptClient)!,
-      longitudeKey: EncryptUtils.encode(_getFormattedLongitude(latLng), encryptClient)!,
-      obTimeKey: EncryptUtils.encode(TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
+      latitudeKey:
+          EncryptUtils.encode(_getFormattedLatitude(latLng), encryptClient)!,
+      longitudeKey:
+          EncryptUtils.encode(_getFormattedLongitude(latLng), encryptClient)!,
+      obTimeKey: EncryptUtils.encode(
+          TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
       deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
     };
   }
@@ -86,14 +91,19 @@ class GeoUtils {
     if ((deviceInfo == null || deviceInfo.trim() == "") && Platform.isLinux) {
       deviceInfo = DeviceInfoPlugin().linuxInfo.toString();
     }
-    String latitudeKey = EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
-    String longitudeKey = EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
+    String latitudeKey =
+        EncryptUtils.encode(Constants.latitudeKey, encryptClient)!;
+    String longitudeKey =
+        EncryptUtils.encode(Constants.longitudeKey, encryptClient)!;
     String obTimeKey = EncryptUtils.encode(Constants.obTimeKey, encryptClient)!;
     String deviceKey = EncryptUtils.encode(Constants.deviceKey, encryptClient)!;
     return <String, String>{
-      latitudeKey: EncryptUtils.encode(geoInfo.latitude.toString(), encryptClient)!,
-      longitudeKey: EncryptUtils.encode(geoInfo.longitude.toString(), encryptClient)!,
-      obTimeKey: EncryptUtils.encode(geoInfo.date + geoInfo.time, encryptClient)!,
+      latitudeKey:
+          EncryptUtils.encode(geoInfo.latitude.toString(), encryptClient)!,
+      longitudeKey:
+          EncryptUtils.encode(geoInfo.longitude.toString(), encryptClient)!,
+      obTimeKey:
+          EncryptUtils.encode(geoInfo.date + geoInfo.time, encryptClient)!,
       deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
     };
   }
