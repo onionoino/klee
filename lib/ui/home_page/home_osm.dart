@@ -149,23 +149,6 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             onSourceTapped: null,
           ),
           Container(
-            alignment: Alignment.bottomLeft,
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 25),
-            child: FloatingActionButton(
-              heroTag: null,
-              onPressed: () {
-                // TODO
-                print("TOGGLE");
-              },
-              backgroundColor: Colors.redAccent,
-              child: const Icon(
-                Icons.slideshow,
-                color: Colors.white,
-                size: 42,
-              ),
-            ),
-          ),
-          Container(
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
             child: FloatingActionButton(
@@ -201,7 +184,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
           ),
           Container(
             alignment: Alignment.bottomRight,
-            padding: const EdgeInsets.fromLTRB(0, 0, 10, 90),
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 25),
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
@@ -226,8 +209,8 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
             ),
           ),
           Container(
-            alignment: Alignment.bottomRight,
-            padding: const EdgeInsets.fromLTRB(0, 0, 10, 25),
+            alignment: Alignment.bottomLeft,
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 25),
             child: FloatingActionButton(
               heroTag: null,
               onPressed: () {
