@@ -31,25 +31,31 @@ class _KeyPageState extends State<KeyPage> {
         child: Column(
           children: <Widget>[
             BaseWidget.getPadding(15.0),
-            BaseWidget.getTitleText("""For your privacy, please enter your encryption key first, if you haven't had a key yet, Klee Compass will help you create a new key for later identity verification."""),
+            BaseWidget.getTitleText(
+                """For your privacy, please enter your encryption key first, if you haven't had a key yet, Klee Compass will help you create a new key for later identity verification."""),
             BaseWidget.getPadding(2.5),
             RawKeyboardListener(
               focusNode: FocusNode(),
               onKey: (event) async {
                 if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                  if (await keyPageService.checkAndSetEncKey(widget.authData, encKeyController.text)) {
+                  if (await keyPageService.checkAndSetEncKey(
+                      widget.authData, encKeyController.text)) {
                     Global.isEncKeySet = true;
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomePage(widget.authData, Constants.indexPage)),
+                          builder: (context) =>
+                              HomePage(widget.authData, Constants.indexPage)),
                     );
                   } else {
                     await showDialog<bool>(
                       context: context,
                       builder: (context) {
-                        return BaseWidget.getNoticeDialog(context, "Warning",
-                            "You didn't enter your enc-key or the key is not correct", "Try again");
+                        return BaseWidget.getNoticeDialog(
+                            context,
+                            "Warning",
+                            "You didn't enter your enc-key or the key is not correct",
+                            "Try again");
                       },
                     );
                     return;
@@ -65,19 +71,24 @@ class _KeyPageState extends State<KeyPage> {
                   hintText: "Your Enc-Key",
                 ),
                 onSubmitted: (value) async {
-                  if (await keyPageService.checkAndSetEncKey(widget.authData, encKeyController.text)) {
+                  if (await keyPageService.checkAndSetEncKey(
+                      widget.authData, encKeyController.text)) {
                     Global.isEncKeySet = true;
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomePage(widget.authData, Constants.indexPage)),
+                          builder: (context) =>
+                              HomePage(widget.authData, Constants.indexPage)),
                     );
                   } else {
                     await showDialog<bool>(
                       context: context,
                       builder: (context) {
-                        return BaseWidget.getNoticeDialog(context, "Warning",
-                            "You didn't enter your enc-key or the key is not correct", "Try again");
+                        return BaseWidget.getNoticeDialog(
+                            context,
+                            "Warning",
+                            "You didn't enter your enc-key or the key is not correct",
+                            "Try again");
                       },
                     );
                     return;
@@ -87,7 +98,8 @@ class _KeyPageState extends State<KeyPage> {
             ),
             BaseWidget.getPadding(15),
             BaseWidget.getElevatedButton(() async {
-              if (await keyPageService.checkAndSetEncKey(widget.authData, encKeyController.text)) {
+              if (await keyPageService.checkAndSetEncKey(
+                  widget.authData, encKeyController.text)) {
                 Global.isEncKeySet = true;
                 Navigator.pushReplacement(
                   context,
@@ -114,12 +126,8 @@ class _KeyPageState extends State<KeyPage> {
               bool? isLogout = await showDialog<bool>(
                   context: context,
                   builder: (context) {
-                    return BaseWidget.getConfirmationDialog(
-                        context,
-                        "Message",
-                        "Are you sure to logout?",
-                        "Emm, not yet",
-                        "Goodbye");
+                    return BaseWidget.getConfirmationDialog(context, "Message",
+                        "Are you sure to logout?", "Emm, not yet", "Goodbye");
                   });
               if (isLogout == null || !isLogout || !mounted) {
                 return;
@@ -127,8 +135,8 @@ class _KeyPageState extends State<KeyPage> {
               homePageService.logout(widget.authData!["logoutUrl"]);
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) {
-                    return const LoginPage();
-                  }));
+                return const LoginPage();
+              }));
             }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
             BaseWidget.getPadding(150),
           ],

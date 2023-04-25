@@ -49,7 +49,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> receiveMethod(ReceivedAction receivedAction) async {
-    String? lastSurveyTime = await homePageService.getLastSurveyTime(widget.authData!);
+    String? lastSurveyTime =
+        await homePageService.getLastSurveyTime(widget.authData!);
     if (lastSurveyTime == Constants.none) {
       setState(() {
         curWidgetIdx = Constants.surveyPage;
@@ -116,7 +117,8 @@ class _HomePageState extends State<HomePage> {
   Future<void> _onTapEvent(int selectedIdx) async {
     if (Global.isEncKeySet) {
       if (selectedIdx == Constants.surveyPage) {
-        String? lastSurveyTime = await homePageService.getLastSurveyTime(widget.authData!);
+        String? lastSurveyTime =
+            await homePageService.getLastSurveyTime(widget.authData!);
         if (lastSurveyTime == Constants.none) {
           setState(() {
             curWidgetIdx = Constants.surveyPage;
@@ -124,7 +126,8 @@ class _HomePageState extends State<HomePage> {
           return;
         }
         String lastSurveyDate = lastSurveyTime.substring(0, 8);
-        String? currentDate = TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
+        String? currentDate =
+            TimeUtils.getFormattedTimeYYYYmmDD(DateTime.now());
         if (lastSurveyDate == currentDate) {
           String lastSurveyHH = lastSurveyTime.substring(8, 10);
           String lastSurveyMM = lastSurveyTime.substring(10, 12);

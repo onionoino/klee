@@ -78,9 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            KeyPage(authData)),
+                    MaterialPageRoute(builder: (context) => KeyPage(authData)),
                   );
                 }
               },
@@ -113,9 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            KeyPage(authData)),
+                    MaterialPageRoute(builder: (context) => KeyPage(authData)),
                   );
                 },
               ),
@@ -141,9 +137,7 @@ class _LoginPageState extends State<LoginPage> {
               }
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        KeyPage(authData)),
+                MaterialPageRoute(builder: (context) => KeyPage(authData)),
               );
             }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
             BaseWidget.getPadding(150.0),

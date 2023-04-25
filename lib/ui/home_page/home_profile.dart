@@ -221,8 +221,12 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(isCoughList, isCoughTimeList, obTimeList,
-                          Constants.optionMaxY, isCoughToolTipsList),
+                      child: BarChartWidget(
+                          isCoughList,
+                          isCoughTimeList,
+                          obTimeList,
+                          Constants.optionMaxY,
+                          isCoughToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Is Sore Throat"),
@@ -230,8 +234,12 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(isSoreThroatList, isSoreThroatTimeList, obTimeList,
-                          Constants.optionMaxY, isSoreThroatToolTipsList),
+                      child: BarChartWidget(
+                          isSoreThroatList,
+                          isSoreThroatTimeList,
+                          obTimeList,
+                          Constants.optionMaxY,
+                          isSoreThroatToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Temperature"),
@@ -239,8 +247,12 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(temperatureList, temperatureTimeList, obTimeList,
-                          Constants.temperatureMinY, temperatureToolTipsList),
+                      child: LineChartWidget(
+                          temperatureList,
+                          temperatureTimeList,
+                          obTimeList,
+                          Constants.temperatureMinY,
+                          temperatureToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Diastolic"),
@@ -249,7 +261,11 @@ class _HomeProfileState extends State<HomeProfile> {
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: LineChartWidget(
-                          diastolicList, diastolicTimeList, obTimeList, Constants.diastolicMinY, diastolicToolTipsList),
+                          diastolicList,
+                          diastolicTimeList,
+                          obTimeList,
+                          Constants.diastolicMinY,
+                          diastolicToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Heart Rate"),
@@ -258,7 +274,11 @@ class _HomeProfileState extends State<HomeProfile> {
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: LineChartWidget(
-                          heartRateList, heartRateTimeList, obTimeList, Constants.heartRateMinY, heartRateToolTipsList),
+                          heartRateList,
+                          heartRateTimeList,
+                          obTimeList,
+                          Constants.heartRateMinY,
+                          heartRateToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Systolic"),
@@ -267,7 +287,11 @@ class _HomeProfileState extends State<HomeProfile> {
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: LineChartWidget(
-                          systolicList, systolicTimeList, obTimeList, Constants.systolicMinY, systolicToolTipsList),
+                          systolicList,
+                          systolicTimeList,
+                          obTimeList,
+                          Constants.systolicMinY,
+                          systolicToolTipsList),
                     ),
                     BaseWidget.getPadding(25),
                     BaseWidget.getElevatedButton(() async {

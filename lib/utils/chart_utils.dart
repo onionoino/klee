@@ -9,13 +9,15 @@ import 'base_widget.dart';
 import 'constants.dart';
 
 class ChartUtils {
-  static LineTooltipItem getLineTooltipItem(
-      List<List<ToolTip>> toolTipsList, int showingTooltip, String peakVal, String peakValTime, double minY) {
-    String tipText = _getLineToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime, minY);
+  static LineTooltipItem getLineTooltipItem(List<List<ToolTip>> toolTipsList,
+      int showingTooltip, String peakVal, String peakValTime, double minY) {
+    String tipText = _getLineToolTipText(
+        toolTipsList[showingTooltip], peakVal, peakValTime, minY);
     return BaseWidget.getLineTooltipItem(tipText);
   }
 
-  static String _getLineToolTipText(List<ToolTip> toolTipList, String peakVal, String peakValTime, double minY) {
+  static String _getLineToolTipText(List<ToolTip> toolTipList, String peakVal,
+      String peakValTime, double minY) {
     String text = "$peakValTime - $peakVal";
     if (peakValTime == Constants.none || double.parse(peakVal) == minY) {
       text = "Null";
@@ -32,13 +34,15 @@ class ChartUtils {
     return text;
   }
 
-  static BarTooltipItem getBarTooltipItem(
-      List<List<ToolTip>> toolTipsList, int showingTooltip, String peakVal, String peakValTime) {
-    String tipText = _getBarToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime);
+  static BarTooltipItem getBarTooltipItem(List<List<ToolTip>> toolTipsList,
+      int showingTooltip, String peakVal, String peakValTime) {
+    String tipText =
+        _getBarToolTipText(toolTipsList[showingTooltip], peakVal, peakValTime);
     return BaseWidget.getBarTooltipItem(tipText);
   }
 
-  static String _getBarToolTipText(List<ToolTip> toolTipList, String peakVal, String peakValTime) {
+  static String _getBarToolTipText(
+      List<ToolTip> toolTipList, String peakVal, String peakValTime) {
     String text = "$peakValTime - $peakVal";
     if (peakValTime == Constants.none) {
       text = "Null";
@@ -178,17 +182,23 @@ class ChartUtils {
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
         chartPoint.isCoughMax = isCoughMax;
-        chartPoint.isCoughMaxTime = TimeUtils.convertHHmmToClock(isCoughMaxTime.substring(8, 12));
+        chartPoint.isCoughMaxTime =
+            TimeUtils.convertHHmmToClock(isCoughMaxTime.substring(8, 12));
         chartPoint.isSoreThroatMax = isSoreThroatMax;
-        chartPoint.isSoreThroatMaxTime = TimeUtils.convertHHmmToClock(isSoreThroatMaxTime.substring(8, 12));
+        chartPoint.isSoreThroatMaxTime =
+            TimeUtils.convertHHmmToClock(isSoreThroatMaxTime.substring(8, 12));
         chartPoint.temperatureMax = temperatureMax;
-        chartPoint.temperatureMaxTime = TimeUtils.convertHHmmToClock(temperatureMaxTime.substring(8, 12));
+        chartPoint.temperatureMaxTime =
+            TimeUtils.convertHHmmToClock(temperatureMaxTime.substring(8, 12));
         chartPoint.diastolicMax = diastolicMax;
-        chartPoint.diastolicMaxTime = TimeUtils.convertHHmmToClock(diastolicMaxTime.substring(8, 12));
+        chartPoint.diastolicMaxTime =
+            TimeUtils.convertHHmmToClock(diastolicMaxTime.substring(8, 12));
         chartPoint.heartRateMax = heartRateMax;
-        chartPoint.heartRateMaxTime = TimeUtils.convertHHmmToClock(heartRateMaxTime.substring(8, 12));
+        chartPoint.heartRateMaxTime =
+            TimeUtils.convertHHmmToClock(heartRateMaxTime.substring(8, 12));
         chartPoint.systolicMax = systolicMax;
-        chartPoint.systolicMaxTime = TimeUtils.convertHHmmToClock(systolicMaxTime.substring(8, 12));
+        chartPoint.systolicMaxTime =
+            TimeUtils.convertHHmmToClock(systolicMaxTime.substring(8, 12));
         chartPoint.otherIsCough = toolTipIsCough;
         chartPoint.otherIsSoreThroat = toolTipIsSoreThroat;
         chartPoint.otherTemperature = toolTipTemperature;

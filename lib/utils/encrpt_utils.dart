@@ -12,11 +12,13 @@ class EncryptUtils {
     return _client;
   }
 
-  static Future<bool> checkAndSet(Map authData, String encKeyText, String webId) async {
+  static Future<bool> checkAndSet(
+      Map authData, String encKeyText, String webId) async {
     try {
       _client ??= EncryptClient(authData, webId);
-      String encKey = sha256.convert(utf8.encode(encKeyText)).toString().substring(0, 32);
-      if(await _client!.checkEncSetup() == false) {
+      String encKey =
+          sha256.convert(utf8.encode(encKeyText)).toString().substring(0, 32);
+      if (await _client!.checkEncSetup() == false) {
         await _client?.setupEncKey(encKey);
         Global.encryptKey = encKey;
         return true;

@@ -15,13 +15,18 @@ class SolidUtils {
         continue;
       }
       if (line.contains(Constants.lastObTimeKey)) {
-        return line.split(" \"")[1].replaceAll("\".", "").replaceAll("\";", "").trim();
+        return line
+            .split(" \"")[1]
+            .replaceAll("\".", "")
+            .replaceAll("\";", "")
+            .trim();
       }
     }
     return null;
   }
 
-  static SurveyInfo parseSurveyFile(String content, EncryptClient encryptClient) {
+  static SurveyInfo parseSurveyFile(
+      String content, EncryptClient encryptClient) {
     SurveyInfo surveyInfo = SurveyInfo();
     List<String> lines = content.split("\n");
     for (int i = 0; i < lines.length; i++) {
@@ -33,32 +38,46 @@ class SolidUtils {
         continue;
       }
       if (line.contains(EncryptUtils.encode(Constants.q1Key, encryptClient)!)) {
-        surveyInfo.setIsCough(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
-      } else if (line.contains(EncryptUtils.encode(Constants.q2Key, encryptClient)!)) {
-        surveyInfo.setIsSoreThroat(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
-      } else if (line.contains(EncryptUtils.encode(Constants.q3Key, encryptClient)!)) {
-        surveyInfo.setTemperature(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
-      } else if (line.contains(EncryptUtils.encode(Constants.q4Key, encryptClient)!)) {
-        surveyInfo.setSystolic(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
-      } else if (line.contains(EncryptUtils.encode(Constants.q5Key, encryptClient)!)) {
-        surveyInfo.setDiastolic(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
-      } else if (line.contains(EncryptUtils.encode(Constants.q6Key, encryptClient)!)) {
-        surveyInfo.setHeartRate(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
-      } else if (line.contains(EncryptUtils.encode(Constants.obTimeKey, encryptClient)!)) {
-        surveyInfo.setObTime(
-            EncryptUtils.decode(val.replaceAll("\".", "").replaceAll("\";", "").trim(), encryptClient)!);
+        surveyInfo.setIsCough(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
+          .contains(EncryptUtils.encode(Constants.q2Key, encryptClient)!)) {
+        surveyInfo.setIsSoreThroat(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
+          .contains(EncryptUtils.encode(Constants.q3Key, encryptClient)!)) {
+        surveyInfo.setTemperature(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
+          .contains(EncryptUtils.encode(Constants.q4Key, encryptClient)!)) {
+        surveyInfo.setSystolic(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
+          .contains(EncryptUtils.encode(Constants.q5Key, encryptClient)!)) {
+        surveyInfo.setDiastolic(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
+          .contains(EncryptUtils.encode(Constants.q6Key, encryptClient)!)) {
+        surveyInfo.setHeartRate(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
+          .contains(EncryptUtils.encode(Constants.obTimeKey, encryptClient)!)) {
+        surveyInfo.setObTime(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
       }
     }
     return surveyInfo;
   }
 
-  static List<String> getSurveyFileNameList(String content, String webId, int num) {
+  static List<String> getSurveyFileNameList(
+      String content, String webId, int num) {
     List<String> nameList = [];
     if (_isSolidCommunityHost(webId)) {
       // solid community needs to be parsed differently
@@ -91,7 +110,8 @@ class SolidUtils {
   /// @param name - specific container name of being checked
   /// @return isExist - TRUE means it exists, FALSE means not
   static bool isContainerExist(String content, String name) {
-    return content.contains("$name/") || content.contains("@prefix $name: </$name/>.");
+    return content.contains("$name/") ||
+        content.contains("@prefix $name: </$name/>.");
   }
 
   /// check if the file the app need to use is already exist, if it is, no need to create
@@ -109,11 +129,13 @@ class SolidUtils {
   /// @return parsedAuthData - a <String, dynamic> map that contains necessary data parsed from the original authentication data
   static Map<String, dynamic> parseAuthData(Map<dynamic, dynamic>? authData) {
     String accessToken = authData![Constants.accessToken];
-    String webId = JwtDecoder.decode(accessToken)[Constants.webId.toLowerCase()];
+    String webId =
+        JwtDecoder.decode(accessToken)[Constants.webId.toLowerCase()];
     String podURI = webId.substring(0, webId.length - 15);
     String containerURI = podURI + Constants.relativeContainerURI;
     String geoContainerURI = containerURI + Constants.relativeGeoContainerURI;
-    String surveyContainerURI = containerURI + Constants.relativeSurveyContainerURI;
+    String surveyContainerURI =
+        containerURI + Constants.relativeSurveyContainerURI;
     dynamic rsa = authData[Constants.rsaInfo][Constants.rsa];
     dynamic pubKeyJwk = authData[Constants.rsaInfo][Constants.pubKeyJwk];
     return <String, dynamic>{
@@ -138,8 +160,8 @@ class SolidUtils {
   ///                     a previous value in this query, otherwise will receive a 409 (conflict)
   ///                     error status code
   /// @return sparqlQuery - a sparql query in string format
-  static String genSparqlQuery(
-      String action, String subject, String predicate, String object, String? prevObject) {
+  static String genSparqlQuery(String action, String subject, String predicate,
+      String object, String? prevObject) {
     String query;
     switch (action) {
       case Constants.insert:
@@ -170,7 +192,8 @@ class SolidUtils {
   ///        curRecordFileName - the record-file-name at this time
   ///        webId - user's webId
   /// @return curRecordFileURI - generated record-file-URI at this time
-  static String genCurRecordFileURI(String todayContainerURI, String curRecordFileName, String webId) {
+  static String genCurRecordFileURI(
+      String todayContainerURI, String curRecordFileName, String webId) {
     if (_isSolidCommunityHost(webId)) {
       return todayContainerURI + curRecordFileName + Constants.ttlSuffix;
     } else {
