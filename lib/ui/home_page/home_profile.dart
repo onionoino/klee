@@ -255,6 +255,19 @@ class _HomeProfileState extends State<HomeProfile> {
                           temperatureToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
+                    BaseWidget.getQuestionText("Systolic"),
+                    BaseWidget.getPadding(5),
+                    SizedBox(
+                      height: 150,
+                      width: MediaQuery.of(context).size.width,
+                      child: LineChartWidget(
+                          systolicList,
+                          systolicTimeList,
+                          obTimeList,
+                          Constants.systolicMinY,
+                          systolicToolTipsList),
+                    ),
+                    BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Diastolic"),
                     BaseWidget.getPadding(5),
                     SizedBox(
@@ -279,19 +292,6 @@ class _HomeProfileState extends State<HomeProfile> {
                           obTimeList,
                           Constants.heartRateMinY,
                           heartRateToolTipsList),
-                    ),
-                    BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Systolic"),
-                    BaseWidget.getPadding(5),
-                    SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
-                          systolicList,
-                          systolicTimeList,
-                          obTimeList,
-                          Constants.systolicMinY,
-                          systolicToolTipsList),
                     ),
                     BaseWidget.getPadding(25),
                     BaseWidget.getElevatedButton(() async {
