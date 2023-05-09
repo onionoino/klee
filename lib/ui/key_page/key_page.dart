@@ -31,8 +31,12 @@ class _KeyPageState extends State<KeyPage> {
         child: Column(
           children: <Widget>[
             BaseWidget.getPadding(15.0),
-            BaseWidget.getTitleText(
-                """For your privacy, please enter your encryption key first, if you haven't had a key yet, Klee Compass will help you create a new key for later identity verification."""),
+            Container(
+              alignment: Alignment.topCenter,
+              width: MediaQuery.of(context).size.width - 30,
+              child: BaseWidget.getTitleText(
+                  """For your privacy, please enter your encryption key first, if you haven't had a key yet, Klee Compass will help you create a new key for later identity verification."""),
+            ),
             BaseWidget.getPadding(2.5),
             RawKeyboardListener(
               focusNode: FocusNode(),

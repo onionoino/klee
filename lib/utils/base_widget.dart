@@ -120,7 +120,7 @@ class BaseWidget {
       text,
       textAlign: TextAlign.justify,
       style: const TextStyle(
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: "KleeOne",
         fontWeight: FontWeight.bold,
       ),
@@ -139,14 +139,18 @@ class BaseWidget {
     );
   }
 
-  static Text getInstructionText(String text, double width, double padding) {
-    return Text(
-      text,
-      textAlign: TextAlign.justify,
-      style: const TextStyle(
-        fontSize: 18,
-        fontFamily: "KleeOne",
-        fontWeight: FontWeight.bold,
+  static Container getInstructionTextContainer(String text, double width, double padding) {
+    return Container(
+      alignment: Alignment.topCenter,
+      width: width,
+      child: Text(
+        text,
+        textAlign: TextAlign.justify,
+        style: const TextStyle(
+          fontSize: 18,
+          fontFamily: "KleeOne",
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
