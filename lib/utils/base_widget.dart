@@ -139,7 +139,8 @@ class BaseWidget {
     );
   }
 
-  static Container getInstructionTextContainer(String text, double width, double padding) {
+  static Container getInstructionTextContainer(
+      String text, double width, double padding) {
     return Container(
       alignment: Alignment.topCenter,
       width: width,
