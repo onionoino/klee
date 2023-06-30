@@ -5,20 +5,20 @@ import 'package:common_utils/common_utils.dart';
 import 'package:current_location/current_location.dart';
 import 'package:current_location/model/location.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:klee/model/geo_info.dart';
-import 'package:klee/utils/constants.dart';
-import 'package:klee/utils/device_file_utils.dart';
-import 'package:klee/utils/geo_utils.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:workmanager/workmanager.dart';
 
-import '../../service/home_page_service.dart';
-import '../../utils/base_widget.dart';
-import '../../utils/global.dart';
+import 'package:klee/model/geo_info.dart';
+import 'package:klee/service/home_page_service.dart';
+import 'package:klee/utils/base_widget.dart';
+import 'package:klee/utils/constants.dart';
+import 'package:klee/utils/device_file_utils.dart';
+import 'package:klee/utils/geo_utils.dart';
+import 'package:klee/utils/global.dart';
 
-/// dispatch background tasks
+/// Dispatch background tasks.
 /// @return void
 @pragma('vm:entry-point')
 void callbackDispatcher() {
@@ -33,7 +33,8 @@ void callbackDispatcher() {
   });
 }
 
-/// the view layer of open street map widget in home page
+/// Create the view layer of an open street map widget in the home page.
+
 class HomeOSM extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
 
@@ -144,10 +145,21 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
           },
         ),
         nonRotatedChildren: [
-          AttributionWidget.defaultWidget(
-            source: 'OpenStreetMap',
-            onSourceTapped: null,
-          ),
+          // 20230630 gjw The following results in
+          //
+          // ERROR: lib/ui/home_page/home_osm.dart:147:11: Error: The getter 'AttributionWidget' isn't defined for the class '_HomeOSMState'.
+          // ERROR:  - '_HomeOSMState' is from 'package:klee/ui/home_page/home_osm.dart' ('lib/ui/home_page/home_osm.dart').
+          // ERROR: Try correcting the name to the name of an existing getter, or defining a getter or field named 'AttributionWidget'.
+          // ERROR:           AttributionWidget.defaultWidget(
+          // ERROR:           ^^^^^^^^^^^^^^^^^
+          // ERROR: Target kernel_snapshot failed: Exception
+          //
+          // What is the purpose of this code? Seems to work when commented out.
+          //
+          // AttributionWidget.defaultWidget(
+          //   source: 'OpenStreetMap',
+          //   onSourceTapped: null,
+          // ),
           Container(
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
