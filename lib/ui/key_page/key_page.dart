@@ -26,7 +26,7 @@ class _KeyPageState extends State<KeyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee Compass"),
+      appBar: BaseWidget.getAppBar("SecureDiaLog"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

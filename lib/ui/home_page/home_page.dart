@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee Compass"),
+      appBar: BaseWidget.getAppBar("SecureDiaLog"),
       body: IndexedStack(
         index: curWidgetIdx,
         children: widgetList,

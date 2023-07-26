@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee Compass"),
+      appBar: BaseWidget.getAppBar("SecureDiaLog"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
