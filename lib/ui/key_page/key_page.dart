@@ -22,6 +22,8 @@ class _KeyPageState extends State<KeyPage> {
   TextEditingController encKeyController = TextEditingController();
   final KeyPageService keyPageService = KeyPageService();
   final HomePageService homePageService = HomePageService();
+  bool isIconVisible = false;
+  bool hidePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _KeyPageState extends State<KeyPage> {
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width - 30,
               child: BaseWidget.getTitleText(
-                  """For your privacy, please enter your encryption key first, if you haven't had a key yet, Klee Compass will help you create a new key for later identity verification."""),
+                  """For your privacy, please enter your encryption key first, if you haven't had a key yet, SecureDiaLog will help you create a new key for later identity verification."""),
             ),
             BaseWidget.getPadding(2.5),
             RawKeyboardListener(
@@ -68,11 +70,28 @@ class _KeyPageState extends State<KeyPage> {
               },
               child: TextField(
                 controller: encKeyController,
+                onChanged: (value) {
+                  //try this
+                  value.isNotEmpty ? setState(() => isIconVisible = true) : setState(() => isIconVisible = false);
+                  //or
+                  setState(() => value.isNotEmpty ? isIconVisible = true : isIconVisible = false);
+                  //the result is the same it's just a shortcode
+                },
+                obscureText: hidePassword,
                 style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                 textAlign: TextAlign.center,
                 autofocus: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Your Enc-Key",
+                  suffixIcon:  isIconVisible ? IconButton(
+                    onPressed: (){
+                      setState(() => hidePassword = !hidePassword);
+                    },
+                    icon:  Icon(
+                      hidePassword ?
+                      Icons.visibility_off : Icons.visibility,
+                    ),
+                  ) : null,
                 ),
                 onSubmitted: (value) async {
                   if (await keyPageService.checkAndSetEncKey(
