@@ -10,6 +10,7 @@ import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
 import '../login_page/login_page.dart';
 import 'home_charts/bar_chart_widget.dart';
+import 'home_charts/group_chart_widget.dart';
 import 'home_charts/line_chart_widget.dart';
 
 /// the view layer of profile widget in home page
@@ -260,7 +261,7 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
+                      child: GroupChartWidget(
                           systolicList,
                           systolicTimeList,
                           obTimeList,
