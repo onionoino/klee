@@ -186,7 +186,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
                   });
                 }
               },
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.teal,
               child: const Icon(
                 Icons.gps_fixed,
                 color: Colors.white,
@@ -212,7 +212,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
                   });
                 }
               },
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.teal,
               child: const Icon(
                 Icons.add_circle_outline,
                 color: Colors.white,
@@ -238,7 +238,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
                   });
                 }
               },
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.teal,
               child: const Icon(
                 Icons.remove_circle_outline,
                 color: Colors.white,

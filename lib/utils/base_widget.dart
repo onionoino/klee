@@ -7,7 +7,7 @@ class BaseWidget {
     return BottomNavigationBarItem(
       icon: Icon(icon, color: Colors.white),
       label: label,
-      backgroundColor: Color(int.parse("e74c3c", radix: 16) | 0xFF000000),
+      backgroundColor: Colors.teal,
     );
   }
 
@@ -17,6 +17,7 @@ class BaseWidget {
       titleTextStyle: const TextStyle(fontSize: 25, fontFamily: "KleeOne"),
       elevation: 2.5,
       centerTitle: true,
+      backgroundColor: Colors.teal,
     );
   }
 
@@ -102,6 +103,7 @@ class BaseWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: Size(width, height),
         textStyle: const TextStyle(fontSize: 25, fontFamily: "KleeOne"),
+        backgroundColor: Colors.teal,
       ),
       child: Text(label),
     );

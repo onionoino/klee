@@ -1,20 +1,21 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:klee/extensions/color_extensions.dart';
 import 'package:klee/utils/chart_utils.dart';
 
 import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GroupChartWidget extends StatefulWidget {
   final List<double> yList;
+  final List<double> yList2;
   final List<String> timeList;
   final List<String> xList;
   final double minY;
   final List<List<ToolTip>> toolTipsList;
 
   const GroupChartWidget(
-      this.yList, this.timeList, this.xList, this.minY, this.toolTipsList,
+      this.yList, this.yList2, this.timeList, this.xList, this.minY, this.toolTipsList,
       {Key? key})
       : super(key: key);
 
@@ -23,205 +24,101 @@ class GroupChartWidget extends StatefulWidget {
 }
 
 class _GroupChartWidgetState extends State<GroupChartWidget> {
-  final Color gradientColor1 = Colors.blue;
-  final Color gradientColor2 = Colors.pink;
-  final Color gradientColor3 = Colors.red;
-  final Color indicatorStrokeColor = Colors.black;
-
-
   late int showingTooltip;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     showingTooltip = -1;
-    super.initState();
-  }
-
-  List<int> get showIndexes => List.generate(Constants.lineNumber, (index) => index);
-
-  Widget bottomTitleWidgets(double value, TitleMeta meta, double chartWidth) {
-    final style = TextStyle(
-      fontWeight: FontWeight.bold,
+    int index = widget.timeList.length - 1;
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
       color: Colors.pink,
-      fontFamily: 'Digital',
-      fontSize: 18 * chartWidth / 500,
+      header: widget.timeList[index],
+      textStyle: TextStyle(color: Colors.white),
+      format: 'Systolic: point.high\nDiastolic: point.low',
     );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = widget.xList[0];
-        break;
-      case 1:
-        text = widget.xList[1];
-        break;
-      case 2:
-        text = widget.xList[2];
-        break;
-      case 3:
-        text = widget.xList[3];
-        break;
-      case 4:
-        text = widget.xList[4];
-        break;
-      case 5:
-        text = widget.xList[5];
-        break;
-      case 6:
-        text = widget.xList[6];
-        break;
-      default:
-        text = Constants.defaultObTime;
-        break;
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(text, style: style),
-    );
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final barChartGroups = List<BarChartGroupData>.generate(
-      Constants.lineNumber,
-          (index) => BarChartGroupData(
-        x: index,
-        barRods: [
-          BarChartRodData(
-            toY: widget.yList[index],
-            gradient: LinearGradient(
-              colors: [
-                gradientColor1,
-                gradientColor2,
-                gradientColor3
-              ],
-              stops: const [0.1, 0.4, 0.9],
-            ),
-          )
-        ],
-        showingTooltipIndicators: [0],
-      ),
-    );
+    final chartData = _getChartData();
 
+    if (chartData.isEmpty) {
+      // No data to display
+      return Center(
+        child: Text('No data available.'),
+      );
+    }
 
     return AspectRatio(
       aspectRatio: 2.5,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 24.0,
+          horizontal: 0.0,
           vertical: 10,
         ),
-        child: LayoutBuilder(builder: (context, constraints) {
-          return BarChart(
-            BarChartData(
-              barTouchData: barTouchData,
-              titlesData: titlesData,
-              barGroups: barChartGroups,
-              gridData: FlGridData(show: false),
-              alignment: BarChartAlignment.spaceAround,
-              minY: widget.minY,
+        child: SfCartesianChart(
+          tooltipBehavior: _tooltipBehavior,
+          primaryXAxis: CategoryAxis(
+            labelStyle: TextStyle(
+              color: Colors.pink,
+              fontWeight: FontWeight.bold,
             ),
-          );
-        }),
+            edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
+            majorGridLines: MajorGridLines(width: 0)
+          ),
+          primaryYAxis: NumericAxis(
+            minimum: widget.minY,
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              majorGridLines: MajorGridLines(width: 0)
+          ),
+          series: <ChartSeries>[
+            RangeColumnSeries<_ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (_ChartData data, _) => data.x,
+              lowValueMapper: (_ChartData data, _) => data.y1,
+              highValueMapper: (_ChartData data, _) => data.y2,
+              gradient: LinearGradient(
+                colors: [
+                  Colors.blue.darken(20),
+                  Colors.cyan,
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  BarTouchData get barTouchData => BarTouchData(
-    enabled: true,
-    handleBuiltInTouches: false,
-    touchCallback: (event, response) {
-      if (response != null &&
-          response.spot != null &&
-          event is FlTapUpEvent) {
-        setState(() {
-          final x = response.spot!.touchedBarGroup.x;
-          final isShowing = showingTooltip == x;
-          if (isShowing) {
-            showingTooltip = -1;
-          } else {
-            showingTooltip = x;
-          }
-        });
+  List<_ChartData> _getChartData() {
+    final List<_ChartData> chartData = [];
+
+    for (int i = 0; i < Constants.lineNumber; i++) {
+      final y1 = widget.yList[i];
+      final y2 = widget.yList2[i];
+      final x = widget.xList[i];
+
+      if (y1 != null && y2 != null) {
+        chartData.add(_ChartData(x, y1, y2));
       }
-    },
-    touchTooltipData: BarTouchTooltipData(
-      tooltipBgColor: Colors.pink,
-      tooltipPadding: const EdgeInsets.all(2),
-      tooltipMargin: 5,
-      getTooltipItem: (
-          BarChartGroupData group,
-          int groupIndex,
-          BarChartRodData rod,
-          int rodIndex,
-          ) {
-        return ChartUtils.getBarTooltipItem(widget.toolTipsList, showingTooltip, rod.toY.toString(), widget.timeList[showingTooltip]);
-        // return BarTooltipItem(rod.toY.toString(), TextStyle(color: Colors.white));
-      },
-    ),
-    mouseCursorResolver: (event, response) {
-      return response == null || response.spot == null
-          ? MouseCursor.defer
-          : SystemMouseCursors.click;
-    });
-
-  Widget getTitles(double value, TitleMeta meta) {
-    final style = TextStyle(
-      color: Colors.blue.darken(20),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text = "";
-    switch (value.toInt()) {
-      case 0:
-        text = widget.xList[0];
-        break;
-      case 1:
-        text = widget.xList[1];
-        break;
-      case 2:
-        text = widget.xList[2];
-        break;
-      case 3:
-        text = widget.xList[3];
-        break;
-      case 4:
-        text = widget.xList[4];
-        break;
-      case 5:
-        text = widget.xList[5];
-        break;
-      case 6:
-        text = widget.xList[6];
-        break;
-      default:
-        text = Constants.defaultObTime;
-        break;
     }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 4,
-      child: Text(text, style: style),
-    );
+    return chartData;
   }
-
-  FlTitlesData get titlesData => FlTitlesData(
-    show: true,
-    bottomTitles: AxisTitles(
-      sideTitles: SideTitles(
-        showTitles: true,
-        reservedSize: 30,
-        getTitlesWidget: getTitles,
-      ),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-  );
 }
+
+class _ChartData {
+  _ChartData(this.x, this.y1, this.y2);
+
+  final String x;
+  final double y1;
+  final double y2;
+}
+

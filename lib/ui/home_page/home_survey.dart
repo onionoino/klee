@@ -49,7 +49,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   child: RadioListTile<String>(
                     value: "No",
                     title: BaseWidget.getRadioBoxAnswerText("0"),
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     groupValue: q1Answer,
                     onChanged: (value) {
                       setState(() {
@@ -63,7 +63,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     value: "Mild",
                     title: BaseWidget.getRadioBoxAnswerText("1"),
                     groupValue: q1Answer,
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     onChanged: (value) {
                       setState(() {
                         q1Answer = value;
@@ -76,7 +76,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     value: "Moderate",
                     title: BaseWidget.getRadioBoxAnswerText("2"),
                     groupValue: q1Answer,
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     onChanged: (value) {
                       setState(() {
                         q1Answer = value;
@@ -89,7 +89,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     value: "Severe",
                     title: BaseWidget.getRadioBoxAnswerText("3"),
                     groupValue: q1Answer,
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     onChanged: (value) {
                       setState(() {
                         q1Answer = value;
@@ -109,7 +109,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   child: RadioListTile<String>(
                     value: "No",
                     title: BaseWidget.getRadioBoxAnswerText("0"),
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     groupValue: q2Answer,
                     onChanged: (value) {
                       setState(() {
@@ -123,7 +123,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     value: "Mild",
                     title: BaseWidget.getRadioBoxAnswerText("1"),
                     groupValue: q2Answer,
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     onChanged: (value) {
                       setState(() {
                         q2Answer = value;
@@ -136,7 +136,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     value: "Moderate",
                     title: BaseWidget.getRadioBoxAnswerText("2"),
                     groupValue: q2Answer,
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     onChanged: (value) {
                       setState(() {
                         q2Answer = value;
@@ -149,7 +149,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     value: "Severe",
                     title: BaseWidget.getRadioBoxAnswerText("3"),
                     groupValue: q2Answer,
-                    activeColor: Colors.red,
+                    activeColor: Colors.teal,
                     onChanged: (value) {
                       setState(() {
                         q2Answer = value;

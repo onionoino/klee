@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-      backgroundColor: Color(int.parse("fadbd8", radix: 16) | 0xFF000000),
+      backgroundColor: Colors.orange[50],
     );
   }
 }
