@@ -8,6 +8,8 @@ import '../../utils/constants.dart';
 import '../../utils/global.dart';
 import '../home_page/home_page.dart';
 import '../login_page/login_page.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class KeyPage extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
@@ -24,6 +26,37 @@ class _KeyPageState extends State<KeyPage> {
   final HomePageService homePageService = HomePageService();
   bool isIconVisible = false;
   bool hidePassword = true;
+
+  // Inside your recoverKey function
+  Future<void> recoverKey() async {
+    final smtpServer = gmail('your.email@gmail.com', 'your.password');
+
+    final message = Message()
+      ..from = Address('your.email@gmail.com', 'Your Name')
+      ..recipients.add('user@example.com') // User's email
+      ..subject = 'Key Recovery'
+      ..text = 'Your recovery key: <Insert Recovery Key Here>';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ${sendReport.toString()}');
+    } catch (e) {
+      print('Error sending email: $e');
+    }
+
+    // Placeholder logic: Show a message to the user
+    showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return BaseWidget.getNoticeDialog(
+          context,
+          "Recover Key",
+          "An email has been sent to recover your key.",
+          "OK",
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +194,13 @@ class _KeyPageState extends State<KeyPage> {
                 return const LoginPage();
               }));
             }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+
+            // Button to trigger key recovery
+            BaseWidget.getPadding(15),
+            BaseWidget.getElevatedButton(() async {
+              await recoverKey();
+            }, "Recover Key", MediaQuery.of(context).size.width / 1.25, 50),
+
             BaseWidget.getPadding(150),
           ],
         ),
