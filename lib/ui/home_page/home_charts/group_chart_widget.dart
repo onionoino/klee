@@ -6,6 +6,8 @@ import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../utils/time_utils.dart';
+
 class GroupChartWidget extends StatefulWidget {
   final List<double> yList;
   final List<double> yList2;
@@ -13,9 +15,10 @@ class GroupChartWidget extends StatefulWidget {
   final List<String> xList;
   final double minY;
   final List<List<ToolTip>> toolTipsList;
+  final List<List<ToolTip>> toolTipsList2;
 
   const GroupChartWidget(
-      this.yList, this.yList2, this.timeList, this.xList, this.minY, this.toolTipsList,
+      this.yList, this.yList2, this.timeList, this.xList, this.minY, this.toolTipsList, this.toolTipsList2,
       {Key? key})
       : super(key: key);
 
@@ -32,14 +35,56 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
     showingTooltip = -1;
     int index = widget.timeList.length - 1;
     _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      color: Colors.pink,
-      header: widget.timeList[index],
-      textStyle: TextStyle(color: Colors.white),
-      format: 'Systolic: point.high\nDiastolic: point.low',
+        activationMode: ActivationMode.singleTap,
+        enable: true,
+        color: Colors.pink,
+        header: widget.timeList[index],
+        textStyle: TextStyle(color: Colors.white),
+        builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+          print("Tooltip builder called");
+          // Extracting the primary data
+          String systolic = data.y1.toString();
+          String diastolic = data.y2.toString();
+          String time = widget.timeList[pointIndex];
+
+          // Using logic similar to getLineTooltipItem to build the tooltip string
+          String toolTipText = "$time\nSystolic: $systolic\nDiastolic: $diastolic";
+
+          if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
+            toolTipText += "\n--------------\nSystolic updating:";
+            for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
+              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+              toolTipText += additionalText;
+            }
+
+          }
+
+          if (widget.toolTipsList2.isNotEmpty && widget.toolTipsList2[pointIndex].isNotEmpty) {
+            toolTipText += "\n--------------\nDiastolic updating:";
+            for (ToolTip toolTip in widget.toolTipsList2[pointIndex]) {
+              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+              toolTipText += additionalText;
+            }
+          }
+
+
+          return Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.pink,
+              borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
+            ),
+            child: SingleChildScrollView(
+              child: Text(toolTipText, style: TextStyle(color: Colors.white)),
+            ),
+          );
+        }
+
     );
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +123,8 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
           ),
           series: <ChartSeries>[
             RangeColumnSeries<_ChartData, String>(
+              width: 0.3,
+              enableTooltip: true,
               dataSource: chartData,
               xValueMapper: (_ChartData data, _) => data.x,
               lowValueMapper: (_ChartData data, _) => data.y1,

@@ -109,6 +109,7 @@ class _HomeProfileState extends State<HomeProfile> {
                 List<double> systolicList = [];
                 List<String> systolicTimeList = [];
                 List<String> obTimeList = [];
+                List<String> timeList = [];
                 List<List<ToolTip>> isCoughToolTipsList = [];
                 List<List<ToolTip>> isSoreThroatToolTipsList = [];
                 List<List<ToolTip>> temperatureToolTipsList = [];
@@ -192,6 +193,7 @@ class _HomeProfileState extends State<HomeProfile> {
                   systolicTimeList.add(charPoint.systolicMaxTime);
                   obTimeList
                       .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
+                  timeList.add(charPoint.obTimeDay);
                   isCoughToolTipsList.add(charPoint.otherIsCough);
                   isSoreThroatToolTipsList.add(charPoint.otherIsSoreThroat);
                   temperatureToolTipsList.add(charPoint.otherTemperature);
@@ -267,7 +269,8 @@ class _HomeProfileState extends State<HomeProfile> {
                           systolicTimeList,
                           obTimeList,
                           Constants.systolicMinY,
-                          systolicToolTipsList),
+                          systolicToolTipsList,
+                          diastolicToolTipsList),
                     ),
                     // BaseWidget.getPadding(15),
                     // BaseWidget.getQuestionText("Diastolic"),
@@ -278,7 +281,7 @@ class _HomeProfileState extends State<HomeProfile> {
                     //   child: LineChartWidget(
                     //       diastolicList,
                     //       diastolicTimeList,
-                    //       obTimeList,
+                    //       timeList,
                     //       Constants.diastolicMinY,
                     //       diastolicToolTipsList),
                     // ),

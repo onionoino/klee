@@ -27,36 +27,36 @@ class _KeyPageState extends State<KeyPage> {
   bool isIconVisible = false;
   bool hidePassword = true;
 
-  // Inside your recoverKey function
-  Future<void> recoverKey() async {
-    final smtpServer = gmail('your.email@gmail.com', 'your.password');
-
-    final message = Message()
-      ..from = Address('your.email@gmail.com', 'Your Name')
-      ..recipients.add('user@example.com') // User's email
-      ..subject = 'Key Recovery'
-      ..text = 'Your recovery key: <Insert Recovery Key Here>';
-
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ${sendReport.toString()}');
-    } catch (e) {
-      print('Error sending email: $e');
-    }
-
-    // Placeholder logic: Show a message to the user
-    showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return BaseWidget.getNoticeDialog(
-          context,
-          "Recover Key",
-          "An email has been sent to recover your key.",
-          "OK",
-        );
-      },
-    );
-  }
+  // // Inside your recoverKey function
+  // Future<void> recoverKey() async {
+  //   final smtpServer = gmail('your.email@gmail.com', 'your.password');
+  //
+  //   final message = Message()
+  //     ..from = Address('your.email@gmail.com', 'Your Name')
+  //     ..recipients.add('user@example.com') // User's email
+  //     ..subject = 'Key Recovery'
+  //     ..text = 'Your recovery key: <Insert Recovery Key Here>';
+  //
+  //   try {
+  //     final sendReport = await send(message, smtpServer);
+  //     print('Message sent: ${sendReport.toString()}');
+  //   } catch (e) {
+  //     print('Error sending email: $e');
+  //   }
+  //
+  //   // Placeholder logic: Show a message to the user
+  //   showDialog<bool>(
+  //     context: context,
+  //     builder: (context) {
+  //       return BaseWidget.getNoticeDialog(
+  //         context,
+  //         "Recover Key",
+  //         "An email has been sent to recover your key.",
+  //         "OK",
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -195,11 +195,11 @@ class _KeyPageState extends State<KeyPage> {
               }));
             }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
 
-            // Button to trigger key recovery
-            BaseWidget.getPadding(15),
-            BaseWidget.getElevatedButton(() async {
-              await recoverKey();
-            }, "Recover Key", MediaQuery.of(context).size.width / 1.25, 50),
+            // // Button to trigger key recovery
+            // BaseWidget.getPadding(15),
+            // BaseWidget.getElevatedButton(() async {
+            //   await recoverKey();
+            // }, "Recover Key", MediaQuery.of(context).size.width / 1.25, 50),
 
             BaseWidget.getPadding(150),
           ],
