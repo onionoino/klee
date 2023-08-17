@@ -96,25 +96,25 @@ class _HomeProfileState extends State<HomeProfile> {
                 );
               } else {
                 // request success
-                List<double> isCoughList = [];
-                List<String> isCoughTimeList = [];
-                List<double> isSoreThroatList = [];
-                List<String> isSoreThroatTimeList = [];
-                List<double> temperatureList = [];
-                List<String> temperatureTimeList = [];
+                List<double> strengthList = [];
+                List<String> strengthTimeList = [];
+                List<double> fastingList = [];
+                List<String> fastingTimeList = [];
+                List<double> postprandialList = [];
+                List<String> postprandialTimeList = [];
                 List<double> diastolicList = [];
                 List<String> diastolicTimeList = [];
-                List<double> heartRateList = [];
-                List<String> heartRateTimeList = [];
+                List<double> weightList = [];
+                List<String> weightTimeList = [];
                 List<double> systolicList = [];
                 List<String> systolicTimeList = [];
                 List<String> obTimeList = [];
                 List<String> timeList = [];
-                List<List<ToolTip>> isCoughToolTipsList = [];
-                List<List<ToolTip>> isSoreThroatToolTipsList = [];
-                List<List<ToolTip>> temperatureToolTipsList = [];
+                List<List<ToolTip>> strengthToolTipsList = [];
+                List<List<ToolTip>> fastingToolTipsList = [];
+                List<List<ToolTip>> postprandialToolTipsList = [];
                 List<List<ToolTip>> diastolicToolTipsList = [];
-                List<List<ToolTip>> heartRateToolTipsList = [];
+                List<List<ToolTip>> weightToolTipsList = [];
                 List<List<ToolTip>> systolicToolTipsList = [];
                 List<SurveyDayInfo>? surveyDayInfoList = snapshot.data;
                 if (surveyDayInfoList == null) {
@@ -179,26 +179,26 @@ class _HomeProfileState extends State<HomeProfile> {
                 List<ChartPoint> chartPointList = ChartUtils.parseToChart(
                     surveyDayInfoList, Constants.barNumber);
                 for (ChartPoint charPoint in chartPointList) {
-                  isCoughList.add(charPoint.isCoughMax);
-                  isCoughTimeList.add(charPoint.isCoughMaxTime);
-                  isSoreThroatList.add(charPoint.isSoreThroatMax);
-                  isSoreThroatTimeList.add(charPoint.isSoreThroatMaxTime);
-                  temperatureList.add(charPoint.temperatureMax);
-                  temperatureTimeList.add(charPoint.temperatureMaxTime);
+                  strengthList.add(charPoint.strengthMax);
+                  strengthTimeList.add(charPoint.strengthMaxTime);
+                  fastingList.add(charPoint.fastingMax);
+                  fastingTimeList.add(charPoint.fastingMaxTime);
+                  postprandialList.add(charPoint.postprandialMax);
+                  postprandialTimeList.add(charPoint.postprandialMaxTime);
                   diastolicList.add(charPoint.diastolicMax);
                   diastolicTimeList.add(charPoint.diastolicMaxTime);
-                  heartRateList.add(charPoint.heartRateMax);
-                  heartRateTimeList.add(charPoint.heartRateMaxTime);
+                  weightList.add(charPoint.weightMax);
+                  weightTimeList.add(charPoint.weightMaxTime);
                   systolicList.add(charPoint.systolicMax);
                   systolicTimeList.add(charPoint.systolicMaxTime);
                   obTimeList
                       .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
                   timeList.add(charPoint.obTimeDay);
-                  isCoughToolTipsList.add(charPoint.otherIsCough);
-                  isSoreThroatToolTipsList.add(charPoint.otherIsSoreThroat);
-                  temperatureToolTipsList.add(charPoint.otherTemperature);
+                  strengthToolTipsList.add(charPoint.otherStrength);
+                  fastingToolTipsList.add(charPoint.otherFasting);
+                  postprandialToolTipsList.add(charPoint.otherPostprandial);
                   diastolicToolTipsList.add(charPoint.otherDiastolic);
-                  heartRateToolTipsList.add(charPoint.otherHeartRate);
+                  weightToolTipsList.add(charPoint.otherWeight);
                   systolicToolTipsList.add(charPoint.otherSystolic);
                 }
                 return Column(
@@ -220,42 +220,42 @@ class _HomeProfileState extends State<HomeProfile> {
                       ),
                     ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Is Cough"),
+                    BaseWidget.getQuestionText("Lacking in Strength Check"),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: BarChartWidget(
-                          isCoughList,
-                          isCoughTimeList,
+                          strengthList,
+                          strengthTimeList,
                           obTimeList,
                           Constants.optionMaxY,
-                          isCoughToolTipsList),
+                          strengthToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Is Sore Throat"),
-                    BaseWidget.getPadding(5),
-                    SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(
-                          isSoreThroatList,
-                          isSoreThroatTimeList,
-                          obTimeList,
-                          Constants.optionMaxY,
-                          isSoreThroatToolTipsList),
-                    ),
-                    BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Temperature"),
+                    BaseWidget.getQuestionText("Fasting Blood Glucose"),
                     BaseWidget.getPadding(5),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: LineChartWidget(
-                          temperatureList,
-                          temperatureTimeList,
+                          fastingList,
+                          fastingTimeList,
                           obTimeList,
-                          Constants.temperatureMinY,
-                          temperatureToolTipsList),
+                          Constants.fastingMinY,
+                          fastingToolTipsList),
+                    ),
+                    BaseWidget.getPadding(15),
+                    BaseWidget.getQuestionText("Postprandial Blood Glucose"),
+                    BaseWidget.getPadding(5),
+                    SizedBox(
+                      height: 150,
+                      width: MediaQuery.of(context).size.width,
+                      child: LineChartWidget(
+                          postprandialList,
+                          postprandialTimeList,
+                          obTimeList,
+                          Constants.postprandialMinY,
+                          postprandialToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
                     BaseWidget.getQuestionText("Systolic & Diastolic"),
@@ -286,17 +286,17 @@ class _HomeProfileState extends State<HomeProfile> {
                     //       diastolicToolTipsList),
                     // ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Heart Rate"),
+                    BaseWidget.getQuestionText("Weight"),
                     BaseWidget.getPadding(5),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
                       child: LineChartWidget(
-                          heartRateList,
-                          heartRateTimeList,
+                          weightList,
+                          weightTimeList,
                           obTimeList,
-                          Constants.heartRateMinY,
-                          heartRateToolTipsList),
+                          Constants.weightMinY,
+                          weightToolTipsList),
                     ),
                     BaseWidget.getPadding(25),
                     BaseWidget.getElevatedButton(() async {

@@ -67,7 +67,7 @@ class NotifyUtils {
         content: NotificationContent(
           id: id,
           channelKey: "basic_channel",
-          title: "klee Compass",
+          title: "SecureDiaLog Compass",
           body: "Report today ^_^",
           notificationLayout: NotificationLayout.BigText,
           fullScreenIntent: true,

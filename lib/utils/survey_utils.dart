@@ -11,21 +11,44 @@ import 'constants.dart';
 
 /// this class is a util class related to survey affairs
 class SurveyUtils {
-  /// check if a string complies with body temperature format,
-  /// a body temperature input format is XX.X or XX and it should <= 42.0 && >= 35.0
-  /// @param temperatureText - a string text of body temperature
+  /// check if a string complies with fasting blood glucose format,
+  /// a fasting blood glucose input format is XX.X or XX and it should <= 1000.0 && >= 30.0
+  /// @param fastingText - a string text of fasting blood glucose
   /// @return isValid - TRUE means it valid, FALSE means not
-  static bool checkBodyTemperatureText(String temperatureText) {
-    if (temperatureText.trim() == "") {
+  static bool checkFastingBloodGlucoseText(String fastingText) {
+    if (fastingText.trim() == "") {
       return true;
     }
-    if (temperatureText.endsWith(".")) {
+    if (fastingText.endsWith(".")) {
       return false;
     }
-    double temperature;
+    double fasting;
     try {
-      temperature = double.parse(temperatureText);
-      if (temperature < 35.0 || temperature > 42.0) {
+      fasting = double.parse(fastingText);
+      if (fasting < 30.0 || fasting > 1000.0) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  /// check if a string complies with postprandial blood glucose format,
+  /// a postprandial blood glucose input format is XX.X or XX and it should <= 1000.0 && >= 30.0
+  /// @param postprandialText - a string text of postprandial blood glucose
+  /// @return isValid - TRUE means it valid, FALSE means not
+  static bool checkPostprandialBloodGlucoseText(String postprandialText) {
+    if (postprandialText.trim() == "") {
+      return true;
+    }
+    if (postprandialText.endsWith(".")) {
+      return false;
+    }
+    double postprandial;
+    try {
+      postprandial = double.parse(postprandialText);
+      if (postprandial < 30.0 || postprandial > 1000.0) {
         return false;
       }
     } catch (e) {
@@ -74,18 +97,21 @@ class SurveyUtils {
     return true;
   }
 
-  /// check if a string complies with heart rate format,
-  /// a heart rate format is a 2 or 3-digits integer and it should <= 160 && >= 40
-  /// @param heartRateText - a string text of heart rate
+  /// check if a string complies with weight format,
+  /// a weight format is is XX.X or XX and it should <= 500.0 && >= 10.0
+  /// @param weightText - a string text of weight
   /// @return isValid - TRUE means it valid, FALSE means not
-  static bool checkHeartRateText(String heartRateText) {
-    if (heartRateText.trim() == "") {
+  static bool checkWeightText(String weightText) {
+    if (weightText.trim() == "") {
       return true;
     }
-    int heartRate;
+    if (weightText.endsWith(".")) {
+      return false;
+    }
+    double weight;
     try {
-      heartRate = int.parse(heartRateText);
-      if (heartRate < 40 || heartRate > 160) {
+      weight = double.parse(weightText);
+      if (weight < 10.0 || weight > 500.0) {
         return false;
       }
     } catch (e) {

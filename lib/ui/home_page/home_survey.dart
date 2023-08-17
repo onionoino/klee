@@ -18,6 +18,7 @@ class HomeSurvey extends StatefulWidget {
 
 class _HomeSurveyState extends State<HomeSurvey> {
   final HomePageService homePageService = HomePageService();
+  TextEditingController q2AnswerTextController = TextEditingController();
   TextEditingController q3AnswerTextController = TextEditingController();
   TextEditingController q4AnswerTextController = TextEditingController();
   TextEditingController q5AnswerTextController = TextEditingController();
@@ -28,6 +29,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
   String? q4Answer;
   String? q5Answer;
   String? q6Answer;
+  String? errorText2;
   String? errorText3;
   String? errorText4;
   String? errorText5;
@@ -102,63 +104,107 @@ class _HomeSurveyState extends State<HomeSurvey> {
             BaseWidget.getPadding(15.0),
             BaseWidget.getQuestionText(Constants.q2Text),
             BaseWidget.getPadding(2.5),
-            BaseWidget.getHintText(Constants.radioListHintText),
-            Row(
-              children: <Widget>[
-                Flexible(
-                  child: RadioListTile<String>(
-                    value: "No",
-                    title: BaseWidget.getRadioBoxAnswerText("0"),
-                    activeColor: Colors.teal,
-                    groupValue: q2Answer,
-                    onChanged: (value) {
-                      setState(() {
-                        q2Answer = value;
-                      });
-                    },
-                  ),
+            Container(
+              width: 200,
+              alignment: Alignment.center,
+              child: TextField(
+                controller: q2AnswerTextController,
+                style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                textAlign: TextAlign.center,
+                autofocus: false,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(4),
+                ],
+                keyboardType:
+                const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  hintText: "eg 99(mg/dL)",
+                  isCollapsed: true,
+                  contentPadding: const EdgeInsets.all(5.0),
+                  errorText: errorText2,
                 ),
-                Flexible(
-                  child: RadioListTile<String>(
-                    value: "Mild",
-                    title: BaseWidget.getRadioBoxAnswerText("1"),
-                    groupValue: q2Answer,
-                    activeColor: Colors.teal,
-                    onChanged: (value) {
-                      setState(() {
-                        q2Answer = value;
-                      });
-                    },
-                  ),
-                ),
-                Flexible(
-                  child: RadioListTile<String>(
-                    value: "Moderate",
-                    title: BaseWidget.getRadioBoxAnswerText("2"),
-                    groupValue: q2Answer,
-                    activeColor: Colors.teal,
-                    onChanged: (value) {
-                      setState(() {
-                        q2Answer = value;
-                      });
-                    },
-                  ),
-                ),
-                Flexible(
-                  child: RadioListTile<String>(
-                    value: "Severe",
-                    title: BaseWidget.getRadioBoxAnswerText("3"),
-                    groupValue: q2Answer,
-                    activeColor: Colors.teal,
-                    onChanged: (value) {
-                      setState(() {
-                        q2Answer = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
+                onChanged: (fastingText) {
+                  setState(() {
+                    if (!SurveyUtils.checkFastingBloodGlucoseText(
+                        fastingText)) {
+                      errorText2 = "Invalid value";
+                      q2Answer = null;
+                    } else {
+                      if (fastingText.trim() == "") {
+                        q2Answer = null;
+                      } else {
+                        if (fastingText.contains(".")) {
+                          q2Answer = fastingText;
+                        } else {
+                          q2Answer = "$fastingText.0";
+                        }
+                      }
+                      errorText2 = null;
+                    }
+                  });
+                },
+              ),
             ),
+            // BaseWidget.getPadding(15.0),
+            // BaseWidget.getQuestionText(Constants.q2Text),
+            // BaseWidget.getPadding(2.5),
+            // BaseWidget.getHintText(Constants.radioListHintText),
+            // Row(
+            //   children: <Widget>[
+            //     Flexible(
+            //       child: RadioListTile<String>(
+            //         value: "No",
+            //         title: BaseWidget.getRadioBoxAnswerText("0"),
+            //         activeColor: Colors.teal,
+            //         groupValue: q2Answer,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             q2Answer = value;
+            //           });
+            //         },
+            //       ),
+            //     ),
+            //     Flexible(
+            //       child: RadioListTile<String>(
+            //         value: "Mild",
+            //         title: BaseWidget.getRadioBoxAnswerText("1"),
+            //         groupValue: q2Answer,
+            //         activeColor: Colors.teal,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             q2Answer = value;
+            //           });
+            //         },
+            //       ),
+            //     ),
+            //     Flexible(
+            //       child: RadioListTile<String>(
+            //         value: "Moderate",
+            //         title: BaseWidget.getRadioBoxAnswerText("2"),
+            //         groupValue: q2Answer,
+            //         activeColor: Colors.teal,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             q2Answer = value;
+            //           });
+            //         },
+            //       ),
+            //     ),
+            //     Flexible(
+            //       child: RadioListTile<String>(
+            //         value: "Severe",
+            //         title: BaseWidget.getRadioBoxAnswerText("3"),
+            //         groupValue: q2Answer,
+            //         activeColor: Colors.teal,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             q2Answer = value;
+            //           });
+            //         },
+            //       ),
+            //     ),
+            //   ],
+            // ),
             BaseWidget.getPadding(15.0),
             BaseWidget.getQuestionText(Constants.q3Text),
             BaseWidget.getPadding(2.5),
@@ -176,25 +222,25 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
-                  hintText: "eg 36.7",
+                  hintText: "eg 140(mg/dL)",
                   isCollapsed: true,
                   contentPadding: const EdgeInsets.all(5.0),
                   errorText: errorText3,
                 ),
-                onChanged: (temperatureText) {
+                onChanged: (postprandialText) {
                   setState(() {
-                    if (!SurveyUtils.checkBodyTemperatureText(
-                        temperatureText)) {
-                      errorText3 = "Invalid body temperature";
+                    if (!SurveyUtils.checkPostprandialBloodGlucoseText(
+                        postprandialText)) {
+                      errorText3 = "Invalid value";
                       q3Answer = null;
                     } else {
-                      if (temperatureText.trim() == "") {
+                      if (postprandialText.trim() == "") {
                         q3Answer = null;
                       } else {
-                        if (temperatureText.contains(".")) {
-                          q3Answer = temperatureText;
+                        if (postprandialText.contains(".")) {
+                          q3Answer = postprandialText;
                         } else {
-                          q3Answer = "$temperatureText.0";
+                          q3Answer = "$postprandialText.0";
                         }
                       }
                       errorText3 = null;
@@ -303,17 +349,17 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   contentPadding: const EdgeInsets.all(5.0),
                   errorText: errorText6,
                 ),
-                onChanged: (heartRateText) {
+                onChanged: (weightText) {
                   setState(() {
-                    if (!SurveyUtils.checkHeartRateText(heartRateText)) {
-                      errorText6 = "Invalid heart rate";
+                    if (!SurveyUtils.checkWeightText(weightText)) {
+                      errorText6 = "Invalid weight";
                       q6Answer = null;
                     } else {
                       errorText6 = null;
-                      if (heartRateText.trim() == "") {
+                      if (weightText.trim() == "") {
                         q6Answer = null;
                       } else {
-                        q6Answer = heartRateText;
+                        q6Answer = weightText;
                       }
                     }
                   });

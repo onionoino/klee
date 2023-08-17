@@ -42,8 +42,8 @@ class Constants {
   static const String encContainerName = "encryption";
 
   // Container Info
-  static const String relativeContainerURI = "klee/";
-  static const String containerName = "klee";
+  static const String relativeContainerURI = "secureDiaLog/";
+  static const String containerName = "secureDiaLog";
 
   // Geo Container Info
   static const String relativeGeoContainerURI = "geo/";
@@ -60,12 +60,12 @@ class Constants {
   // Geo File Keys & Survey File Keys
   static const String latitudeKey = "latitude";
   static const String longitudeKey = "longitude";
-  static const String q1Key = "isCough";
-  static const String q2Key = "isSoreThroat";
-  static const String q3Key = "temperature";
+  static const String q1Key = "strengthCheck";
+  static const String q2Key = "fasting";
+  static const String q3Key = "postprandial";
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
-  static const String q6Key = "heartRate";
+  static const String q6Key = "weight";
   static const String obTimeKey = "obTime";
   static const String deviceKey = "device";
 
@@ -94,12 +94,12 @@ class Constants {
   ];
 
   // Question Texts
-  static const String q1Text = "Are you coughing today?";
-  static const String q2Text = "Are you have a sore throat today?";
-  static const String q3Text = "What's your temperature today?";
+  static const String q1Text = "Are you lacking in strength today?";
+  static const String q2Text = "What's your fasting blood glucose today?";
+  static const String q3Text = "What's your postprandial blood glucose today?";
   static const String q4Text = "What's your systolic today?";
   static const String q5Text = "What's your diastolic today?";
-  static const String q6Text = "What's your heart rate today?";
+  static const String q6Text = "What's your weight today?";
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 60;
@@ -122,9 +122,10 @@ class Constants {
   // Survey Charts
   static const int barNumber = 7;
   static const int lineNumber = 7;
-  static const double temperatureMinY = 30;
+  static const double fastingMinY = 30;
+  static const double postprandialMinY = 30;
   static const double diastolicMinY = 25;
-  static const double heartRateMinY = 35;
+  static const double weightMinY = 10;
   static const double systolicMinY = 45;
   static const String defaultObTime = "N/A";
   static const double toolTipNoneVal = -1;
