@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:klee/extensions/color_extensions.dart';
 import 'package:klee/utils/chart_utils.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../../utils/time_utils.dart';
 
-class GroupChartWidget extends StatefulWidget {
+class SyncfusionColumnChartWidget extends StatefulWidget {
   final List<double> yList;
-  final List<double> yList2;
   final List<String> timeList;
   final List<String> xList;
-  final double minY;
+  final double maxY;
   final List<List<ToolTip>> toolTipsList;
-  final List<List<ToolTip>> toolTipsList2;
 
-  const GroupChartWidget(
-      this.yList, this.yList2, this.timeList, this.xList, this.minY, this.toolTipsList, this.toolTipsList2,
+  const SyncfusionColumnChartWidget(
+      this.yList, this.timeList, this.xList, this.maxY, this.toolTipsList,
       {Key? key})
       : super(key: key);
 
   @override
-  State<GroupChartWidget> createState() => _GroupChartWidgetState();
+  State<SyncfusionColumnChartWidget> createState() => _SyncfusionColumnChartWidgetState();
 }
 
-class _GroupChartWidgetState extends State<GroupChartWidget> {
+class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidget> {
   late int showingTooltip;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
@@ -48,28 +44,19 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
         textStyle: TextStyle(color: Colors.white),
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
           // Extracting the primary data
-          String systolic = data.y1.toString();
-          String diastolic = data.y2.toString();
+          String value = mapIntToValueString(data.y1); // Use this function to map int to string
           String time = widget.timeList[pointIndex];
 
           // Using logic similar to getLineTooltipItem to build the tooltip string
-          String toolTipText = "$time\nSystolic: $systolic\nDiastolic: $diastolic";
+          String toolTipText = "Time:$time\nValue:$value";
 
           if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
-            toolTipText += "\n--------------\nSystolic updating:";
+            toolTipText += "\n--------------\nUpdating:";
             for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
-              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${mapIntToValueString(toolTip.val)}";
               toolTipText += additionalText;
             }
 
-          }
-
-          if (widget.toolTipsList2.isNotEmpty && widget.toolTipsList2[pointIndex].isNotEmpty) {
-            toolTipText += "\n--------------\nDiastolic updating:";
-            for (ToolTip toolTip in widget.toolTipsList2[pointIndex]) {
-              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
-              toolTipText += additionalText;
-            }
           }
 
           return Container(
@@ -87,8 +74,6 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
     );
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -122,29 +107,31 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
             visibleMaximum: widget.xList.length.toDouble(),
           ),
           primaryYAxis: NumericAxis(
-            minimum: widget.minY,
+              maximum: widget.maxY,
               labelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-              majorGridLines: MajorGridLines(width: 0)
+              majorGridLines: MajorGridLines(width: 0),
+            isVisible: false,
           ),
           series: <ChartSeries>[
-            RangeColumnSeries<_ChartData, String>(
-              width: 0.3,
-              enableTooltip: true,
+            ColumnSeries<_ChartData, String>(
               dataSource: chartData,
               xValueMapper: (_ChartData data, _) => data.x,
-              lowValueMapper: (_ChartData data, _) => data.y1,
-              highValueMapper: (_ChartData data, _) => data.y2,
-              gradient: LinearGradient(
-                colors: [
-                  Colors.blue.darken(20),
-                  Colors.cyan,
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
-              borderRadius: BorderRadius.circular(6),
+              yValueMapper: (_ChartData data, _) => data.y1,
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              isTrackVisible: true,
+              trackColor: Colors.indigo[50]!,
+              width: 0.5,
+              markerSettings: MarkerSettings(
+                  isVisible: true,
+                width: 5,  // Adjust these values to make the marker smaller
+                height: 5,
+
+                borderColor: Colors.blue,
+                borderWidth: 2,
+                color: Colors.white,
+              ), // This line adds data points
             ),
           ],
         ),
@@ -157,22 +144,37 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
 
     for (int i = 0; i < Constants.lineNumber; i++) {
       final y1 = widget.yList[i];
-      final y2 = widget.yList2[i];
       final x = widget.xList[i];
 
-      if (y1 != null && y2 != null) {
-        chartData.add(_ChartData(x, y1, y2));
+      if (y1 != null) {
+        chartData.add(_ChartData(x, y1));
       }
     }
     return chartData;
   }
+
+  String mapIntToValueString(double value) {
+    switch (value.toInt()) {
+      case 0:
+        return 'Null';
+      case 2:
+        return 'No';
+      case 4:
+        return 'Mild';
+      case 6:
+        return 'Moderate';
+      case 8:
+        return 'Severe';
+      default:
+        return 'Unknown'; // handle any other values not in your set
+    }
+  }
+  
 }
 
 class _ChartData {
-  _ChartData(this.x, this.y1, this.y2);
+  _ChartData(this.x, this.y1);
 
   final String x;
   final double y1;
-  final double y2;
 }
-

@@ -12,6 +12,8 @@ import '../login_page/login_page.dart';
 import 'home_charts/bar_chart_widget.dart';
 import 'home_charts/group_chart_widget.dart';
 import 'home_charts/line_chart_widget.dart';
+import 'home_charts/syncfusion_column_chart_widget.dart';
+import 'home_charts/syncfusion_line_chart_widget.dart';
 
 /// the view layer of profile widget in home page
 class HomeProfile extends StatefulWidget {
@@ -224,10 +226,10 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(
+                      child: SyncfusionColumnChartWidget(
                           strengthList,
                           strengthTimeList,
-                          obTimeList,
+                          timeList,
                           Constants.optionMaxY,
                           strengthToolTipsList),
                     ),
@@ -237,10 +239,10 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
+                      child: SyncfusionLineChartWidget(
                           fastingList,
                           fastingTimeList,
-                          obTimeList,
+                          timeList,
                           Constants.fastingMinY,
                           fastingToolTipsList),
                     ),
@@ -250,10 +252,10 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
+                      child: SyncfusionLineChartWidget(
                           postprandialList,
                           postprandialTimeList,
-                          obTimeList,
+                          timeList,
                           Constants.postprandialMinY,
                           postprandialToolTipsList),
                     ),
@@ -267,7 +269,7 @@ class _HomeProfileState extends State<HomeProfile> {
                           systolicList,
                           diastolicList,
                           systolicTimeList,
-                          obTimeList,
+                          timeList,
                           Constants.systolicMinY,
                           systolicToolTipsList,
                           diastolicToolTipsList),
@@ -291,10 +293,10 @@ class _HomeProfileState extends State<HomeProfile> {
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
+                      child: SyncfusionLineChartWidget(
                           weightList,
                           weightTimeList,
-                          obTimeList,
+                          timeList,
                           Constants.weightMinY,
                           weightToolTipsList),
                     ),

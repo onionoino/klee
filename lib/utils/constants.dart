@@ -120,8 +120,8 @@ class Constants {
   static const double optionMaxY = 10;
 
   // Survey Charts
-  static const int barNumber = 7;
-  static const int lineNumber = 7;
+  static const int barNumber = 15;
+  static const int lineNumber = 15;
   static const double fastingMinY = 30;
   static const double postprandialMinY = 30;
   static const double diastolicMinY = 25;
