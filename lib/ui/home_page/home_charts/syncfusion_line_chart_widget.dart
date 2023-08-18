@@ -45,10 +45,11 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
           // Extracting the primary data
           String value = data.y1.toString();
+          String show = widget.yList[pointIndex].toString();
           String time = widget.timeList[pointIndex];
 
           // Using logic similar to getLineTooltipItem to build the tooltip string
-          String toolTipText = "Time:$time\nValue:$value";
+          String toolTipText = "Time:$time\nValue:$show";
 
           if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
             toolTipText += "\n--------------\nUpdating:";

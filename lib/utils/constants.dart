@@ -117,7 +117,7 @@ class Constants {
   static const double optionModerate = 6;
   static const double optionSevere = 8;
   static const double optionNull = 0;
-  static const double optionMaxY = 10;
+  static const double optionMaxY = 8;
 
   // Survey Charts
   static const int barNumber = 15;

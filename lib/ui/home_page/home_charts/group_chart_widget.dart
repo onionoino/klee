@@ -50,10 +50,12 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
           // Extracting the primary data
           String systolic = data.y1.toString();
           String diastolic = data.y2.toString();
+          String showSystolic = widget.yList[pointIndex].toString();
+          String showDiastolic = widget.yList2[pointIndex].toString();
           String time = widget.timeList[pointIndex];
 
           // Using logic similar to getLineTooltipItem to build the tooltip string
-          String toolTipText = "$time\nSystolic: $systolic\nDiastolic: $diastolic";
+          String toolTipText = "$time\nSystolic: $showSystolic\nDiastolic: $showDiastolic";
 
           if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
             toolTipText += "\n--------------\nSystolic updating:";
