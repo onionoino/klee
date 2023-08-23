@@ -26,6 +26,8 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
   late int showingTooltip;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
+  late double visibleMinimum;
+  late double visibleMaximum;
 
   @override
   void initState() {
@@ -73,6 +75,15 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
 
     );
     super.initState();
+    visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
+    visibleMaximum = widget.xList.length.toDouble();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      setState(() {
+        // Update your state variables here
+        visibleMinimum = 7.0; // New minimum value
+        visibleMaximum = 15.0; // New maximum value
+      });
+    });
   }
 
   @override
@@ -103,8 +114,8 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
             ),
             edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
             majorGridLines: MajorGridLines(width: 0),
-            visibleMinimum: widget.xList.length > 6 ? widget.xList.length - 6 : 0,
-            visibleMaximum: widget.xList.length.toDouble(),
+            visibleMinimum: visibleMinimum,
+            visibleMaximum: visibleMaximum,
           ),
           primaryYAxis: NumericAxis(
               maximum: widget.maxY,

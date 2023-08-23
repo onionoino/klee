@@ -26,16 +26,14 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
   late int showingTooltip;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
+  late double visibleMinimum;
+  late double visibleMaximum;
 
   @override
   void initState() {
     showingTooltip = -1;
     int index = widget.timeList.length - 1;
-    _zoomPanBehavior = ZoomPanBehavior(
-        enablePanning: true,
-        zoomMode: ZoomMode.x,
-        enablePinching: true
-    );
+
     _tooltipBehavior = TooltipBehavior(
         activationMode: ActivationMode.singleTap,
         enable: true,
@@ -73,7 +71,21 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
         }
 
     );
+    _zoomPanBehavior = ZoomPanBehavior(
+        enablePanning: true,
+        zoomMode: ZoomMode.x,
+        enablePinching: true
+    );
     super.initState();
+    visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
+    visibleMaximum = widget.xList.length.toDouble();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      setState(() {
+        // Update your state variables here
+        visibleMinimum = 7.0; // New minimum value
+        visibleMaximum = 15.0; // New maximum value
+      });
+    });
   }
 
   @override
@@ -104,8 +116,10 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
             ),
             edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
             majorGridLines: MajorGridLines(width: 0),
-            visibleMinimum: widget.xList.length > 6 ? widget.xList.length - 6 : 0,
-            visibleMaximum: widget.xList.length.toDouble(),
+            visibleMinimum: visibleMinimum,
+            visibleMaximum: visibleMaximum,
+            // visibleMinimum: 7,
+            // visibleMaximum: widget.xList.length.toDouble(),
           ),
           primaryYAxis: NumericAxis(
               minimum: widget.minY,

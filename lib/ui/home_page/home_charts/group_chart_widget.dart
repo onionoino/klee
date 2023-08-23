@@ -30,6 +30,8 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
   late int showingTooltip;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
+  late double visibleMinimum;
+  late double visibleMaximum;
 
   @override
   void initState() {
@@ -88,6 +90,15 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
 
     );
     super.initState();
+    visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
+    visibleMaximum = widget.xList.length.toDouble();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      setState(() {
+        // Update your state variables here
+        visibleMinimum = 7.0; // New minimum value
+        visibleMaximum = 15.0; // New maximum value
+      });
+    });
   }
 
 
@@ -120,8 +131,8 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
             ),
             edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
             majorGridLines: MajorGridLines(width: 0),
-            visibleMinimum: widget.xList.length > 6 ? widget.xList.length - 6 : 0,
-            visibleMaximum: widget.xList.length.toDouble(),
+            visibleMinimum: visibleMinimum,
+            visibleMaximum: visibleMaximum,
           ),
           primaryYAxis: NumericAxis(
             minimum: widget.minY,
