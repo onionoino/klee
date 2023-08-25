@@ -2,11 +2,11 @@ import 'package:klee/utils/constants.dart';
 
 /// the model of survey info
 class SurveyInfo {
-  late double isCough = Constants.optionNull;
-  late double isSoreThroat = Constants.optionNull;
-  late double temperature = Constants.temperatureMinY;
+  late double strength = Constants.optionNull;
+  late double fasting = Constants.fastingMinY;
+  late double postprandial = Constants.postprandialMinY;
   late double diastolic = Constants.diastolicMinY;
-  late double heartRate = Constants.heartRateMinY;
+  late double weight = Constants.weightMinY;
   late double systolic = Constants.systolicMinY;
   late String obTime = Constants.defaultObTime;
 
@@ -26,59 +26,47 @@ class SurveyInfo {
     }
   }
 
-  setHeartRate(String heartRate) {
+  setWeight(String weight) {
     try {
-      this.heartRate = double.parse(heartRate);
+      this.weight = double.parse(weight);
     } catch (e) {
-      this.heartRate = Constants.heartRateMinY;
+      this.weight = Constants.weightMinY;
     }
   }
 
-  setTemperature(String temperature) {
+  setPostprandial(String postprandial) {
     try {
-      this.temperature = double.parse(temperature);
+      this.postprandial = double.parse(postprandial);
     } catch (e) {
-      this.temperature = Constants.temperatureMinY;
+      this.postprandial = Constants.postprandialMinY;
     }
   }
 
-  setIsCough(String isCough) {
-    switch (isCough) {
+  setStrength(String strength) {
+    switch (strength) {
       case "No":
-        this.isCough = Constants.optionNo;
+        this.strength = Constants.optionNo;
         break;
       case "Mild":
-        this.isCough = Constants.optionMild;
+        this.strength = Constants.optionMild;
         break;
       case "Moderate":
-        this.isCough = Constants.optionModerate;
+        this.strength = Constants.optionModerate;
         break;
       case "Severe":
-        this.isCough = Constants.optionSevere;
+        this.strength = Constants.optionSevere;
         break;
       default:
-        this.isCough = Constants.optionNull;
+        this.strength = Constants.optionNull;
         break;
     }
   }
 
-  setIsSoreThroat(String isSoreThroat) {
-    switch (isSoreThroat) {
-      case "No":
-        this.isSoreThroat = Constants.optionNo;
-        break;
-      case "Mild":
-        this.isSoreThroat = Constants.optionMild;
-        break;
-      case "Moderate":
-        this.isSoreThroat = Constants.optionModerate;
-        break;
-      case "Severe":
-        this.isSoreThroat = Constants.optionSevere;
-        break;
-      default:
-        this.isSoreThroat = Constants.optionNull;
-        break;
+  setFasting(String fasting) {
+    try {
+      this.fasting = double.parse(fasting);
+    } catch (e) {
+      this.fasting = Constants.fastingMinY;
     }
   }
 

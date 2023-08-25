@@ -27,7 +27,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   final Color gradientColor3 = Colors.red;
   final Color indicatorStrokeColor = Colors.black;
 
-  List<int> get showIndexes => const [6];
+  // List<int> get showIndexes => const [6];
+  // Update the showIndexes list to include the indices of the spots
+  List<int> get showIndexes => List.generate(Constants.lineNumber, (index) => index);
 
   Widget bottomTitleWidgets(double value, TitleMeta meta, double chartWidth) {
     final style = TextStyle(
@@ -96,7 +98,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
             ],
           ),
         ),
-        dotData: FlDotData(show: false),
+        dotData: FlDotData(show: true),
         gradient: LinearGradient(
           colors: [
             gradientColor1,

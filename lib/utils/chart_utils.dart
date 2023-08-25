@@ -73,44 +73,44 @@ class ChartUtils {
       String requiredDate = TimeUtils.getFormattedTimeYYYYmmDD(curDay);
       if (tempMap.containsKey(requiredDate)) {
         List<SurveyInfo> curSurveyInfoList = tempMap[requiredDate]!;
-        double isCoughMax = Constants.optionNull;
-        String isCoughMaxTime = Constants.none;
-        double isSoreThroatMax = Constants.optionNull;
-        String isSoreThroatMaxTime = Constants.none;
-        double temperatureMax = Constants.temperatureMinY;
-        String temperatureMaxTime = Constants.none;
+        double strengthMax = Constants.optionNull;
+        String strengthMaxTime = Constants.none;
+        double fastingMax = Constants.fastingMinY;
+        String fastingMaxTime = Constants.none;
+        double postprandialMax = Constants.postprandialMinY;
+        String postprandialMaxTime = Constants.none;
         double diastolicMax = Constants.diastolicMinY;
         String diastolicMaxTime = Constants.none;
-        double heartRateMax = Constants.heartRateMinY;
-        String heartRateMaxTime = Constants.none;
+        double weightMax = Constants.weightMinY;
+        String weightMaxTime = Constants.none;
         double systolicMax = Constants.systolicMinY;
         String systolicMaxTime = Constants.none;
-        List<ToolTip> toolTipIsCough = [];
-        List<ToolTip> toolTipIsSoreThroat = [];
-        List<ToolTip> toolTipTemperature = [];
+        List<ToolTip> toolTipStrength = [];
+        List<ToolTip> toolTipFasting = [];
+        List<ToolTip> toolTipPostprandial = [];
         List<ToolTip> toolTipDiastolic = [];
-        List<ToolTip> toolTipHeartRate = [];
+        List<ToolTip> toolTipWeight = [];
         List<ToolTip> toolTipSystolic = [];
         for (SurveyInfo surveyInfo in curSurveyInfoList) {
-          if (surveyInfo.isCough >= isCoughMax) {
-            isCoughMax = surveyInfo.isCough;
-            isCoughMaxTime = surveyInfo.obTime;
+          if (surveyInfo.strength >= strengthMax) {
+            strengthMax = surveyInfo.strength;
+            strengthMaxTime = surveyInfo.obTime;
           }
-          if (surveyInfo.isSoreThroat >= isSoreThroatMax) {
-            isSoreThroatMax = surveyInfo.isSoreThroat;
-            isSoreThroatMaxTime = surveyInfo.obTime;
+          if (surveyInfo.fasting >= fastingMax) {
+            fastingMax = surveyInfo.fasting;
+            fastingMaxTime = surveyInfo.obTime;
           }
-          if (surveyInfo.temperature >= temperatureMax) {
-            temperatureMax = surveyInfo.temperature;
-            temperatureMaxTime = surveyInfo.obTime;
+          if (surveyInfo.postprandial >= postprandialMax) {
+            postprandialMax = surveyInfo.postprandial;
+            postprandialMaxTime = surveyInfo.obTime;
           }
           if (surveyInfo.diastolic >= diastolicMax) {
             diastolicMax = surveyInfo.diastolic;
             diastolicMaxTime = surveyInfo.obTime;
           }
-          if (surveyInfo.heartRate >= heartRateMax) {
-            heartRateMax = surveyInfo.heartRate;
-            heartRateMaxTime = surveyInfo.obTime;
+          if (surveyInfo.weight >= weightMax) {
+            weightMax = surveyInfo.weight;
+            weightMaxTime = surveyInfo.obTime;
           }
           if (surveyInfo.systolic >= systolicMax) {
             systolicMax = surveyInfo.systolic;
@@ -118,35 +118,35 @@ class ChartUtils {
           }
         }
         for (SurveyInfo surveyInfo in curSurveyInfoList) {
-          if (surveyInfo.obTime != isCoughMaxTime) {
+          if (surveyInfo.obTime != strengthMaxTime) {
             ToolTip toolTip = ToolTip();
-            if (surveyInfo.isCough <= Constants.optionNull) {
+            if (surveyInfo.strength <= Constants.optionNull) {
               toolTip.val = Constants.toolTipNoneVal;
             } else {
-              toolTip.val = surveyInfo.isCough;
+              toolTip.val = surveyInfo.strength;
             }
             toolTip.time = surveyInfo.obTime.substring(8, 12);
-            toolTipIsCough.add(toolTip);
+            toolTipStrength.add(toolTip);
           }
-          if (surveyInfo.obTime != isSoreThroatMaxTime) {
+          if (surveyInfo.obTime != fastingMaxTime) {
             ToolTip toolTip = ToolTip();
-            if (surveyInfo.isSoreThroat <= Constants.optionNull) {
+            if (surveyInfo.fasting <= Constants.fastingMinY) {
               toolTip.val = Constants.toolTipNoneVal;
             } else {
-              toolTip.val = surveyInfo.isSoreThroat;
+              toolTip.val = surveyInfo.fasting;
             }
             toolTip.time = surveyInfo.obTime.substring(8, 12);
-            toolTipIsSoreThroat.add(toolTip);
+            toolTipFasting.add(toolTip);
           }
-          if (surveyInfo.obTime != temperatureMaxTime) {
+          if (surveyInfo.obTime != postprandialMaxTime) {
             ToolTip toolTip = ToolTip();
-            if (surveyInfo.temperature <= Constants.temperatureMinY) {
+            if (surveyInfo.postprandial <= Constants.postprandialMinY) {
               toolTip.val = Constants.toolTipNoneVal;
             } else {
-              toolTip.val = surveyInfo.temperature;
+              toolTip.val = surveyInfo.postprandial;
             }
             toolTip.time = surveyInfo.obTime.substring(8, 12);
-            toolTipTemperature.add(toolTip);
+            toolTipPostprandial.add(toolTip);
           }
           if (surveyInfo.obTime != diastolicMaxTime) {
             ToolTip toolTip = ToolTip();
@@ -158,15 +158,15 @@ class ChartUtils {
             toolTip.time = surveyInfo.obTime.substring(8, 12);
             toolTipDiastolic.add(toolTip);
           }
-          if (surveyInfo.obTime != heartRateMaxTime) {
+          if (surveyInfo.obTime != weightMaxTime) {
             ToolTip toolTip = ToolTip();
-            if (surveyInfo.heartRate <= Constants.heartRateMinY) {
+            if (surveyInfo.weight <= Constants.weightMinY) {
               toolTip.val = Constants.toolTipNoneVal;
             } else {
-              toolTip.val = surveyInfo.heartRate;
+              toolTip.val = surveyInfo.weight;
             }
             toolTip.time = surveyInfo.obTime.substring(8, 12);
-            toolTipHeartRate.add(toolTip);
+            toolTipWeight.add(toolTip);
           }
           if (surveyInfo.obTime != systolicMaxTime) {
             ToolTip toolTip = ToolTip();
@@ -181,51 +181,51 @@ class ChartUtils {
         }
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
-        chartPoint.isCoughMax = isCoughMax;
-        chartPoint.isCoughMaxTime =
-            TimeUtils.convertHHmmToClock(isCoughMaxTime.substring(8, 12));
-        chartPoint.isSoreThroatMax = isSoreThroatMax;
-        chartPoint.isSoreThroatMaxTime =
-            TimeUtils.convertHHmmToClock(isSoreThroatMaxTime.substring(8, 12));
-        chartPoint.temperatureMax = temperatureMax;
-        chartPoint.temperatureMaxTime =
-            TimeUtils.convertHHmmToClock(temperatureMaxTime.substring(8, 12));
+        chartPoint.strengthMax = strengthMax;
+        chartPoint.strengthMaxTime =
+            TimeUtils.convertHHmmToClock(strengthMaxTime.substring(8, 12));
+        chartPoint.fastingMax = fastingMax;
+        chartPoint.fastingMaxTime =
+            TimeUtils.convertHHmmToClock(fastingMaxTime.substring(8, 12));
+        chartPoint.postprandialMax = postprandialMax;
+        chartPoint.postprandialMaxTime =
+            TimeUtils.convertHHmmToClock(postprandialMaxTime.substring(8, 12));
         chartPoint.diastolicMax = diastolicMax;
         chartPoint.diastolicMaxTime =
             TimeUtils.convertHHmmToClock(diastolicMaxTime.substring(8, 12));
-        chartPoint.heartRateMax = heartRateMax;
-        chartPoint.heartRateMaxTime =
-            TimeUtils.convertHHmmToClock(heartRateMaxTime.substring(8, 12));
+        chartPoint.weightMax = weightMax;
+        chartPoint.weightMaxTime =
+            TimeUtils.convertHHmmToClock(weightMaxTime.substring(8, 12));
         chartPoint.systolicMax = systolicMax;
         chartPoint.systolicMaxTime =
             TimeUtils.convertHHmmToClock(systolicMaxTime.substring(8, 12));
-        chartPoint.otherIsCough = toolTipIsCough;
-        chartPoint.otherIsSoreThroat = toolTipIsSoreThroat;
-        chartPoint.otherTemperature = toolTipTemperature;
+        chartPoint.otherStrength = toolTipStrength;
+        chartPoint.otherFasting = toolTipFasting;
+        chartPoint.otherPostprandial = toolTipPostprandial;
         chartPoint.otherDiastolic = toolTipDiastolic;
-        chartPoint.otherHeartRate = toolTipHeartRate;
+        chartPoint.otherWeight = toolTipWeight;
         chartPoint.otherSystolic = toolTipSystolic;
         chartPointList.add(chartPoint);
       } else {
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
-        chartPoint.isCoughMax = Constants.optionNull;
-        chartPoint.isCoughMaxTime = Constants.none;
-        chartPoint.isSoreThroatMax = Constants.optionNull;
-        chartPoint.isSoreThroatMaxTime = Constants.none;
-        chartPoint.temperatureMax = Constants.temperatureMinY;
-        chartPoint.temperatureMaxTime = Constants.none;
+        chartPoint.strengthMax = Constants.optionNull;
+        chartPoint.strengthMaxTime = Constants.none;
+        chartPoint.fastingMax = Constants.fastingMinY;
+        chartPoint.fastingMaxTime = Constants.none;
+        chartPoint.postprandialMax = Constants.postprandialMinY;
+        chartPoint.postprandialMaxTime = Constants.none;
         chartPoint.diastolicMax = Constants.diastolicMinY;
         chartPoint.diastolicMaxTime = Constants.none;
-        chartPoint.heartRateMax = Constants.heartRateMinY;
-        chartPoint.heartRateMaxTime = Constants.none;
+        chartPoint.weightMax = Constants.weightMinY;
+        chartPoint.weightMaxTime = Constants.none;
         chartPoint.systolicMax = Constants.systolicMinY;
         chartPoint.systolicMaxTime = Constants.none;
-        chartPoint.otherIsCough = [];
-        chartPoint.otherIsSoreThroat = [];
-        chartPoint.otherTemperature = [];
+        chartPoint.otherStrength = [];
+        chartPoint.otherFasting = [];
+        chartPoint.otherPostprandial = [];
         chartPoint.otherDiastolic = [];
-        chartPoint.otherHeartRate = [];
+        chartPoint.otherWeight = [];
         chartPoint.otherSystolic = [];
         chartPointList.add(chartPoint);
       }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klee/ui/home_page/home_index.dart';
 import 'package:klee/ui/home_page/home_osm.dart';
 import 'package:klee/ui/home_page/home_profile.dart';
+import 'package:klee/ui/home_page/home_settings.dart';
 import 'package:klee/ui/home_page/home_survey.dart';
 import 'package:klee/utils/base_widget.dart';
 import 'package:klee/utils/notify_utils.dart';
@@ -36,7 +37,8 @@ class _HomePageState extends State<HomePage> {
       ..add(HomeIndex(widget.authData))
       ..add(HomeOSM(widget.authData))
       ..add(HomeSurvey(widget.authData))
-      ..add(HomeProfile(widget.authData));
+      ..add(HomeProfile(widget.authData))
+      ..add(HomeSettings(widget.authData));
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications();
@@ -93,7 +95,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee Compass"),
+      appBar: BaseWidget.getAppBar("SecureDiaLog"),
       body: IndexedStack(
         index: curWidgetIdx,
         children: widgetList,
@@ -105,6 +107,7 @@ class _HomePageState extends State<HomePage> {
           BaseWidget.getNavBarItem(Icons.zoom_in_map, "MAP"),
           BaseWidget.getNavBarItem(Icons.newspaper, "SURVEY"),
           BaseWidget.getNavBarItem(Icons.person_outline, "POD"),
+          BaseWidget.getNavBarItem(Icons.settings, "SETTING"),
         ],
         onTap: _onTapEvent,
       ),

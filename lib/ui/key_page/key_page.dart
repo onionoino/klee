@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:klee/service/home_page_service.dart';
 import 'package:klee/service/key_page_service.dart';
 
@@ -8,6 +9,8 @@ import '../../utils/constants.dart';
 import '../../utils/global.dart';
 import '../home_page/home_page.dart';
 import '../login_page/login_page.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class KeyPage extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
@@ -19,14 +22,48 @@ class KeyPage extends StatefulWidget {
 }
 
 class _KeyPageState extends State<KeyPage> {
+  final storage = FlutterSecureStorage();
   TextEditingController encKeyController = TextEditingController();
   final KeyPageService keyPageService = KeyPageService();
   final HomePageService homePageService = HomePageService();
+  bool isIconVisible = false;
+  bool hidePassword = true;
+
+  // // Inside your recoverKey function
+  // Future<void> recoverKey() async {
+  //   final smtpServer = gmail('your.email@gmail.com', 'your.password');
+  //
+  //   final message = Message()
+  //     ..from = Address('your.email@gmail.com', 'Your Name')
+  //     ..recipients.add('user@example.com') // User's email
+  //     ..subject = 'Key Recovery'
+  //     ..text = 'Your recovery key: <Insert Recovery Key Here>';
+  //
+  //   try {
+  //     final sendReport = await send(message, smtpServer);
+  //     print('Message sent: ${sendReport.toString()}');
+  //   } catch (e) {
+  //     print('Error sending email: $e');
+  //   }
+  //
+  //   // Placeholder logic: Show a message to the user
+  //   showDialog<bool>(
+  //     context: context,
+  //     builder: (context) {
+  //       return BaseWidget.getNoticeDialog(
+  //         context,
+  //         "Recover Key",
+  //         "An email has been sent to recover your key.",
+  //         "OK",
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee Compass"),
+      appBar: BaseWidget.getAppBar("SecureDiaLog"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -35,7 +72,7 @@ class _KeyPageState extends State<KeyPage> {
               alignment: Alignment.topCenter,
               width: MediaQuery.of(context).size.width - 30,
               child: BaseWidget.getTitleText(
-                  """For your privacy, please enter your encryption key first, if you haven't had a key yet, Klee Compass will help you create a new key for later identity verification."""),
+                  """For your privacy, please enter your encryption key first, if you haven't had a key yet, SecureDiaLog will help you create a new key for later identity verification."""),
             ),
             BaseWidget.getPadding(2.5),
             RawKeyboardListener(
@@ -44,6 +81,7 @@ class _KeyPageState extends State<KeyPage> {
                 if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
                   if (await keyPageService.checkAndSetEncKey(
                       widget.authData, encKeyController.text)) {
+                    await storage.write(key: 'encKey', value: encKeyController.text);
                     Global.isEncKeySet = true;
                     Navigator.pushReplacement(
                       context,
@@ -68,11 +106,28 @@ class _KeyPageState extends State<KeyPage> {
               },
               child: TextField(
                 controller: encKeyController,
+                onChanged: (value) {
+                  //try this
+                  value.isNotEmpty ? setState(() => isIconVisible = true) : setState(() => isIconVisible = false);
+                  //or
+                  setState(() => value.isNotEmpty ? isIconVisible = true : isIconVisible = false);
+                  //the result is the same it's just a shortcode
+                },
+                obscureText: hidePassword,
                 style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                 textAlign: TextAlign.center,
                 autofocus: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Your Enc-Key",
+                  suffixIcon:  isIconVisible ? IconButton(
+                    onPressed: (){
+                      setState(() => hidePassword = !hidePassword);
+                    },
+                    icon:  Icon(
+                      hidePassword ?
+                      Icons.visibility_off : Icons.visibility,
+                    ),
+                  ) : null,
                 ),
                 onSubmitted: (value) async {
                   if (await keyPageService.checkAndSetEncKey(
@@ -104,6 +159,7 @@ class _KeyPageState extends State<KeyPage> {
             BaseWidget.getElevatedButton(() async {
               if (await keyPageService.checkAndSetEncKey(
                   widget.authData, encKeyController.text)) {
+                await storage.write(key: 'encKey', value: encKeyController.text);
                 Global.isEncKeySet = true;
                 Navigator.pushReplacement(
                   context,
@@ -142,6 +198,13 @@ class _KeyPageState extends State<KeyPage> {
                 return const LoginPage();
               }));
             }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+
+            // // Button to trigger key recovery
+            // BaseWidget.getPadding(15),
+            // BaseWidget.getElevatedButton(() async {
+            //   await recoverKey();
+            // }, "Recover Key", MediaQuery.of(context).size.width / 1.25, 50),
+
             BaseWidget.getPadding(150),
           ],
         ),

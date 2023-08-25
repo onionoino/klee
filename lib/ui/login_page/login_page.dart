@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseWidget.getAppBar("Klee Compass"),
+      appBar: BaseWidget.getAppBar("SecureDiaLog"),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-      backgroundColor: Color(int.parse("fadbd8", radix: 16) | 0xFF000000),
+      backgroundColor: Colors.orange[50],
     );
   }
 }

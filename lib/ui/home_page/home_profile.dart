@@ -10,7 +10,10 @@ import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
 import '../login_page/login_page.dart';
 import 'home_charts/bar_chart_widget.dart';
+import 'home_charts/group_chart_widget.dart';
 import 'home_charts/line_chart_widget.dart';
+import 'home_charts/syncfusion_column_chart_widget.dart';
+import 'home_charts/syncfusion_line_chart_widget.dart';
 
 /// the view layer of profile widget in home page
 class HomeProfile extends StatefulWidget {
@@ -95,24 +98,25 @@ class _HomeProfileState extends State<HomeProfile> {
                 );
               } else {
                 // request success
-                List<double> isCoughList = [];
-                List<String> isCoughTimeList = [];
-                List<double> isSoreThroatList = [];
-                List<String> isSoreThroatTimeList = [];
-                List<double> temperatureList = [];
-                List<String> temperatureTimeList = [];
+                List<double> strengthList = [];
+                List<String> strengthTimeList = [];
+                List<double> fastingList = [];
+                List<String> fastingTimeList = [];
+                List<double> postprandialList = [];
+                List<String> postprandialTimeList = [];
                 List<double> diastolicList = [];
                 List<String> diastolicTimeList = [];
-                List<double> heartRateList = [];
-                List<String> heartRateTimeList = [];
+                List<double> weightList = [];
+                List<String> weightTimeList = [];
                 List<double> systolicList = [];
                 List<String> systolicTimeList = [];
                 List<String> obTimeList = [];
-                List<List<ToolTip>> isCoughToolTipsList = [];
-                List<List<ToolTip>> isSoreThroatToolTipsList = [];
-                List<List<ToolTip>> temperatureToolTipsList = [];
+                List<String> timeList = [];
+                List<List<ToolTip>> strengthToolTipsList = [];
+                List<List<ToolTip>> fastingToolTipsList = [];
+                List<List<ToolTip>> postprandialToolTipsList = [];
                 List<List<ToolTip>> diastolicToolTipsList = [];
-                List<List<ToolTip>> heartRateToolTipsList = [];
+                List<List<ToolTip>> weightToolTipsList = [];
                 List<List<ToolTip>> systolicToolTipsList = [];
                 List<SurveyDayInfo>? surveyDayInfoList = snapshot.data;
                 if (surveyDayInfoList == null) {
@@ -177,25 +181,26 @@ class _HomeProfileState extends State<HomeProfile> {
                 List<ChartPoint> chartPointList = ChartUtils.parseToChart(
                     surveyDayInfoList, Constants.barNumber);
                 for (ChartPoint charPoint in chartPointList) {
-                  isCoughList.add(charPoint.isCoughMax);
-                  isCoughTimeList.add(charPoint.isCoughMaxTime);
-                  isSoreThroatList.add(charPoint.isSoreThroatMax);
-                  isSoreThroatTimeList.add(charPoint.isSoreThroatMaxTime);
-                  temperatureList.add(charPoint.temperatureMax);
-                  temperatureTimeList.add(charPoint.temperatureMaxTime);
+                  strengthList.add(charPoint.strengthMax);
+                  strengthTimeList.add(charPoint.strengthMaxTime);
+                  fastingList.add(charPoint.fastingMax);
+                  fastingTimeList.add(charPoint.fastingMaxTime);
+                  postprandialList.add(charPoint.postprandialMax);
+                  postprandialTimeList.add(charPoint.postprandialMaxTime);
                   diastolicList.add(charPoint.diastolicMax);
                   diastolicTimeList.add(charPoint.diastolicMaxTime);
-                  heartRateList.add(charPoint.heartRateMax);
-                  heartRateTimeList.add(charPoint.heartRateMaxTime);
+                  weightList.add(charPoint.weightMax);
+                  weightTimeList.add(charPoint.weightMaxTime);
                   systolicList.add(charPoint.systolicMax);
                   systolicTimeList.add(charPoint.systolicMaxTime);
                   obTimeList
                       .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
-                  isCoughToolTipsList.add(charPoint.otherIsCough);
-                  isSoreThroatToolTipsList.add(charPoint.otherIsSoreThroat);
-                  temperatureToolTipsList.add(charPoint.otherTemperature);
+                  timeList.add(TimeUtils.reformatDate(charPoint.obTimeDay));
+                  strengthToolTipsList.add(charPoint.otherStrength);
+                  fastingToolTipsList.add(charPoint.otherFasting);
+                  postprandialToolTipsList.add(charPoint.otherPostprandial);
                   diastolicToolTipsList.add(charPoint.otherDiastolic);
-                  heartRateToolTipsList.add(charPoint.otherHeartRate);
+                  weightToolTipsList.add(charPoint.otherWeight);
                   systolicToolTipsList.add(charPoint.otherSystolic);
                 }
                 return Column(
@@ -217,104 +222,106 @@ class _HomeProfileState extends State<HomeProfile> {
                       ),
                     ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Is Cough"),
+                    BaseWidget.getQuestionText("Lacking in Strength Check"),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(
-                          isCoughList,
-                          isCoughTimeList,
-                          obTimeList,
+                      child: SyncfusionColumnChartWidget(
+                          strengthList,
+                          strengthTimeList,
+                          timeList,
                           Constants.optionMaxY,
-                          isCoughToolTipsList),
+                          strengthToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Is Sore Throat"),
+                    BaseWidget.getQuestionText("Fasting Blood Glucose"),
                     BaseWidget.getPadding(5),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: BarChartWidget(
-                          isSoreThroatList,
-                          isSoreThroatTimeList,
-                          obTimeList,
-                          Constants.optionMaxY,
-                          isSoreThroatToolTipsList),
+                      child: SyncfusionLineChartWidget(
+                          fastingList,
+                          fastingTimeList,
+                          timeList,
+                          Constants.fastingMinY,
+                          fastingToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Temperature"),
+                    BaseWidget.getQuestionText("Postprandial Blood Glucose"),
                     BaseWidget.getPadding(5),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
-                          temperatureList,
-                          temperatureTimeList,
-                          obTimeList,
-                          Constants.temperatureMinY,
-                          temperatureToolTipsList),
+                      child: SyncfusionLineChartWidget(
+                          postprandialList,
+                          postprandialTimeList,
+                          timeList,
+                          Constants.postprandialMinY,
+                          postprandialToolTipsList),
                     ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Systolic"),
+                    BaseWidget.getQuestionText("Systolic & Diastolic"),
                     BaseWidget.getPadding(5),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
+                      child: GroupChartWidget(
                           systolicList,
-                          systolicTimeList,
-                          obTimeList,
-                          Constants.systolicMinY,
-                          systolicToolTipsList),
-                    ),
-                    BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Diastolic"),
-                    BaseWidget.getPadding(5),
-                    SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
                           diastolicList,
-                          diastolicTimeList,
-                          obTimeList,
-                          Constants.diastolicMinY,
+                          systolicTimeList,
+                          timeList,
+                          Constants.systolicMinY,
+                          systolicToolTipsList,
                           diastolicToolTipsList),
                     ),
+                    // BaseWidget.getPadding(15),
+                    // BaseWidget.getQuestionText("Diastolic"),
+                    // BaseWidget.getPadding(5),
+                    // SizedBox(
+                    //   height: 150,
+                    //   width: MediaQuery.of(context).size.width,
+                    //   child: LineChartWidget(
+                    //       diastolicList,
+                    //       diastolicTimeList,
+                    //       timeList,
+                    //       Constants.diastolicMinY,
+                    //       diastolicToolTipsList),
+                    // ),
                     BaseWidget.getPadding(15),
-                    BaseWidget.getQuestionText("Heart Rate"),
+                    BaseWidget.getQuestionText("Weight"),
                     BaseWidget.getPadding(5),
                     SizedBox(
                       height: 150,
                       width: MediaQuery.of(context).size.width,
-                      child: LineChartWidget(
-                          heartRateList,
-                          heartRateTimeList,
-                          obTimeList,
-                          Constants.heartRateMinY,
-                          heartRateToolTipsList),
+                      child: SyncfusionLineChartWidget(
+                          weightList,
+                          weightTimeList,
+                          timeList,
+                          Constants.weightMinY,
+                          weightToolTipsList),
                     ),
-                    BaseWidget.getPadding(25),
-                    BaseWidget.getElevatedButton(() async {
-                      bool? isLogout = await showDialog<bool>(
-                          context: context,
-                          builder: (context) {
-                            return BaseWidget.getConfirmationDialog(
-                                context,
-                                "Message",
-                                "Are you sure to logout?",
-                                "Emm, not yet",
-                                "Goodbye");
-                          });
-                      if (isLogout == null || !isLogout || !mounted) {
-                        return;
-                      }
-                      homePageService.logout(widget.authData!["logoutUrl"]);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) {
-                        return const LoginPage();
-                      }));
-                    }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
-                    BaseWidget.getPadding(150.0),
+                    // BaseWidget.getPadding(25),
+                    // BaseWidget.getElevatedButton(() async {
+                    //   bool? isLogout = await showDialog<bool>(
+                    //       context: context,
+                    //       builder: (context) {
+                    //         return BaseWidget.getConfirmationDialog(
+                    //             context,
+                    //             "Message",
+                    //             "Are you sure to logout?",
+                    //             "Emm, not yet",
+                    //             "Goodbye");
+                    //       });
+                    //   if (isLogout == null || !isLogout || !mounted) {
+                    //     return;
+                    //   }
+                    //   homePageService.logout(widget.authData!["logoutUrl"]);
+                    //   Navigator.pushReplacement(context,
+                    //       MaterialPageRoute(builder: (_) {
+                    //     return const LoginPage();
+                    //   }));
+                    // }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                    BaseWidget.getPadding(30.0),
                   ],
                 );
               }

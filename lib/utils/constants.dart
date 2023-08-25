@@ -7,6 +7,7 @@ class Constants {
   static const int mapPage = 1;
   static const int surveyPage = 2;
   static const int podPage = 3;
+  static const int settingsPage = 4; // Add this line
 
   // Login State Constants
   static const int invalidURL = 0;
@@ -42,8 +43,8 @@ class Constants {
   static const String encContainerName = "encryption";
 
   // Container Info
-  static const String relativeContainerURI = "klee/";
-  static const String containerName = "klee";
+  static const String relativeContainerURI = "secureDiaLog/";
+  static const String containerName = "secureDiaLog";
 
   // Geo Container Info
   static const String relativeGeoContainerURI = "geo/";
@@ -60,12 +61,12 @@ class Constants {
   // Geo File Keys & Survey File Keys
   static const String latitudeKey = "latitude";
   static const String longitudeKey = "longitude";
-  static const String q1Key = "isCough";
-  static const String q2Key = "isSoreThroat";
-  static const String q3Key = "temperature";
+  static const String q1Key = "strengthCheck";
+  static const String q2Key = "fasting";
+  static const String q3Key = "postprandial";
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
-  static const String q6Key = "heartRate";
+  static const String q6Key = "weight";
   static const String obTimeKey = "obTime";
   static const String deviceKey = "device";
 
@@ -94,12 +95,12 @@ class Constants {
   ];
 
   // Question Texts
-  static const String q1Text = "Are you coughing today?";
-  static const String q2Text = "Are you have a sore throat today?";
-  static const String q3Text = "What's your temperature today?";
+  static const String q1Text = "Are you lacking in strength today?";
+  static const String q2Text = "What's your fasting blood glucose today?";
+  static const String q3Text = "What's your postprandial blood glucose today?";
   static const String q4Text = "What's your systolic today?";
   static const String q5Text = "What's your diastolic today?";
-  static const String q6Text = "What's your heart rate today?";
+  static const String q6Text = "What's your weight today?";
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 60;
@@ -117,15 +118,16 @@ class Constants {
   static const double optionModerate = 6;
   static const double optionSevere = 8;
   static const double optionNull = 0;
-  static const double optionMaxY = 10;
+  static const double optionMaxY = 8;
 
   // Survey Charts
-  static const int barNumber = 7;
-  static const int lineNumber = 7;
-  static const double temperatureMinY = 30;
-  static const double diastolicMinY = 25;
-  static const double heartRateMinY = 35;
-  static const double systolicMinY = 45;
+  static const int barNumber = 15;
+  static const int lineNumber = 15;
+  static const double fastingMinY = 0;//30
+  static const double postprandialMinY = 0;//30
+  static const double diastolicMinY = 0;//25
+  static const double weightMinY = 0;//10
+  static const double systolicMinY = 0;//45
   static const String defaultObTime = "N/A";
   static const double toolTipNoneVal = -1;
   static final Map<double, String> toolTipDoubleToStrMap = {
@@ -155,6 +157,7 @@ class Constants {
   static const String subTitle2 = "Map Page:";
   static const String subTitle3 = "Survey Page:";
   static const String subTitle4 = "POD Page:";
+  static const String subTitle5 = "SETTING Page:";
   static const String indexPageInstructionText1 =
       "The portal of this app, you can view instructions and set your enc-key here";
   static const String indexPageInstructionText2 =
@@ -163,7 +166,8 @@ class Constants {
       "You can submit your health report here everyday";
   static const String indexPageInstructionText4 =
       "A useful data exhibition and analysis interface";
-
+  static const String indexPageInstructionText5 =
+      "You can check your information here and logout";
   // Week Day Name
   static const Map<int, String> weekMap = {
     1: "MON",

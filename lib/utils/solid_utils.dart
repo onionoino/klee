@@ -38,17 +38,17 @@ class SolidUtils {
         continue;
       }
       if (line.contains(EncryptUtils.encode(Constants.q1Key, encryptClient)!)) {
-        surveyInfo.setIsCough(EncryptUtils.decode(
+        surveyInfo.setStrength(EncryptUtils.decode(
             val.replaceAll("\".", "").replaceAll("\";", "").trim(),
             encryptClient)!);
       } else if (line
           .contains(EncryptUtils.encode(Constants.q2Key, encryptClient)!)) {
-        surveyInfo.setIsSoreThroat(EncryptUtils.decode(
+        surveyInfo.setFasting(EncryptUtils.decode(
             val.replaceAll("\".", "").replaceAll("\";", "").trim(),
             encryptClient)!);
       } else if (line
           .contains(EncryptUtils.encode(Constants.q3Key, encryptClient)!)) {
-        surveyInfo.setTemperature(EncryptUtils.decode(
+        surveyInfo.setPostprandial(EncryptUtils.decode(
             val.replaceAll("\".", "").replaceAll("\";", "").trim(),
             encryptClient)!);
       } else if (line
@@ -63,7 +63,7 @@ class SolidUtils {
             encryptClient)!);
       } else if (line
           .contains(EncryptUtils.encode(Constants.q6Key, encryptClient)!)) {
-        surveyInfo.setHeartRate(EncryptUtils.decode(
+        surveyInfo.setWeight(EncryptUtils.decode(
             val.replaceAll("\".", "").replaceAll("\";", "").trim(),
             encryptClient)!);
       } else if (line
