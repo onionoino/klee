@@ -7,6 +7,7 @@ class Constants {
   static const int mapPage = 1;
   static const int surveyPage = 2;
   static const int podPage = 3;
+  static const int settingsPage = 4; // Add this line
 
   // Login State Constants
   static const int invalidURL = 0;
@@ -156,6 +157,7 @@ class Constants {
   static const String subTitle2 = "Map Page:";
   static const String subTitle3 = "Survey Page:";
   static const String subTitle4 = "POD Page:";
+  static const String subTitle5 = "SETTING Page:";
   static const String indexPageInstructionText1 =
       "The portal of this app, you can view instructions and set your enc-key here";
   static const String indexPageInstructionText2 =
@@ -164,7 +166,8 @@ class Constants {
       "You can submit your health report here everyday";
   static const String indexPageInstructionText4 =
       "A useful data exhibition and analysis interface";
-
+  static const String indexPageInstructionText5 =
+      "You can check your information here and logout";
   // Week Day Name
   static const Map<int, String> weekMap = {
     1: "MON",

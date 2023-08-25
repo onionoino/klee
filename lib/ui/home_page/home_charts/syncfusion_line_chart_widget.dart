@@ -41,33 +41,37 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
         header: widget.timeList[index],
         textStyle: TextStyle(color: Colors.white),
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
-          // Extracting the primary data
-          String value = data.y1.toString();
-          String show = widget.yList[pointIndex].toString();
-          String time = widget.timeList[pointIndex];
+          // If timeList is null or empty, don't show the tooltip
+          if (widget.yList[pointIndex] == 0) {
+            return SizedBox.shrink();
+          } else{
+            // Extracting the primary data
+            String value = data.y1.toString();
+            String show = widget.yList[pointIndex].toString();
+            String time = widget.timeList[pointIndex];
 
-          // Using logic similar to getLineTooltipItem to build the tooltip string
-          String toolTipText = "Time:$time\nValue:$show";
+            // Using logic similar to getLineTooltipItem to build the tooltip string
+            String toolTipText = "Time:$time\nValue:$show";
 
-          if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
-            toolTipText += "\n--------------\nUpdating:";
-            for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
-              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
-              toolTipText += additionalText;
+            if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
+              toolTipText += "\n--------------\nUpdating:";
+              for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
+                String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+                toolTipText += additionalText;
+              }
+
             }
-
+            return Container(
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.green[600],
+                borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
+              ),
+              child: SingleChildScrollView(
+                child: Text(toolTipText, style: TextStyle(color: Colors.white)),
+              ),
+            );
           }
-
-          return Container(
-            padding: EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Colors.green[600],
-              borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
-            ),
-            child: SingleChildScrollView(
-              child: Text(toolTipText, style: TextStyle(color: Colors.white)),
-            ),
-          );
         }
 
     );

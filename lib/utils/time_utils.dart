@@ -39,4 +39,18 @@ class TimeUtils {
   static String convertHHmmToClock(String time) {
     return "${time.substring(0, 2)}:${time.substring(2, 4)}";
   }
+
+  /// this method format a datetime into YYYY-mm-DD format
+  /// @param dateTime - the current date time
+  /// @return formattedTimeStr - formatted time
+  static String reformatDate(String date) {
+    if (date.length != 8) {
+      return "Invalid date";
+    }
+    String year = date.substring(0, 4);
+    String month = date.substring(4, 6);
+    String day = date.substring(6, 8);
+    return "$year-$month-$day";
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:klee/service/home_page_service.dart';
 import 'package:klee/service/key_page_service.dart';
 
@@ -21,6 +22,7 @@ class KeyPage extends StatefulWidget {
 }
 
 class _KeyPageState extends State<KeyPage> {
+  final storage = FlutterSecureStorage();
   TextEditingController encKeyController = TextEditingController();
   final KeyPageService keyPageService = KeyPageService();
   final HomePageService homePageService = HomePageService();
@@ -79,6 +81,7 @@ class _KeyPageState extends State<KeyPage> {
                 if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
                   if (await keyPageService.checkAndSetEncKey(
                       widget.authData, encKeyController.text)) {
+                    await storage.write(key: 'encKey', value: encKeyController.text);
                     Global.isEncKeySet = true;
                     Navigator.pushReplacement(
                       context,
@@ -156,6 +159,7 @@ class _KeyPageState extends State<KeyPage> {
             BaseWidget.getElevatedButton(() async {
               if (await keyPageService.checkAndSetEncKey(
                   widget.authData, encKeyController.text)) {
+                await storage.write(key: 'encKey', value: encKeyController.text);
                 Global.isEncKeySet = true;
                 Navigator.pushReplacement(
                   context,

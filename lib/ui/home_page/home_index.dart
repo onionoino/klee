@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klee/service/home_page_service.dart';
 import 'package:klee/utils/base_widget.dart';
 import 'package:klee/utils/constants.dart';
+import 'dart:ui' as ui;
 
 class HomeIndex extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
@@ -19,59 +20,84 @@ class _HomeIndexState extends State<HomeIndex> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          BaseWidget.getPadding(10),
-          const Text(
-            "INSTRUCTIONS",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontFamily: "KleeOne",
-              fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 20),
+            Text(
+              "Start with SecureDialog",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                  foreground: Paint()
+                    ..shader = ui.Gradient.linear(
+                      const Offset(0, 0),
+                      const Offset(0, 50),
+                      [Colors.lime, Colors.teal], // Colors
+                      [0.2, 1.0], // Stops, corresponding to above colors
+                    ),
+              ),
             ),
-          ),
-          BaseWidget.getPadding(10),
-          BaseWidget.getHorizontalLine(MediaQuery.of(context).size.width),
-          BaseWidget.getPadding(5),
-          BaseWidget.getSubTitleText(Constants.subTitle1),
-          BaseWidget.getPadding(5),
-          BaseWidget.getInstructionTextContainer(
-              Constants.indexPageInstructionText1,
-              MediaQuery.of(context).size.width - 40,
-              30),
-          BaseWidget.getPadding(5),
-          BaseWidget.getHorizontalLine(MediaQuery.of(context).size.width),
-          BaseWidget.getPadding(5),
-          BaseWidget.getSubTitleText(Constants.subTitle2),
-          BaseWidget.getPadding(5),
-          BaseWidget.getInstructionTextContainer(
-              Constants.indexPageInstructionText2,
-              MediaQuery.of(context).size.width - 40,
-              30),
-          BaseWidget.getPadding(5),
-          BaseWidget.getHorizontalLine(MediaQuery.of(context).size.width),
-          BaseWidget.getPadding(5),
-          BaseWidget.getSubTitleText(Constants.subTitle3),
-          BaseWidget.getPadding(5),
-          BaseWidget.getInstructionTextContainer(
-              Constants.indexPageInstructionText3,
-              MediaQuery.of(context).size.width - 40,
-              30),
-          BaseWidget.getPadding(5),
-          BaseWidget.getHorizontalLine(MediaQuery.of(context).size.width),
-          BaseWidget.getPadding(5),
-          BaseWidget.getSubTitleText(Constants.subTitle4),
-          BaseWidget.getPadding(5),
-          BaseWidget.getInstructionTextContainer(
-              Constants.indexPageInstructionText4,
-              MediaQuery.of(context).size.width - 40,
-              30),
-          BaseWidget.getPadding(5),
-          BaseWidget.getHorizontalLine(MediaQuery.of(context).size.width),
-          BaseWidget.getPadding(25),
-        ],
+            Divider(
+              color: Colors.blueGrey[100],
+              thickness: 1,
+            ),
+            SizedBox(height: 8),
+            _buildInstructionCard(Constants.subTitle1, Constants.indexPageInstructionText1, Icons.home),
+            _buildInstructionCard(Constants.subTitle2, Constants.indexPageInstructionText2, Icons.zoom_in_map),
+            _buildInstructionCard(Constants.subTitle3, Constants.indexPageInstructionText3, Icons.newspaper),
+            _buildInstructionCard(Constants.subTitle4, Constants.indexPageInstructionText4, Icons.person_outline),
+            _buildInstructionCard(Constants.subTitle5, Constants.indexPageInstructionText5, Icons.settings),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
+
+  Widget _buildInstructionCard(String title, String content, IconData iconData) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),  // Rounded corners with radius of 15
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  iconData,  // The icon data you pass in
+                  color: Colors.teal,
+                ),
+                SizedBox(width: 10),  // some spacing between the icon and text
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: "KleeOne",
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text(
+              content,
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: "KleeOne",
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

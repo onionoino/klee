@@ -195,7 +195,7 @@ class _HomeProfileState extends State<HomeProfile> {
                   systolicTimeList.add(charPoint.systolicMaxTime);
                   obTimeList
                       .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
-                  timeList.add(charPoint.obTimeDay);
+                  timeList.add(TimeUtils.reformatDate(charPoint.obTimeDay));
                   strengthToolTipsList.add(charPoint.otherStrength);
                   fastingToolTipsList.add(charPoint.otherFasting);
                   postprandialToolTipsList.add(charPoint.otherPostprandial);
@@ -300,28 +300,28 @@ class _HomeProfileState extends State<HomeProfile> {
                           Constants.weightMinY,
                           weightToolTipsList),
                     ),
-                    BaseWidget.getPadding(25),
-                    BaseWidget.getElevatedButton(() async {
-                      bool? isLogout = await showDialog<bool>(
-                          context: context,
-                          builder: (context) {
-                            return BaseWidget.getConfirmationDialog(
-                                context,
-                                "Message",
-                                "Are you sure to logout?",
-                                "Emm, not yet",
-                                "Goodbye");
-                          });
-                      if (isLogout == null || !isLogout || !mounted) {
-                        return;
-                      }
-                      homePageService.logout(widget.authData!["logoutUrl"]);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) {
-                        return const LoginPage();
-                      }));
-                    }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
-                    BaseWidget.getPadding(150.0),
+                    // BaseWidget.getPadding(25),
+                    // BaseWidget.getElevatedButton(() async {
+                    //   bool? isLogout = await showDialog<bool>(
+                    //       context: context,
+                    //       builder: (context) {
+                    //         return BaseWidget.getConfirmationDialog(
+                    //             context,
+                    //             "Message",
+                    //             "Are you sure to logout?",
+                    //             "Emm, not yet",
+                    //             "Goodbye");
+                    //       });
+                    //   if (isLogout == null || !isLogout || !mounted) {
+                    //     return;
+                    //   }
+                    //   homePageService.logout(widget.authData!["logoutUrl"]);
+                    //   Navigator.pushReplacement(context,
+                    //       MaterialPageRoute(builder: (_) {
+                    //     return const LoginPage();
+                    //   }));
+                    // }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                    BaseWidget.getPadding(30.0),
                   ],
                 );
               }
