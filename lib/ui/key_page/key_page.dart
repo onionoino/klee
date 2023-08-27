@@ -12,6 +12,7 @@ import '../login_page/login_page.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
+
 class KeyPage extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
 
@@ -29,36 +30,23 @@ class _KeyPageState extends State<KeyPage> {
   bool isIconVisible = false;
   bool hidePassword = true;
 
-  // // Inside your recoverKey function
-  // Future<void> recoverKey() async {
-  //   final smtpServer = gmail('your.email@gmail.com', 'your.password');
-  //
-  //   final message = Message()
-  //     ..from = Address('your.email@gmail.com', 'Your Name')
-  //     ..recipients.add('user@example.com') // User's email
-  //     ..subject = 'Key Recovery'
-  //     ..text = 'Your recovery key: <Insert Recovery Key Here>';
-  //
-  //   try {
-  //     final sendReport = await send(message, smtpServer);
-  //     print('Message sent: ${sendReport.toString()}');
-  //   } catch (e) {
-  //     print('Error sending email: $e');
-  //   }
-  //
-  //   // Placeholder logic: Show a message to the user
-  //   showDialog<bool>(
-  //     context: context,
-  //     builder: (context) {
-  //       return BaseWidget.getNoticeDialog(
-  //         context,
-  //         "Recover Key",
-  //         "An email has been sent to recover your key.",
-  //         "OK",
-  //       );
-  //     },
-  //   );
-  // }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEncryptionKey();
+  }
+
+  _loadEncryptionKey() async {
+    String? storedKey = await storage.read(key: 'encKey');
+    if (storedKey != null) {
+      setState(() {
+        encKeyController.text = storedKey;
+        isIconVisible = false; // Make the visibility icon visible if text is present
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +69,7 @@ class _KeyPageState extends State<KeyPage> {
                 if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
                   if (await keyPageService.checkAndSetEncKey(
                       widget.authData, encKeyController.text)) {
-                    await storage.write(key: 'encKey', value: encKeyController.text);
+                    // await storage.write(key: 'encKey', value: encKeyController.text);
                     Global.isEncKeySet = true;
                     Navigator.pushReplacement(
                       context,
@@ -159,7 +147,7 @@ class _KeyPageState extends State<KeyPage> {
             BaseWidget.getElevatedButton(() async {
               if (await keyPageService.checkAndSetEncKey(
                   widget.authData, encKeyController.text)) {
-                await storage.write(key: 'encKey', value: encKeyController.text);
+                // await storage.write(key: 'encKey', value: encKeyController.text);
                 Global.isEncKeySet = true;
                 Navigator.pushReplacement(
                   context,
