@@ -19,18 +19,20 @@ class _HomeIndexState extends State<HomeIndex> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            Text(
-              "Start with SecureDialog",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
+    return Container(
+      color: Colors.orange[50],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20),
+              Text(
+                "Start with SecureDialog",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
                   foreground: Paint()
                     ..shader = ui.Gradient.linear(
                       const Offset(0, 0),
@@ -38,27 +40,30 @@ class _HomeIndexState extends State<HomeIndex> {
                       [Colors.lime, Colors.teal], // Colors
                       [0.2, 1.0], // Stops, corresponding to above colors
                     ),
+                ),
               ),
-            ),
-            Divider(
-              color: Colors.blueGrey[100],
-              thickness: 1,
-            ),
-            SizedBox(height: 8),
-            _buildInstructionCard(Constants.subTitle1, Constants.indexPageInstructionText1, Icons.home),
-            _buildInstructionCard(Constants.subTitle2, Constants.indexPageInstructionText2, Icons.zoom_in_map),
-            _buildInstructionCard(Constants.subTitle3, Constants.indexPageInstructionText3, Icons.newspaper),
-            _buildInstructionCard(Constants.subTitle4, Constants.indexPageInstructionText4, Icons.person_outline),
-            _buildInstructionCard(Constants.subTitle5, Constants.indexPageInstructionText5, Icons.settings),
-            SizedBox(height: 20),
-          ],
+              Divider(
+                color: Colors.blueGrey[100],
+                thickness: 1,
+              ),
+              SizedBox(height: 8),
+              _buildInstructionCard(Constants.subTitle1, Constants.indexPageInstructionText1, Icons.home),
+              _buildInstructionCard(Constants.subTitle2, Constants.indexPageInstructionText2, Icons.zoom_in_map),
+              _buildInstructionCard(Constants.subTitle3, Constants.indexPageInstructionText3, Icons.newspaper),
+              _buildInstructionCard(Constants.subTitle4, Constants.indexPageInstructionText4, Icons.person_outline),
+              _buildInstructionCard(Constants.subTitle5, Constants.indexPageInstructionText5, Icons.settings),
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
+
   }
 
   Widget _buildInstructionCard(String title, String content, IconData iconData) {
     return Card(
+      color: Colors.lime[50],
       margin: EdgeInsets.symmetric(vertical: 10),
       elevation: 4,
       shape: RoundedRectangleBorder(
