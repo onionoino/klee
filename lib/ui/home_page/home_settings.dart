@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
 
-import '../../service/home_page_service.dart';
-import '../../utils/base_widget.dart';
-import '../login_page/login_page.dart';
+import '../../service/home_page_service.dart';  // Make sure to import your home_page_service
+import '../../utils/base_widget.dart';  // Make sure to import your base_widget
+import '../login_page/login_page.dart';  // Make sure to import your login_page
 
-final storage = FlutterSecureStorage();  // <- initialize storage
+final storage = FlutterSecureStorage();  // Initialize secure storage
 
 class HomeSettings extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
@@ -20,6 +20,25 @@ class HomeSettings extends StatefulWidget {
 class _HomeSettingsState extends State<HomeSettings> {
   TextEditingController encKeyController = TextEditingController();
   final HomePageService homePageService = HomePageService();
+  bool isTextVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEncryptionKey();
+  }
+
+  _loadEncryptionKey() async {
+    String? storedKey = await storage.read(key: 'encKey');
+    setState(() {
+      encKeyController.text = storedKey ?? 'N/A';
+    });
+  }
+
+  _updateEncryptionKey(String newKey) async {
+    await storage.write(key: 'encKey', value: newKey);  // Write to storage
+    _loadEncryptionKey();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +60,7 @@ class _HomeSettingsState extends State<HomeSettings> {
           ),
           SizedBox(height: 20),
           FutureBuilder<String?>(
-            future: storage.read(key: 'encKey'), // <- read from storage
+            future: storage.read(key: 'encKey'),  // Read from storage
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
@@ -49,11 +68,11 @@ class _HomeSettingsState extends State<HomeSettings> {
                 return Text("Error: ${snapshot.error}");
               } else {
                 return Container(
-                  width: double.infinity, // Take all available width
+                  width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, // Align items to the start
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Encryption Key:',
@@ -65,43 +84,69 @@ class _HomeSettingsState extends State<HomeSettings> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        Container(
-                          width: 200, // Set the width to 200
-                          child: TextField(
-                            controller: encKeyController..text = snapshot.data ?? 'N/A',
-                            readOnly: true, // Make the TextField read-only
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: "KleeOne",
-                                color: Colors.blueGrey[700]),
-                            textAlign: TextAlign.left,
-                            autofocus: false,
-                            inputFormatters: <TextInputFormatter>[
-                              LengthLimitingTextInputFormatter(100),
-                            ],
-                            decoration: InputDecoration(
-                              // hintText: "eg. Encryption Key",
-                              isCollapsed: true,
-                              contentPadding: const EdgeInsets.all(10.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 200,
+                              child: TextField(
+                                controller: encKeyController,
+                                readOnly: false,
+                                obscureText: !isTextVisible,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "KleeOne",
+                                    color: Colors.blueGrey[700]),
+                                textAlign: TextAlign.left,
+                                autofocus: false,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(100),
+                                ],
+                                decoration: InputDecoration(
+                                  hintText: "Your Enc-Key",
+                                  isCollapsed: true,
+                                  contentPadding: const EdgeInsets.all(10.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.teal, width: 1.5),
+                                  ),
+                                  suffixIcon: IconButton(  // Add this icon button
+                                    icon: Icon(
+                                      isTextVisible ? Icons.visibility : Icons.visibility_off,
+                                      color: Colors.teal[400],
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isTextVisible = !isTextVisible;
+                                      });
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                            onChanged: (text) {
-                            },
-                          ),
+                            SizedBox(width: 18),
+                            ElevatedButton(
+                              onPressed: () {
+                                _updateEncryptionKey(encKeyController.text);
+                              },
+                              child: Text(" SAVE "),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.teal[400]),
+                                // Other styles here
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -134,6 +179,5 @@ class _HomeSettingsState extends State<HomeSettings> {
         ],
       ),
     );
-
   }
 }
