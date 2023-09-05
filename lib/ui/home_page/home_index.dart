@@ -6,8 +6,9 @@ import 'dart:ui' as ui;
 
 class HomeIndex extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
+  final Function(int) onTapCard;
 
-  const HomeIndex(this.authData, {Key? key}) : super(key: key);
+  const HomeIndex(this.authData, {required this.onTapCard, Key? key}) : super(key: key);
 
   @override
   State<HomeIndex> createState() => _HomeIndexState();
@@ -40,66 +41,70 @@ class _HomeIndexState extends State<HomeIndex> {
                       [Colors.lime, Colors.teal], // Colors
                       [0.2, 1.0], // Stops, corresponding to above colors
                     ),
-                ),
               ),
-              Divider(
-                color: Colors.blueGrey[100],
-                thickness: 1,
-              ),
-              SizedBox(height: 8),
-              _buildInstructionCard(Constants.subTitle1, Constants.indexPageInstructionText1, Icons.home),
-              _buildInstructionCard(Constants.subTitle2, Constants.indexPageInstructionText2, Icons.zoom_in_map),
-              _buildInstructionCard(Constants.subTitle3, Constants.indexPageInstructionText3, Icons.newspaper),
-              _buildInstructionCard(Constants.subTitle4, Constants.indexPageInstructionText4, Icons.person_outline),
-              _buildInstructionCard(Constants.subTitle5, Constants.indexPageInstructionText5, Icons.settings),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-
-  }
-
-  Widget _buildInstructionCard(String title, String content, IconData iconData) {
-    return Card(
-      color: Colors.lime[50],
-      margin: EdgeInsets.symmetric(vertical: 10),
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),  // Rounded corners with radius of 15
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  iconData,  // The icon data you pass in
-                  color: Colors.teal,
-                ),
-                SizedBox(width: 10),  // some spacing between the icon and text
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "KleeOne",
-                  ),
-                ),
-              ],
+            ),
+            Divider(
+              color: Colors.blueGrey[100],
+              thickness: 1,
             ),
             SizedBox(height: 8),
-            Text(
-              content,
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: "KleeOne",
-              ),
-            ),
+            _buildInstructionCard(Constants.subTitle1, Constants.indexPageInstructionText1, Icons.home, Constants.indexPage),
+            _buildInstructionCard(Constants.subTitle2, Constants.indexPageInstructionText2, Icons.zoom_in_map, Constants.mapPage),
+            _buildInstructionCard(Constants.subTitle3, Constants.indexPageInstructionText3, Icons.newspaper, Constants.surveyPage),
+            _buildInstructionCard(Constants.subTitle4, Constants.indexPageInstructionText4, Icons.person_outline, Constants.podPage),
+            _buildInstructionCard(Constants.subTitle5, Constants.indexPageInstructionText5, Icons.settings, Constants.settingsPage),
+            SizedBox(height: 20),
           ],
+        ),
+      ),
+      ),
+    );
+  }
+
+  Widget _buildInstructionCard(String title, String content, IconData iconData, int targetPageIdx) {
+    return GestureDetector(
+      onTap: () {
+        widget.onTapCard(targetPageIdx);
+      },
+      child: Card(
+        color: Colors.lime[50],
+        margin: EdgeInsets.symmetric(vertical: 10),
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),  // Rounded corners with radius of 15
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    iconData,  // The icon data you pass in
+                    color: Colors.teal,
+                  ),
+                  SizedBox(width: 10),  // some spacing between the icon and text
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "KleeOne",
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 8),
+              Text(
+                content,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: "KleeOne",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

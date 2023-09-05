@@ -34,7 +34,11 @@ class _HomePageState extends State<HomePage> {
     curWidgetIdx = widget.defaultPage;
     super.initState();
     widgetList
-      ..add(HomeIndex(widget.authData))
+      ..add(HomeIndex(widget.authData, onTapCard: (int idx) {
+        setState(() {
+          curWidgetIdx = idx;
+        });
+      }))
       ..add(HomeOSM(widget.authData))
       ..add(HomeSurvey(widget.authData))
       ..add(HomeProfile(widget.authData))
