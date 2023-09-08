@@ -1,6 +1,6 @@
 /// Handle the POD login to the SOLID server.
 ///
-/// Copyright (C) 2023
+/// Copyright (C) 2023 The Authors
 ///
 /// License: GNU General Public License, Version 3 (the "License")
 /// https://www.gnu.org/licenses/gpl-3.0.en.html
