@@ -118,7 +118,7 @@ class _HomeSettingsState extends State<HomeSettings> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
+                                    const borderSide: BorderSide(
                                         color: Colors.teal, width: 1.5),
                                   ),
                                   suffixIcon: IconButton(  // Add this icon button
