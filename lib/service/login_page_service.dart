@@ -31,6 +31,11 @@ class LoginPageService {
       prefs.setString(Constants.lastScheduledDateKey, Constants.none);
     }
     prefs.setString(Constants.lastInputURLKey, webId);
-    return await loginPageNet.getAuthData(webId, context, mounted);
+    try {
+      return await loginPageNet.getAuthData(webId, context, mounted);
+    } catch (e) {
+      // Propagate the error to be caught in the view layer
+      throw e;
+    }
   }
 }

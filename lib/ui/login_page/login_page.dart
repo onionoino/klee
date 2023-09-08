@@ -52,27 +52,45 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: FocusNode(),
               onKey: (event) async {
                 if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                  if (!loginPageService.loginPreCheck(webIdController.text)) {
-                    await showDialog<bool>(
-                        context: context,
-                        builder: (context) {
-                          return BaseWidget.getNoticeDialog(context, "Warning",
-                              "You gave an invalid webId", "Try again");
-                        });
-                    return;
+                  try{
+                    if (!loginPageService.loginPreCheck(webIdController.text)) {
+                      await showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return BaseWidget.getNoticeDialog(context, "Warning",
+                                "You gave an invalid webId", "Try again");
+                          });
+                      return;
+                    }
+                    if (!mounted) {
+                      return;
+                    }
+                    Map<dynamic, dynamic>? authData;
+                    await loginPageService
+                        .loginAndAuth(webIdController.text, context, mounted)
+                        .then((result) {
+                      authData = result;
+                    }).catchError((error) {
+                      print("Caught error: $error");
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("An error occurred: $error"),
+                      ));
+                    });
+                    // Map<dynamic, dynamic>? authData = await loginPageService
+                    //     .loginAndAuth(webIdController.text, context, mounted);
+                    if (!mounted) {
+                      return;
+                    }
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => KeyPage(authData)),
+                    );
+                  } catch (e) {
+                    print("Exception caught: $e");
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("An error occurred: $e"),
+                    ));
                   }
-                  if (!mounted) {
-                    return;
-                  }
-                  Map<dynamic, dynamic>? authData = await loginPageService
-                      .loginAndAuth(webIdController.text, context, mounted);
-                  if (!mounted) {
-                    return;
-                  }
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => KeyPage(authData)),
-                  );
                 }
               },
               child: TextField(
@@ -123,8 +141,19 @@ class _LoginPageState extends State<LoginPage> {
               if (!mounted) {
                 return null;
               }
-              Map<dynamic, dynamic>? authData = await loginPageService
-                  .loginAndAuth(webIdController.text, context, mounted);
+              Map<dynamic, dynamic>? authData;
+              await loginPageService
+                  .loginAndAuth(webIdController.text, context, mounted)
+                  .then((result) {
+                authData = result;
+              }).catchError((error) {
+                print("Caught error: $error");
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("An error occurred: $error"),
+                ));
+              });
+              // Map<dynamic, dynamic>? authData = await loginPageService
+              //     .loginAndAuth(webIdController.text, context, mounted);
               if (!mounted) {
                 return null;
               }
