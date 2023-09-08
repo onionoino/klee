@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:klee/utils/constants.dart';
 import 'package:solid_auth/solid_auth.dart';
-import 'dart:io';
 
 /// model layer of login page, including net IO operations authenticate and get authentication information
 class LoginPageNet {
