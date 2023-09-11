@@ -94,6 +94,7 @@ class HomePageService {
   ///        answer4 - q4's answer
   ///        answer5 - q5's answer
   ///        answer6 - q6's answer
+  ///        answer7 - q7's answer
   ///        authData - the authentication Data received after login
   ///        dateTime - the timestamp collected when submitting the survey
   /// @return isSuccess - TRUE is success and FALSE is failure
@@ -104,6 +105,7 @@ class HomePageService {
       String answer4,
       String answer5,
       String answer6,
+      String answer7,
       Map<dynamic, dynamic>? authData,
       DateTime dateTime) async {
     Map<String, dynamic> podInfo = SolidUtils.parseAuthData(authData);
@@ -123,6 +125,7 @@ class HomePageService {
         answer4,
         answer5,
         answer6,
+        answer7,
         dateTime,
         encryptClient!);
     try {

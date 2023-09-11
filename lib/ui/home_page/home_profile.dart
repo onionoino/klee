@@ -112,6 +112,8 @@ class _HomeProfileState extends State<HomeProfile> {
                   List<String> weightTimeList = [];
                   List<double> systolicList = [];
                   List<String> systolicTimeList = [];
+                  List<double> heartRateList = [];
+                  List<String> heartRateTimeList = [];
                   List<String> obTimeList = [];
                   List<String> timeList = [];
                   List<List<ToolTip>> strengthToolTipsList = [];
@@ -120,6 +122,7 @@ class _HomeProfileState extends State<HomeProfile> {
                   List<List<ToolTip>> diastolicToolTipsList = [];
                   List<List<ToolTip>> weightToolTipsList = [];
                   List<List<ToolTip>> systolicToolTipsList = [];
+                  List<List<ToolTip>> heartRateToolTipsList = [];
                   List<SurveyDayInfo>? surveyDayInfoList = snapshot.data;
                   if (surveyDayInfoList == null) {
                     return Column(
@@ -195,6 +198,8 @@ class _HomeProfileState extends State<HomeProfile> {
                     weightTimeList.add(charPoint.weightMaxTime);
                     systolicList.add(charPoint.systolicMax);
                     systolicTimeList.add(charPoint.systolicMaxTime);
+                    heartRateList.add(charPoint.heartRateMax);
+                    heartRateTimeList.add(charPoint.heartRateMaxTime);
                     obTimeList
                         .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
                     timeList.add(TimeUtils.reformatDate(charPoint.obTimeDay));
@@ -204,6 +209,7 @@ class _HomeProfileState extends State<HomeProfile> {
                     diastolicToolTipsList.add(charPoint.otherDiastolic);
                     weightToolTipsList.add(charPoint.otherWeight);
                     systolicToolTipsList.add(charPoint.otherSystolic);
+                    heartRateToolTipsList.add(charPoint.otherHeartRate);
                   }
                   return Column(
                     children: <Widget>[
@@ -276,19 +282,6 @@ class _HomeProfileState extends State<HomeProfile> {
                             systolicToolTipsList,
                             diastolicToolTipsList),
                       ),
-                      // BaseWidget.getPadding(15),
-                      // BaseWidget.getQuestionText("Diastolic"),
-                      // BaseWidget.getPadding(5),
-                      // SizedBox(
-                      //   height: 150,
-                      //   width: MediaQuery.of(context).size.width,
-                      //   child: LineChartWidget(
-                      //       diastolicList,
-                      //       diastolicTimeList,
-                      //       timeList,
-                      //       Constants.diastolicMinY,
-                      //       diastolicToolTipsList),
-                      // ),
                       BaseWidget.getPadding(15),
                       BaseWidget.getQuestionText("Weight"),
                       BaseWidget.getPadding(5),
@@ -302,27 +295,20 @@ class _HomeProfileState extends State<HomeProfile> {
                             Constants.weightMinY,
                             weightToolTipsList),
                       ),
-                      // BaseWidget.getPadding(25),
-                      // BaseWidget.getElevatedButton(() async {
-                      //   bool? isLogout = await showDialog<bool>(
-                      //       context: context,
-                      //       builder: (context) {
-                      //         return BaseWidget.getConfirmationDialog(
-                      //             context,
-                      //             "Message",
-                      //             "Are you sure to logout?",
-                      //             "Emm, not yet",
-                      //             "Goodbye");
-                      //       });
-                      //   if (isLogout == null || !isLogout || !mounted) {
-                      //     return;
-                      //   }
-                      //   homePageService.logout(widget.authData!["logoutUrl"]);
-                      //   Navigator.pushReplacement(context,
-                      //       MaterialPageRoute(builder: (_) {
-                      //     return const LoginPage();
-                      //   }));
-                      // }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                      BaseWidget.getPadding(15),
+                      BaseWidget.getQuestionText("Heart Rate"),
+                      BaseWidget.getPadding(5),
+                      SizedBox(
+                        height: 150,
+                        width: MediaQuery.of(context).size.width,
+                        child: SyncfusionLineChartWidget(
+                            heartRateList,
+                            heartRateTimeList,
+                            timeList,
+                            Constants.heartRateMinY,
+                            heartRateToolTipsList),
+                      ),
+
                       BaseWidget.getPadding(30.0),
                     ],
                   );

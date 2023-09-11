@@ -67,6 +67,11 @@ class SolidUtils {
             val.replaceAll("\".", "").replaceAll("\";", "").trim(),
             encryptClient)!);
       } else if (line
+          .contains(EncryptUtils.encode(Constants.q7Key, encryptClient)!)) {
+        surveyInfo.setHeartRate(EncryptUtils.decode(
+            val.replaceAll("\".", "").replaceAll("\";", "").trim(),
+            encryptClient)!);
+      } else if (line
           .contains(EncryptUtils.encode(Constants.obTimeKey, encryptClient)!)) {
         surveyInfo.setObTime(EncryptUtils.decode(
             val.replaceAll("\".", "").replaceAll("\";", "").trim(),

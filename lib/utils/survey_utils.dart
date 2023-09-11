@@ -120,6 +120,26 @@ class SurveyUtils {
     return true;
   }
 
+  /// check if a string complies with diastolic format,
+  /// a heart rate format is a 2 or 3-digits integer and it should <= 260 && >= 30
+  /// @param heartRateText - a string text of heart rate
+  /// @return isValid - TRUE means it valid, FALSE means not
+  static bool checkHeartRateText(String heartRateText) {
+    if (heartRateText.trim() == "") {
+      return true;
+    }
+    int heartRate;
+    try {
+      heartRate = int.parse(heartRateText);
+      if (heartRate < 30 || heartRate > 260) {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   /// get a map of formatted survey information for further processing
   /// @param answer1 - q1's answer
   ///        answer2 - q2's answer
@@ -127,6 +147,7 @@ class SurveyUtils {
   ///        answer4 - q4's answer
   ///        answer5 - q5's answer
   ///        answer6 - q6's answer
+  ///        answer7 - q7's answer
   ///        dateTime - time of survey submitting
   /// @return surveyMap - K-V structure to make further process more convenient
   static Future<Map<String, String>> getFormattedSurvey(
@@ -136,6 +157,7 @@ class SurveyUtils {
       String answer4,
       String answer5,
       String answer6,
+      String answer7,
       DateTime dateTime,
       EncryptClient encryptClient) async {
     String? deviceInfo = await PlatformDeviceId.getDeviceId;
@@ -148,6 +170,7 @@ class SurveyUtils {
     String q4Key = EncryptUtils.encode(Constants.q4Key, encryptClient)!;
     String q5Key = EncryptUtils.encode(Constants.q5Key, encryptClient)!;
     String q6Key = EncryptUtils.encode(Constants.q6Key, encryptClient)!;
+    String q7Key = EncryptUtils.encode(Constants.q7Key, encryptClient)!;
     String deviceKey = EncryptUtils.encode(Constants.deviceKey, encryptClient)!;
     String obTimeKey = EncryptUtils.encode(Constants.obTimeKey, encryptClient)!;
     String latitudeKey =
@@ -162,6 +185,7 @@ class SurveyUtils {
         q4Key: EncryptUtils.encode(answer4, encryptClient)!,
         q5Key: EncryptUtils.encode(answer5, encryptClient)!,
         q6Key: EncryptUtils.encode(answer6, encryptClient)!,
+        q7Key: EncryptUtils.encode(answer7, encryptClient)!,
         deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
         obTimeKey: EncryptUtils.encode(
             TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
@@ -178,6 +202,7 @@ class SurveyUtils {
         q4Key: EncryptUtils.encode(answer4, encryptClient)!,
         q5Key: EncryptUtils.encode(answer5, encryptClient)!,
         q6Key: EncryptUtils.encode(answer6, encryptClient)!,
+        q7Key: EncryptUtils.encode(answer7, encryptClient)!,
         deviceKey: EncryptUtils.encode(deviceInfo!, encryptClient)!,
         obTimeKey: EncryptUtils.encode(
             TimeUtils.getFormattedTimeYYYYmmDDHHmmSS(dateTime), encryptClient)!,
