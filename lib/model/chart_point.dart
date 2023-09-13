@@ -19,5 +19,8 @@ class ChartPoint {
   late double systolicMax;
   late String systolicMaxTime;
   late List<ToolTip> otherSystolic;
+  late double heartRateMax;
+  late String heartRateMaxTime;
+  late List<ToolTip> otherHeartRate;
   late String obTimeDay;
 }

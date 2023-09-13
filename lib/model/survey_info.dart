@@ -8,6 +8,7 @@ class SurveyInfo {
   late double diastolic = Constants.diastolicMinY;
   late double weight = Constants.weightMinY;
   late double systolic = Constants.systolicMinY;
+  late double heartRate = Constants.heartRateMinY;
   late String obTime = Constants.defaultObTime;
 
   setDiastolic(String diastolic) {
@@ -23,6 +24,14 @@ class SurveyInfo {
       this.systolic = double.parse(systolic);
     } catch (e) {
       this.systolic = Constants.systolicMinY;
+    }
+  }
+
+  setHeartRate(String heartRate) {
+    try {
+      this.heartRate = double.parse(heartRate);
+    } catch (e) {
+      this.heartRate = Constants.heartRateMinY;
     }
   }
 

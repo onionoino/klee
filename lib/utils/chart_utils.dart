@@ -85,12 +85,15 @@ class ChartUtils {
         String weightMaxTime = Constants.none;
         double systolicMax = Constants.systolicMinY;
         String systolicMaxTime = Constants.none;
+        double heartRateMax = Constants.heartRateMinY;
+        String heartRateMaxTime = Constants.none;
         List<ToolTip> toolTipStrength = [];
         List<ToolTip> toolTipFasting = [];
         List<ToolTip> toolTipPostprandial = [];
         List<ToolTip> toolTipDiastolic = [];
         List<ToolTip> toolTipWeight = [];
         List<ToolTip> toolTipSystolic = [];
+        List<ToolTip> toolTipHeartRate = [];
         for (SurveyInfo surveyInfo in curSurveyInfoList) {
           if (surveyInfo.strength >= strengthMax) {
             strengthMax = surveyInfo.strength;
@@ -115,6 +118,10 @@ class ChartUtils {
           if (surveyInfo.systolic >= systolicMax) {
             systolicMax = surveyInfo.systolic;
             systolicMaxTime = surveyInfo.obTime;
+          }
+          if (surveyInfo.heartRate >= heartRateMax) {
+            heartRateMax = surveyInfo.heartRate;
+            heartRateMaxTime = surveyInfo.obTime;
           }
         }
         for (SurveyInfo surveyInfo in curSurveyInfoList) {
@@ -178,6 +185,16 @@ class ChartUtils {
             toolTip.time = surveyInfo.obTime.substring(8, 12);
             toolTipSystolic.add(toolTip);
           }
+          if (surveyInfo.obTime != heartRateMaxTime) {
+            ToolTip toolTip = ToolTip();
+            if (surveyInfo.heartRate <= Constants.heartRateMinY) {
+              toolTip.val = Constants.toolTipNoneVal;
+            } else {
+              toolTip.val = surveyInfo.heartRate;
+            }
+            toolTip.time = surveyInfo.obTime.substring(8, 12);
+            toolTipHeartRate.add(toolTip);
+          }
         }
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
@@ -199,12 +216,16 @@ class ChartUtils {
         chartPoint.systolicMax = systolicMax;
         chartPoint.systolicMaxTime =
             TimeUtils.convertHHmmToClock(systolicMaxTime.substring(8, 12));
+        chartPoint.heartRateMax = heartRateMax;
+        chartPoint.heartRateMaxTime =
+            TimeUtils.convertHHmmToClock(heartRateMaxTime.substring(8, 12));
         chartPoint.otherStrength = toolTipStrength;
         chartPoint.otherFasting = toolTipFasting;
         chartPoint.otherPostprandial = toolTipPostprandial;
         chartPoint.otherDiastolic = toolTipDiastolic;
         chartPoint.otherWeight = toolTipWeight;
         chartPoint.otherSystolic = toolTipSystolic;
+        chartPoint.otherHeartRate = toolTipHeartRate;
         chartPointList.add(chartPoint);
       } else {
         ChartPoint chartPoint = ChartPoint();
@@ -221,12 +242,15 @@ class ChartUtils {
         chartPoint.weightMaxTime = Constants.none;
         chartPoint.systolicMax = Constants.systolicMinY;
         chartPoint.systolicMaxTime = Constants.none;
+        chartPoint.heartRateMax = Constants.heartRateMinY;
+        chartPoint.heartRateMaxTime = Constants.none;
         chartPoint.otherStrength = [];
         chartPoint.otherFasting = [];
         chartPoint.otherPostprandial = [];
         chartPoint.otherDiastolic = [];
         chartPoint.otherWeight = [];
         chartPoint.otherSystolic = [];
+        chartPoint.otherHeartRate = [];
         chartPointList.add(chartPoint);
       }
     }

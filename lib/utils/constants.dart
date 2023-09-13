@@ -67,6 +67,7 @@ class Constants {
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
   static const String q6Key = "weight";
+  static const String q7Key = "heartRate";
   static const String obTimeKey = "obTime";
   static const String deviceKey = "device";
 
@@ -101,6 +102,7 @@ class Constants {
   static const String q4Text = "What's your systolic today?";
   static const String q5Text = "What's your diastolic today?";
   static const String q6Text = "What's your weight today?";
+  static const String q7Text = "What's your heart rate today?";
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 60;
@@ -128,6 +130,7 @@ class Constants {
   static const double diastolicMinY = 0;//25
   static const double weightMinY = 0;//10
   static const double systolicMinY = 0;//45
+  static const double heartRateMinY = 0;//30
   static const String defaultObTime = "N/A";
   static const double toolTipNoneVal = -1;
   static final Map<double, String> toolTipDoubleToStrMap = {

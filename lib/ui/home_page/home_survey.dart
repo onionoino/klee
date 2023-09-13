@@ -18,22 +18,53 @@ class HomeSurvey extends StatefulWidget {
 
 class _HomeSurveyState extends State<HomeSurvey> {
   final HomePageService homePageService = HomePageService();
+  late FocusNode focusNode2;
+  late FocusNode focusNode3;
+  late FocusNode focusNode4;
+  late FocusNode focusNode5;
+  late FocusNode focusNode6;
+  late FocusNode focusNode7;
   TextEditingController q2AnswerTextController = TextEditingController();
   TextEditingController q3AnswerTextController = TextEditingController();
   TextEditingController q4AnswerTextController = TextEditingController();
   TextEditingController q5AnswerTextController = TextEditingController();
   TextEditingController q6AnswerTextController = TextEditingController(text: "60");
+  TextEditingController q7AnswerTextController = TextEditingController();
   String? q1Answer;
   String? q2Answer;
   String? q3Answer;
   String? q4Answer;
   String? q5Answer;
   String? q6Answer;
+  String? q7Answer;
   String? errorText2;
   String? errorText3;
   String? errorText4;
   String? errorText5;
   String? errorText6;
+  String? errorText7;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode2 = FocusNode();
+    focusNode3 = FocusNode();
+    focusNode4 = FocusNode();
+    focusNode5 = FocusNode();
+    focusNode6 = FocusNode();
+    focusNode7 = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    focusNode2.dispose();
+    focusNode3.dispose();
+    focusNode4.dispose();
+    focusNode5.dispose();
+    focusNode6.dispose();
+    focusNode7.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +209,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       width: 120,
                       alignment: Alignment.center,
                       child: TextField(
+                        focusNode: focusNode2,
+                        onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode3),
                         controller: q6AnswerTextController,
                         style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                         textAlign: TextAlign.left,
@@ -291,6 +324,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     width: 200,
                     alignment: Alignment.centerLeft,
                     child: TextField(
+                      focusNode: focusNode3,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode4),
                       controller: q2AnswerTextController,
                       style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
@@ -360,6 +395,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     width: 200,
                     alignment: Alignment.center,
                     child: TextField(
+                      focusNode: focusNode4,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode5),
                       controller: q3AnswerTextController,
                       style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
@@ -429,6 +466,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     width: 200,
                     alignment: Alignment.center,
                     child: TextField(
+                      focusNode: focusNode5,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode6),
                       controller: q4AnswerTextController,
                       style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
@@ -493,6 +532,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     width: 200,
                     alignment: Alignment.center,
                     child: TextField(
+                      focusNode: focusNode6,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode7),
                       controller: q5AnswerTextController,
                       style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
@@ -539,6 +580,72 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   ),
                 ),
               ),
+              BaseWidget.getPadding(15.0),
+              // BaseWidget.getQuestionText(Constants.q7Text),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: BaseWidget.getQuestionText(Constants.q7Text),
+                ),
+              ),
+              BaseWidget.getPadding(8.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 200,
+                    alignment: Alignment.center,
+                    child: TextField(
+                      focusNode: focusNode7,
+                      onEditingComplete: () => focusNode7.unfocus(),
+                      controller: q7AnswerTextController,
+                      style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                      textAlign: TextAlign.left,
+                      autofocus: false,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(6),
+                      ],
+                      keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                        hintText: "eg 86(bpm)",
+                        isCollapsed: true,
+                        contentPadding: const EdgeInsets.all(10.0),
+                        errorText: errorText7,
+                        border: OutlineInputBorder( // Set the border shape and look
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                        ),
+                      ),
+                      onChanged: (heartRateText) {
+                        setState(() {
+                          if (!SurveyUtils.checkHeartRateText(heartRateText)) {
+                            errorText7 = "Invalid heart rate value";
+                            q7Answer = null;
+                          } else {
+                            errorText7 = null;
+                            if (heartRateText.trim() == "") {
+                              q7Answer = null;
+                            } else {
+                              q7Answer = heartRateText;
+                            }
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
 
               BaseWidget.getPadding(15.0),
               BaseWidget.getElevatedButton(() async {
@@ -547,7 +654,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     q3Answer == null &&
                     q4Answer == null &&
                     q5Answer == null &&
-                    q6Answer == null) {
+                    q6Answer == null &&
+                    q7Answer == null) {
                   await showDialog<bool>(
                       context: context,
                       builder: (context) {
@@ -564,6 +672,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                   q4Answer ??= Constants.none;
                   q5Answer ??= Constants.none;
                   q6Answer ??= Constants.none;
+                  q7Answer ??= Constants.none;
                   if (await homePageService.saveSurveyInfo(
                       q1Answer!,
                       q2Answer!,
@@ -571,6 +680,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       q4Answer!,
                       q5Answer!,
                       q6Answer!,
+                      q7Answer!,
                       widget.authData,
                       DateTime.now())) {
                     await showDialog<bool>(
