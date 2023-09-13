@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
 
-import '../../service/home_page_service.dart';  // Make sure to import your home_page_service
-import '../../utils/base_widget.dart';  // Make sure to import your base_widget
-import '../login_page/login_page.dart';  // Make sure to import your login_page
+import '../../service/home_page_service.dart';
+import '../../utils/base_widget.dart';
+import '../login_page/login_page.dart';
 
-final storage = FlutterSecureStorage();  // Initialize secure storage
+final storage = FlutterSecureStorage(); // Initialize secure storage
 
 class HomeSettings extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
@@ -36,7 +36,7 @@ class _HomeSettingsState extends State<HomeSettings> {
   }
 
   _updateEncryptionKey(String newKey) async {
-    await storage.write(key: 'encKey', value: newKey);  // Write to storage
+    await storage.write(key: 'encKey', value: newKey); // Write to storage
     _loadEncryptionKey();
   }
 
@@ -60,7 +60,7 @@ class _HomeSettingsState extends State<HomeSettings> {
           ),
           SizedBox(height: 20),
           FutureBuilder<String?>(
-            future: storage.read(key: 'encKey'),  // Read from storage
+            future: storage.read(key: 'encKey'), // Read from storage
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
@@ -118,12 +118,15 @@ class _HomeSettingsState extends State<HomeSettings> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Colors.teal, width: 1.5),
                                   ),
-                                  suffixIcon: IconButton(  // Add this icon button
+                                  suffixIcon: IconButton(
+                                    // Add this icon button
                                     icon: Icon(
-                                      isTextVisible ? Icons.visibility : Icons.visibility_off,
+                                      isTextVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
                                       color: Colors.teal[400],
                                     ),
                                     onPressed: () {
@@ -142,7 +145,8 @@ class _HomeSettingsState extends State<HomeSettings> {
                               },
                               child: Text(" SAVE "),
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Colors.teal[400]),
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.teal[400]),
                                 // Other styles here
                               ),
                             ),
@@ -160,21 +164,16 @@ class _HomeSettingsState extends State<HomeSettings> {
             bool? isLogout = await showDialog<bool>(
                 context: context,
                 builder: (context) {
-                  return BaseWidget.getConfirmationDialog(
-                      context,
-                      "Message",
-                      "Are you sure to logout?",
-                      "Emm, not yet",
-                      "Goodbye");
+                  return BaseWidget.getConfirmationDialog(context, "Message",
+                      "Are you sure to logout?", "Emm, not yet", "Goodbye");
                 });
             if (isLogout == null || !isLogout || !mounted) {
               return;
             }
             homePageService.logout(widget.authData!["logoutUrl"]);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (_) {
-                  return const LoginPage();
-                }));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+              return const LoginPage();
+            }));
           }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
         ],
       ),

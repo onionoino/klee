@@ -1,11 +1,9 @@
 /// Personal diabetes management tool with privacy
 ///
-/// Copyright (C) 2023
+/// Copyright (C) 2023 The Authors
 ///
 /// License: GNU General Public License, Version 3 (the "License")
 /// https://www.gnu.org/licenses/gpl-3.0.en.html
-//
-// Time-stamp: <Tuesday 2023-09-05 09:47:24 +1000 Graham Williams>
 //
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -20,7 +18,7 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Ye Duan, Graham Williams
+/// Authors: Bowen Yang, Ye Duan, Graham Williams
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -32,8 +30,8 @@ import 'package:window_manager/window_manager.dart';
 import 'package:klee/ui/login_page/login_page.dart';
 import 'package:klee/utils/geo_utils.dart';
 
-/// main portal of this very application
-/// @Author Bowen Yang
+/// Main entry point for the application.
+
 void main() async {
   // Identify if Desktop or Mobile app.
 
@@ -85,13 +83,14 @@ void main() async {
       ],
       debug: true);
   GeoUtils.getCurrentLocation();
-  runApp(const MyApp());
+  runApp(const SecureDiaLog());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SecureDiaLog extends StatelessWidget {
+  const SecureDiaLog({super.key});
 
   // This widget is the root of this application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

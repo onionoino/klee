@@ -11,10 +11,16 @@ class LoginPageNet {
   /// @return authData - a map that contains all information after authentication, -including accessToken and dPopToken
   Future<Map?> getAuthData(
       String webId, BuildContext context, bool mounted) async {
-    String issuerUri = await getIssuer(webId);
-    if (!mounted) {
-      return null;
+    try {
+      String issuerUri = await getIssuer(webId);
+      if (!mounted) {
+        return null;
+      }
+      return authenticate(Uri.parse(issuerUri), Constants.scopes, context);
+    } catch (e) {
+      print("Caught exception: $e");
+      // Handle the exception, maybe return a specific error Map or null
+      throw Exception("$e");
     }
-    return authenticate(Uri.parse(issuerUri), Constants.scopes, context);
   }
 }
