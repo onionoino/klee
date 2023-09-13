@@ -22,12 +22,12 @@ also provides analytics based on the historical data to assess and
 improve the diabetes status of the users.
 
 <div align="center">
-	<img src="https://github.com/kimishidairessha/diabetes/blob/main/images/login.PNG" alt="Editor" width="700">
+	<img src="https://github.com/kimishidairessha/diabetes/blob/main/images/login.PNG" alt="Editor" width="300">
 </div>
 <p align="center">Screenshot of LOGIN page on SecureDiaLog</p>
 
 <div align="center">
-	<img src="https://github.com/kimishidairessha/diabetes/blob/main/images/home.PNG" alt="Editor" width="700">
+	<img src="https://github.com/kimishidairessha/diabetes/blob/main/images/home.PNG" alt="Editor" width="300">
 </div>
 <p align="center">Screenshot of HOME page on SecureDiaLog</p>
 
