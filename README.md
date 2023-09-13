@@ -21,7 +21,9 @@ in a Solid pod. Users have complete control over their data, and the app
 also provides analytics based on the historical data to assess and 
 improve the diabetes status of the users.
 
+![Screenshot of Login Page on SecureDiaLog](https://github.com/kimishidairessha/diabetes/blob/main/images/login.PNG)
 
+![Screenshot of Home Page on SecureDiaLog](https://github.com/kimishidairessha/diabetes/blob/main/images/home.PNG)
 
 ## Features
 
