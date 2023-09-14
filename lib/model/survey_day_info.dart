@@ -1,4 +1,4 @@
-import 'package:klee/model/survey_info.dart';
+import 'package:securedialog/model/survey_info.dart';
 
 class SurveyDayInfo {
   late String date;

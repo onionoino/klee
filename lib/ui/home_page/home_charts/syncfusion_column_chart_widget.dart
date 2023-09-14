@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klee/extensions/color_extensions.dart';
-import 'package:klee/utils/chart_utils.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
@@ -43,7 +41,7 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
         enable: true,
         color: Colors.teal,
         header: widget.timeList[index],
-        textStyle: TextStyle(color: Colors.white),
+        textStyle: const TextStyle(color: Colors.white),
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
           // Extracting the primary data
           String value = mapIntToValueString(data.y1); // Use this function to map int to string
@@ -62,13 +60,13 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
           }
 
           return Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.green[600],
               borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
             ),
             child: SingleChildScrollView(
-              child: Text(toolTipText, style: TextStyle(color: Colors.white)),
+              child: Text(toolTipText, style: const TextStyle(color: Colors.white)),
             ),
           );
         }
@@ -77,7 +75,7 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
     super.initState();
     visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
     visibleMaximum = widget.xList.length.toDouble();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         // Update your state variables here
         visibleMinimum = 7.0; // New minimum value
@@ -92,7 +90,7 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
 
     if (chartData.isEmpty) {
       // No data to display
-      return Center(
+      return const Center(
         child: Text('No data available.'),
       );
     }
@@ -108,21 +106,21 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,
           primaryXAxis: CategoryAxis(
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),
             edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             visibleMinimum: visibleMinimum,
             visibleMaximum: visibleMaximum,
           ),
           primaryYAxis: NumericAxis(
               maximum: widget.maxY,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-              majorGridLines: MajorGridLines(width: 0),
+              majorGridLines: const MajorGridLines(width: 0),
             isVisible: false,
           ),
           series: <ChartSeries>[
@@ -130,11 +128,11 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
               dataSource: chartData,
               xValueMapper: (_ChartData data, _) => data.x,
               yValueMapper: (_ChartData data, _) => data.y1,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               isTrackVisible: true,
               trackColor: Colors.indigo[50]!,
               width: 0.5,
-              markerSettings: MarkerSettings(
+              markerSettings: const MarkerSettings(
                   isVisible: true,
                 width: 5,  // Adjust these values to make the marker smaller
                 height: 5,
@@ -157,9 +155,7 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
       final y1 = widget.yList[i];
       final x = widget.xList[i];
 
-      if (y1 != null) {
-        chartData.add(_ChartData(x, y1));
-      }
+      chartData.add(_ChartData(x, y1));
     }
     return chartData;
   }

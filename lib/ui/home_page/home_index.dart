@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:klee/service/home_page_service.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/constants.dart';
+import 'package:securedialog/service/home_page_service.dart';
+import 'package:securedialog/utils/constants.dart';
 import 'dart:ui' as ui;
 
 class HomeIndex extends StatefulWidget {
@@ -27,7 +26,7 @@ class _HomeIndexState extends State<HomeIndex> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 "Start with SecureDialog",
                 textAlign: TextAlign.center,
@@ -47,13 +46,13 @@ class _HomeIndexState extends State<HomeIndex> {
               color: Colors.blueGrey[100],
               thickness: 1,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildInstructionCard(Constants.subTitle1, Constants.indexPageInstructionText1, Icons.home, Constants.indexPage),
             _buildInstructionCard(Constants.subTitle2, Constants.indexPageInstructionText2, Icons.zoom_in_map, Constants.mapPage),
             _buildInstructionCard(Constants.subTitle3, Constants.indexPageInstructionText3, Icons.newspaper, Constants.surveyPage),
             _buildInstructionCard(Constants.subTitle4, Constants.indexPageInstructionText4, Icons.person_outline, Constants.podPage),
             _buildInstructionCard(Constants.subTitle5, Constants.indexPageInstructionText5, Icons.settings, Constants.settingsPage),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -68,13 +67,13 @@ class _HomeIndexState extends State<HomeIndex> {
       },
       child: Card(
         color: Colors.lime[50],
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),  // Rounded corners with radius of 15
         ),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -84,10 +83,10 @@ class _HomeIndexState extends State<HomeIndex> {
                     iconData,  // The icon data you pass in
                     color: Colors.teal,
                   ),
-                  SizedBox(width: 10),  // some spacing between the icon and text
+                  const SizedBox(width: 10),  // some spacing between the icon and text
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontFamily: "KleeOne",
@@ -95,10 +94,10 @@ class _HomeIndexState extends State<HomeIndex> {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 content,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontFamily: "KleeOne",
                 ),

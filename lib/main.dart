@@ -27,8 +27,8 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:universal_io/io.dart' show Platform;
 import 'package:window_manager/window_manager.dart';
 
-import 'package:klee/ui/login_page/login_page.dart';
-import 'package:klee/utils/geo_utils.dart';
+import 'package:securedialog/ui/login_page/login_page.dart';
+import 'package:securedialog/utils/geo_utils.dart';
 
 /// Main entry point for the application.
 

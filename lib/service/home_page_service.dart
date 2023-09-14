@@ -1,12 +1,12 @@
 import 'package:common_utils/common_utils.dart';
-import 'package:klee/model/geo_info.dart';
-import 'package:klee/model/survey_info.dart';
-import 'package:klee/net/home_page_net.dart';
-import 'package:klee/utils/constants.dart';
-import 'package:klee/utils/geo_utils.dart';
-import 'package:klee/utils/solid_utils.dart';
-import 'package:klee/utils/survey_utils.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/model/geo_info.dart';
+import 'package:securedialog/model/survey_info.dart';
+import 'package:securedialog/net/home_page_net.dart';
+import 'package:securedialog/utils/constants.dart';
+import 'package:securedialog/utils/geo_utils.dart';
+import 'package:securedialog/utils/solid_utils.dart';
+import 'package:securedialog/utils/survey_utils.dart';
+import 'package:securedialog/utils/time_utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:solid_encrypt/solid_encrypt.dart';
 

@@ -1,4 +1,4 @@
-import 'package:klee/model/tooltip.dart';
+import 'package:securedialog/model/tooltip.dart';
 
 class ChartPoint {
   late double strengthMax;

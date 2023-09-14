@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:klee/model/chart_point.dart';
-import 'package:klee/model/survey_day_info.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/chart_utils.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/model/chart_point.dart';
+import 'package:securedialog/model/survey_day_info.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/chart_utils.dart';
+import 'package:securedialog/utils/time_utils.dart';
 
 import '../../model/tooltip.dart';
 import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
 import '../login_page/login_page.dart';
-import 'home_charts/bar_chart_widget.dart';
 import 'home_charts/group_chart_widget.dart';
-import 'home_charts/line_chart_widget.dart';
 import 'home_charts/syncfusion_column_chart_widget.dart';
 import 'home_charts/syncfusion_line_chart_widget.dart';
 

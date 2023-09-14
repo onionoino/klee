@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
@@ -6,12 +8,12 @@ import '../../service/home_page_service.dart';
 import '../../utils/base_widget.dart';
 import '../login_page/login_page.dart';
 
-final storage = FlutterSecureStorage(); // Initialize secure storage
+const storage = FlutterSecureStorage(); // Initialize secure storage
 
 class HomeSettings extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
 
-  HomeSettings(this.authData);
+  const HomeSettings(this.authData, {super.key});
 
   @override
   _HomeSettingsState createState() => _HomeSettingsState();
@@ -46,7 +48,7 @@ class _HomeSettingsState extends State<HomeSettings> {
       color: Colors.orange[50],
       child: Column(
         children: [
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Center(
             child: Text(
               'Your Information',
@@ -58,16 +60,16 @@ class _HomeSettingsState extends State<HomeSettings> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           FutureBuilder<String?>(
             future: storage.read(key: 'encKey'), // Read from storage
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text("Error: ${snapshot.error}");
               } else {
-                return Container(
+                return SizedBox(
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25.0),
@@ -83,11 +85,11 @@ class _HomeSettingsState extends State<HomeSettings> {
                             color: Colors.teal[800],
                           ),
                         ),
-                        SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 200,
                               child: TextField(
                                 controller: encKeyController,
@@ -108,12 +110,12 @@ class _HomeSettingsState extends State<HomeSettings> {
                                   contentPadding: const EdgeInsets.all(10.0),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Colors.grey, width: 1.0),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Colors.grey, width: 1.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
@@ -138,17 +140,17 @@ class _HomeSettingsState extends State<HomeSettings> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 18),
+                            const SizedBox(width: 18),
                             ElevatedButton(
                               onPressed: () {
                                 _updateEncryptionKey(encKeyController.text);
                               },
-                              child: Text(" SAVE "),
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.teal[400]),
                                 // Other styles here
                               ),
+                              child: const Text(" SAVE "),
                             ),
                           ],
                         ),

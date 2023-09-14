@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:klee/model/survey_info.dart';
-import 'package:klee/model/tooltip.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/model/survey_info.dart';
+import 'package:securedialog/model/tooltip.dart';
+import 'package:securedialog/utils/time_utils.dart';
 
 import '../model/chart_point.dart';
 import '../model/survey_day_info.dart';

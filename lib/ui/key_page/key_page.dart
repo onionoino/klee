@@ -1,16 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:klee/service/home_page_service.dart';
-import 'package:klee/service/key_page_service.dart';
+import 'package:securedialog/service/home_page_service.dart';
+import 'package:securedialog/service/key_page_service.dart';
 
 import '../../utils/base_widget.dart';
 import '../../utils/constants.dart';
 import '../../utils/global.dart';
 import '../home_page/home_page.dart';
 import '../login_page/login_page.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 
 
 class KeyPage extends StatefulWidget {
@@ -23,7 +23,7 @@ class KeyPage extends StatefulWidget {
 }
 
 class _KeyPageState extends State<KeyPage> {
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   TextEditingController encKeyController = TextEditingController();
   final KeyPageService keyPageService = KeyPageService();
   final HomePageService homePageService = HomePageService();

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:klee/utils/encrpt_utils.dart';
-import 'package:klee/utils/global.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/utils/encrpt_utils.dart';
+import 'package:securedialog/utils/global.dart';
+import 'package:securedialog/utils/time_utils.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:solid_encrypt/solid_encrypt.dart';
 

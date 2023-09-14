@@ -1,13 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:klee/ui/home_page/home_index.dart';
-import 'package:klee/ui/home_page/home_osm.dart';
-import 'package:klee/ui/home_page/home_profile.dart';
-import 'package:klee/ui/home_page/home_settings.dart';
-import 'package:klee/ui/home_page/home_survey.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/notify_utils.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/ui/home_page/home_index.dart';
+import 'package:securedialog/ui/home_page/home_osm.dart';
+import 'package:securedialog/ui/home_page/home_profile.dart';
+import 'package:securedialog/ui/home_page/home_settings.dart';
+import 'package:securedialog/ui/home_page/home_survey.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/notify_utils.dart';
+import 'package:securedialog/utils/time_utils.dart';
 
 import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:klee/ui/key_page/key_page.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/constants.dart';
+import 'package:securedialog/ui/key_page/key_page.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/login_page_service.dart';
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Oops!',
             style: TextStyle(fontSize: 24, color: Colors.red),
           ),
@@ -44,14 +44,14 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Text(
                     message,
-                  style: TextStyle(fontFamily: 'KleeOne', fontSize: 18, color: Colors.black),
+                  style: const TextStyle(fontFamily: 'KleeOne', fontSize: 18, color: Colors.black),
                 ),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(
+              child: const Text(
                   'OK',
                 style: TextStyle(fontSize: 18, color: Colors.red),
               ),

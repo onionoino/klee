@@ -43,10 +43,10 @@ class EncryptUtils {
   }
 
   static String? encode(String text, EncryptClient encryptClient) {
-    return encryptClient?.encryptVal(Global.encryptKey, text);
+    return encryptClient.encryptVal(Global.encryptKey, text);
   }
 
   static String? decode(String code, EncryptClient encryptClient) {
-    return encryptClient?.decryptVal(Global.encryptKey, code);
+    return encryptClient.decryptVal(Global.encryptKey, code);
   }
 }

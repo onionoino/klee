@@ -1,4 +1,6 @@
-import 'package:klee/utils/constants.dart';
+
+
+import 'package:securedialog/utils/constants.dart';
 
 /// the model of survey info
 class SurveyInfo {

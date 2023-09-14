@@ -1,4 +1,4 @@
-package onionoino.klee.klee
+package kimishidairessha.diabetes.securedialog
 
 import io.flutter.embedding.android.FlutterActivity
 

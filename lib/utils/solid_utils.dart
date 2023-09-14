@@ -1,7 +1,7 @@
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:klee/model/survey_info.dart';
-import 'package:klee/utils/constants.dart';
-import 'package:klee/utils/encrpt_utils.dart';
+import 'package:securedialog/model/survey_info.dart';
+import 'package:securedialog/utils/constants.dart';
+import 'package:securedialog/utils/encrpt_utils.dart';
 import 'package:rdflib/rdflib.dart';
 import 'package:solid_encrypt/solid_encrypt.dart';
 

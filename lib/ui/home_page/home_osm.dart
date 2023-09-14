@@ -10,13 +10,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:workmanager/workmanager.dart';
 
-import 'package:klee/model/geo_info.dart';
-import 'package:klee/service/home_page_service.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/constants.dart';
-import 'package:klee/utils/device_file_utils.dart';
-import 'package:klee/utils/geo_utils.dart';
-import 'package:klee/utils/global.dart';
+import 'package:securedialog/model/geo_info.dart';
+import 'package:securedialog/service/home_page_service.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/constants.dart';
+import 'package:securedialog/utils/device_file_utils.dart';
+import 'package:securedialog/utils/geo_utils.dart';
+import 'package:securedialog/utils/global.dart';
 
 /// Dispatch background tasks.
 /// @return void

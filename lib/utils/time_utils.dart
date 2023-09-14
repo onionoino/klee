@@ -1,4 +1,4 @@
-import 'package:klee/utils/constants.dart';
+import 'package:securedialog/utils/constants.dart';
 
 /// this class is a util class to process time formatting
 class TimeUtils {
