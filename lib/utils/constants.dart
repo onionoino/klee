@@ -147,12 +147,12 @@ class Constants {
   // Survey Charts
   static const int barNumber = 15;
   static const int lineNumber = 15;
-  static const double fastingMinY = 0;//30
-  static const double postprandialMinY = 0;//30
-  static const double diastolicMinY = 0;//25
-  static const double weightMinY = 0;//10
-  static const double systolicMinY = 0;//45
-  static const double heartRateMinY = 0;//30
+  static const double fastingMinY = 0; //30
+  static const double postprandialMinY = 0; //30
+  static const double diastolicMinY = 0; //25
+  static const double weightMinY = 0; //10
+  static const double systolicMinY = 0; //45
+  static const double heartRateMinY = 0; //30
   static const String defaultObTime = "N/A";
   static const double toolTipNoneVal = -1;
   static final Map<double, String> toolTipDoubleToStrMap = {

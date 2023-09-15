@@ -74,5 +74,4 @@ class TimeUtils {
     String day = date.substring(6, 8);
     return "$year-$month-$day";
   }
-
 }

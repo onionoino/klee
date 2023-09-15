@@ -39,7 +39,8 @@ class SyncfusionLineChartWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<SyncfusionLineChartWidget> createState() => _SyncfusionLineChartWidgetState();
+  State<SyncfusionLineChartWidget> createState() =>
+      _SyncfusionLineChartWidgetState();
 }
 
 class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
@@ -60,11 +61,12 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
         color: Colors.teal,
         header: widget.timeList[index],
         textStyle: const TextStyle(color: Colors.white),
-        builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+        builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
+            int seriesIndex) {
           // If timeList is null or empty, don't show the tooltip
           if (widget.yList[pointIndex] == 0) {
             return const SizedBox.shrink();
-          } else{
+          } else {
             // Extracting the primary data
             String show = widget.yList[pointIndex].toString();
             String time = widget.timeList[pointIndex];
@@ -72,33 +74,31 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
             // Using logic similar to getLineTooltipItem to build the tooltip string
             String toolTipText = "Time:$time\nValue:$show";
 
-            if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
+            if (widget.toolTipsList.isNotEmpty &&
+                widget.toolTipsList[pointIndex].isNotEmpty) {
               toolTipText += "\n--------------\nUpdating:";
               for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
-                String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+                String additionalText =
+                    "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
                 toolTipText += additionalText;
               }
-
             }
             return Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                 color: Colors.green[600],
-                borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
+                borderRadius: BorderRadius.circular(
+                    12.0), // Adjust this value to your liking
               ),
               child: SingleChildScrollView(
-                child: Text(toolTipText, style: const TextStyle(color: Colors.white)),
+                child: Text(toolTipText,
+                    style: const TextStyle(color: Colors.white)),
               ),
             );
           }
-        }
-
-    );
+        });
     _zoomPanBehavior = ZoomPanBehavior(
-        enablePanning: true,
-        zoomMode: ZoomMode.x,
-        enablePinching: true
-    );
+        enablePanning: true, zoomMode: ZoomMode.x, enablePinching: true);
     super.initState();
     visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
     visibleMaximum = widget.xList.length.toDouble();
@@ -137,7 +137,8 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),
-            edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
+            edgeLabelPlacement:
+                EdgeLabelPlacement.shift, // Shift labels to the edge
             majorGridLines: const MajorGridLines(width: 0),
             visibleMinimum: visibleMinimum,
             visibleMaximum: visibleMaximum,
@@ -149,8 +150,7 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
               labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-              majorGridLines: const MajorGridLines(width: 0)
-          ),
+              majorGridLines: const MajorGridLines(width: 0)),
           series: <ChartSeries>[
             SplineSeries<_ChartData, String>(
               dataSource: chartData,
@@ -158,8 +158,8 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
               yValueMapper: (_ChartData data, _) => data.y1,
               width: 3.5,
               markerSettings: const MarkerSettings(
-                  isVisible: true,
-                width: 5,  // Adjust these values to make the marker smaller
+                isVisible: true,
+                width: 5, // Adjust these values to make the marker smaller
                 height: 5,
 
                 borderColor: Colors.blue,

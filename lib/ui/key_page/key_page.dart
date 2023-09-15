@@ -34,7 +34,6 @@ import '../../utils/global.dart';
 import '../home_page/home_page.dart';
 import '../login_page/login_page.dart';
 
-
 class KeyPage extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
 
@@ -52,7 +51,6 @@ class _KeyPageState extends State<KeyPage> {
   bool isIconVisible = false;
   bool hidePassword = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -64,11 +62,11 @@ class _KeyPageState extends State<KeyPage> {
     if (storedKey != null) {
       setState(() {
         encKeyController.text = storedKey;
-        isIconVisible = false; // Make the visibility icon visible if text is present
+        isIconVisible =
+            false; // Make the visibility icon visible if text is present
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -118,9 +116,13 @@ class _KeyPageState extends State<KeyPage> {
                 controller: encKeyController,
                 onChanged: (value) {
                   //try this
-                  value.isNotEmpty ? setState(() => isIconVisible = true) : setState(() => isIconVisible = false);
+                  value.isNotEmpty
+                      ? setState(() => isIconVisible = true)
+                      : setState(() => isIconVisible = false);
                   //or
-                  setState(() => value.isNotEmpty ? isIconVisible = true : isIconVisible = false);
+                  setState(() => value.isNotEmpty
+                      ? isIconVisible = true
+                      : isIconVisible = false);
                   //the result is the same it's just a shortcode
                 },
                 obscureText: hidePassword,
@@ -129,15 +131,18 @@ class _KeyPageState extends State<KeyPage> {
                 autofocus: true,
                 decoration: InputDecoration(
                   hintText: "Your Enc-Key",
-                  suffixIcon:  isIconVisible ? IconButton(
-                    onPressed: (){
-                      setState(() => hidePassword = !hidePassword);
-                    },
-                    icon:  Icon(
-                      hidePassword ?
-                      Icons.visibility_off : Icons.visibility,
-                    ),
-                  ) : null,
+                  suffixIcon: isIconVisible
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() => hidePassword = !hidePassword);
+                          },
+                          icon: Icon(
+                            hidePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        )
+                      : null,
                 ),
                 onSubmitted: (value) async {
                   if (await keyPageService.checkAndSetEncKey(

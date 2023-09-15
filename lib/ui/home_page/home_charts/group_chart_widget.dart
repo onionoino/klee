@@ -38,8 +38,8 @@ class GroupChartWidget extends StatefulWidget {
   final List<List<ToolTip>> toolTipsList;
   final List<List<ToolTip>> toolTipsList2;
 
-  const GroupChartWidget(
-      this.yList, this.yList2, this.timeList, this.xList, this.minY, this.toolTipsList, this.toolTipsList2,
+  const GroupChartWidget(this.yList, this.yList2, this.timeList, this.xList,
+      this.minY, this.toolTipsList, this.toolTipsList2,
       {Key? key})
       : super(key: key);
 
@@ -59,38 +59,40 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
     showingTooltip = -1;
     int index = widget.timeList.length - 1;
     _zoomPanBehavior = ZoomPanBehavior(
-        enablePanning: true,
-        zoomMode: ZoomMode.x,
-        enablePinching: true
-    );
+        enablePanning: true, zoomMode: ZoomMode.x, enablePinching: true);
     _tooltipBehavior = TooltipBehavior(
         activationMode: ActivationMode.singleTap,
         enable: true,
         color: Colors.teal,
         header: widget.timeList[index],
         textStyle: const TextStyle(color: Colors.white),
-        builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+        builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
+            int seriesIndex) {
           // Extracting the primary data
           String showSystolic = widget.yList[pointIndex].toString();
           String showDiastolic = widget.yList2[pointIndex].toString();
           String time = widget.timeList[pointIndex];
 
           // Using logic similar to getLineTooltipItem to build the tooltip string
-          String toolTipText = "$time\nSystolic: $showSystolic\nDiastolic: $showDiastolic";
+          String toolTipText =
+              "$time\nSystolic: $showSystolic\nDiastolic: $showDiastolic";
 
-          if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
+          if (widget.toolTipsList.isNotEmpty &&
+              widget.toolTipsList[pointIndex].isNotEmpty) {
             toolTipText += "\n--------------\nSystolic updating:";
             for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
-              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+              String additionalText =
+                  "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
               toolTipText += additionalText;
             }
-
           }
 
-          if (widget.toolTipsList2.isNotEmpty && widget.toolTipsList2[pointIndex].isNotEmpty) {
+          if (widget.toolTipsList2.isNotEmpty &&
+              widget.toolTipsList2[pointIndex].isNotEmpty) {
             toolTipText += "\n--------------\nDiastolic updating:";
             for (ToolTip toolTip in widget.toolTipsList2[pointIndex]) {
-              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
+              String additionalText =
+                  "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${toolTip.val.toString()}";
               toolTipText += additionalText;
             }
           }
@@ -99,15 +101,15 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.green[600],
-              borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
+              borderRadius: BorderRadius.circular(
+                  12.0), // Adjust this value to your liking
             ),
             child: SingleChildScrollView(
-              child: Text(toolTipText, style: const TextStyle(color: Colors.white)),
+              child: Text(toolTipText,
+                  style: const TextStyle(color: Colors.white)),
             ),
           );
-        }
-
-    );
+        });
     super.initState();
     visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
     visibleMaximum = widget.xList.length.toDouble();
@@ -119,8 +121,6 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
       });
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -148,18 +148,18 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),
-            edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
+            edgeLabelPlacement:
+                EdgeLabelPlacement.shift, // Shift labels to the edge
             majorGridLines: const MajorGridLines(width: 0),
             visibleMinimum: visibleMinimum,
             visibleMaximum: visibleMaximum,
           ),
           primaryYAxis: NumericAxis(
-            minimum: widget.minY,
+              minimum: widget.minY,
               labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-              majorGridLines: const MajorGridLines(width: 0)
-          ),
+              majorGridLines: const MajorGridLines(width: 0)),
           series: <ChartSeries>[
             RangeColumnSeries<_ChartData, String>(
               width: 0.3,
@@ -205,4 +205,3 @@ class _ChartData {
   final double y1;
   final double y2;
 }
-

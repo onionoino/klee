@@ -39,10 +39,12 @@ class SyncfusionColumnChartWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<SyncfusionColumnChartWidget> createState() => _SyncfusionColumnChartWidgetState();
+  State<SyncfusionColumnChartWidget> createState() =>
+      _SyncfusionColumnChartWidgetState();
 }
 
-class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidget> {
+class _SyncfusionColumnChartWidgetState
+    extends State<SyncfusionColumnChartWidget> {
   late int showingTooltip;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
@@ -54,46 +56,46 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
     showingTooltip = -1;
     int index = widget.timeList.length - 1;
     _zoomPanBehavior = ZoomPanBehavior(
-        enablePanning: true,
-        zoomMode: ZoomMode.x,
-        enablePinching: true
-    );
+        enablePanning: true, zoomMode: ZoomMode.x, enablePinching: true);
     _tooltipBehavior = TooltipBehavior(
         activationMode: ActivationMode.singleTap,
         enable: true,
         color: Colors.teal,
         header: widget.timeList[index],
         textStyle: const TextStyle(color: Colors.white),
-        builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+        builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
+            int seriesIndex) {
           // Extracting the primary data
-          String value = mapIntToValueString(data.y1); // Use this function to map int to string
+          String value = mapIntToValueString(
+              data.y1); // Use this function to map int to string
           String time = widget.timeList[pointIndex];
 
           // Using logic similar to getLineTooltipItem to build the tooltip string
           String toolTipText = "Time:$time\nValue:$value";
 
-          if (widget.toolTipsList.isNotEmpty && widget.toolTipsList[pointIndex].isNotEmpty) {
+          if (widget.toolTipsList.isNotEmpty &&
+              widget.toolTipsList[pointIndex].isNotEmpty) {
             toolTipText += "\n--------------\nUpdating:";
             for (ToolTip toolTip in widget.toolTipsList[pointIndex]) {
-              String additionalText = "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${mapIntToValueString(toolTip.val)}";
+              String additionalText =
+                  "\n${TimeUtils.convertHHmmToClock(toolTip.time)} - ${mapIntToValueString(toolTip.val)}";
               toolTipText += additionalText;
             }
-
           }
 
           return Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.green[600],
-              borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
+              borderRadius: BorderRadius.circular(
+                  12.0), // Adjust this value to your liking
             ),
             child: SingleChildScrollView(
-              child: Text(toolTipText, style: const TextStyle(color: Colors.white)),
+              child: Text(toolTipText,
+                  style: const TextStyle(color: Colors.white)),
             ),
           );
-        }
-
-    );
+        });
     super.initState();
     visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
     visibleMaximum = widget.xList.length.toDouble();
@@ -132,17 +134,18 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),
-            edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
+            edgeLabelPlacement:
+                EdgeLabelPlacement.shift, // Shift labels to the edge
             majorGridLines: const MajorGridLines(width: 0),
             visibleMinimum: visibleMinimum,
             visibleMaximum: visibleMaximum,
           ),
           primaryYAxis: NumericAxis(
-              maximum: widget.maxY,
-              labelStyle: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              majorGridLines: const MajorGridLines(width: 0),
+            maximum: widget.maxY,
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+            majorGridLines: const MajorGridLines(width: 0),
             isVisible: false,
           ),
           series: <ChartSeries>[
@@ -155,8 +158,8 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
               trackColor: Colors.indigo[50]!,
               width: 0.5,
               markerSettings: const MarkerSettings(
-                  isVisible: true,
-                width: 5,  // Adjust these values to make the marker smaller
+                isVisible: true,
+                width: 5, // Adjust these values to make the marker smaller
                 height: 5,
 
                 borderColor: Colors.blue,
@@ -198,7 +201,6 @@ class _SyncfusionColumnChartWidgetState extends State<SyncfusionColumnChartWidge
         return 'Unknown'; // handle any other values not in your set
     }
   }
-  
 }
 
 class _ChartData {

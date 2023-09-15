@@ -113,9 +113,10 @@ class _HomeProfileState extends State<HomeProfile> {
                         homePageService.logout(widget.authData!["logoutUrl"]);
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (_) {
-                              return const LoginPage();
-                            }));
-                      }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                          return const LoginPage();
+                        }));
+                      }, "Logout", MediaQuery.of(context).size.width / 1.25,
+                          50),
                     ],
                   );
                 } else {
@@ -196,8 +197,8 @@ class _HomeProfileState extends State<HomeProfile> {
                           homePageService.logout(widget.authData!["logoutUrl"]);
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (_) {
-                                return const LoginPage();
-                              }));
+                            return const LoginPage();
+                          }));
                         }, "Logout", MediaQuery.of(context).size.width / 1.25,
                             50),
                       ],
@@ -220,8 +221,8 @@ class _HomeProfileState extends State<HomeProfile> {
                     systolicTimeList.add(charPoint.systolicMaxTime);
                     heartRateList.add(charPoint.heartRateMax);
                     heartRateTimeList.add(charPoint.heartRateMaxTime);
-                    obTimeList
-                        .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
+                    obTimeList.add(
+                        TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
                     timeList.add(TimeUtils.reformatDate(charPoint.obTimeDay));
                     strengthToolTipsList.add(charPoint.otherStrength);
                     fastingToolTipsList.add(charPoint.otherFasting);
@@ -328,7 +329,6 @@ class _HomeProfileState extends State<HomeProfile> {
                             Constants.heartRateMinY,
                             heartRateToolTipsList),
                       ),
-
                       BaseWidget.getPadding(30.0),
                     ],
                   );

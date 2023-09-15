@@ -52,7 +52,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
   TextEditingController q3AnswerTextController = TextEditingController();
   TextEditingController q4AnswerTextController = TextEditingController();
   TextEditingController q5AnswerTextController = TextEditingController();
-  TextEditingController q6AnswerTextController = TextEditingController(text: "60");
+  TextEditingController q6AnswerTextController =
+      TextEditingController(text: "60");
   TextEditingController q7AnswerTextController = TextEditingController();
   String? q1Answer;
   String? q2Answer;
@@ -101,7 +102,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q1Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q1Text),
@@ -168,7 +171,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q6Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q6Text),
@@ -185,22 +190,28 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       width: 60.0,
                       child: ElevatedButton(
                         onPressed: () {
-                          int currentValue = int.tryParse(q6AnswerTextController.text) ?? 60;
-                          q6AnswerTextController.text = (currentValue - 10).toString();
+                          int currentValue =
+                              int.tryParse(q6AnswerTextController.text) ?? 60;
+                          q6AnswerTextController.text =
+                              (currentValue - 10).toString();
                           setState(() {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blueGrey[100]),
-                          foregroundColor: MaterialStateProperty.all(Colors.teal),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blueGrey[100]),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.teal),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                         ),
-                        child: Text("-10", style: TextStyle(color: Colors.teal[700])),
+                        child: Text("-10",
+                            style: TextStyle(color: Colors.teal[700])),
                       ),
                     ),
 
@@ -210,22 +221,28 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       width: 55.0,
                       child: ElevatedButton(
                         onPressed: () {
-                          int currentValue = int.tryParse(q6AnswerTextController.text) ?? 60;
-                          q6AnswerTextController.text = (currentValue - 1).toString();
+                          int currentValue =
+                              int.tryParse(q6AnswerTextController.text) ?? 60;
+                          q6AnswerTextController.text =
+                              (currentValue - 1).toString();
                           setState(() {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blueGrey[50]),
-                          foregroundColor: MaterialStateProperty.all(Colors.teal),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blueGrey[50]),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.teal),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                         ),
-                        child: Text("-1", style: TextStyle(color: Colors.teal[600])),
+                        child: Text("-1",
+                            style: TextStyle(color: Colors.teal[600])),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -234,32 +251,38 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       alignment: Alignment.center,
                       child: TextField(
                         focusNode: focusNode2,
-                        onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode3),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).requestFocus(focusNode3),
                         controller: q6AnswerTextController,
-                        style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                        style: const TextStyle(
+                            fontSize: 18, fontFamily: "KleeOne"),
                         textAlign: TextAlign.left,
                         autofocus: false,
                         inputFormatters: <TextInputFormatter>[
                           LengthLimitingTextInputFormatter(5),
                         ],
-                        keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         decoration: InputDecoration(
                           hintText: "eg 60(kg)",
                           isCollapsed: true,
                           contentPadding: const EdgeInsets.all(10.0),
                           errorText: errorText6,
-                          border: OutlineInputBorder( // Set the border shape and look
+                          border: OutlineInputBorder(
+                            // Set the border shape and look
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                            borderSide: const BorderSide(
+                                color: Colors.teal, width: 1.5),
                           ),
                         ),
                         onChanged: (weightText) {
@@ -285,22 +308,28 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       width: 55.0,
                       child: ElevatedButton(
                         onPressed: () {
-                          int currentValue = int.tryParse(q6AnswerTextController.text) ?? 60;
-                          q6AnswerTextController.text = (currentValue + 1).toString();
+                          int currentValue =
+                              int.tryParse(q6AnswerTextController.text) ?? 60;
+                          q6AnswerTextController.text =
+                              (currentValue + 1).toString();
                           setState(() {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blueGrey[50]),
-                          foregroundColor: MaterialStateProperty.all(Colors.teal),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blueGrey[50]),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.teal),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                         ),
-                        child: Text("+1", style: TextStyle(color: Colors.teal[600])),
+                        child: Text("+1",
+                            style: TextStyle(color: Colors.teal[600])),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -309,22 +338,28 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       width: 60.0,
                       child: ElevatedButton(
                         onPressed: () {
-                          int currentValue = int.tryParse(q6AnswerTextController.text) ?? 60;
-                          q6AnswerTextController.text = (currentValue + 10).toString();
+                          int currentValue =
+                              int.tryParse(q6AnswerTextController.text) ?? 60;
+                          q6AnswerTextController.text =
+                              (currentValue + 10).toString();
                           setState(() {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blueGrey[100]),
-                          foregroundColor: MaterialStateProperty.all(Colors.teal),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blueGrey[100]),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.teal),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                          ),// You can adjust these values
+                          ), // You can adjust these values
                         ),
-                        child: Text("+10", style: TextStyle(color: Colors.teal[700])),
+                        child: Text("+10",
+                            style: TextStyle(color: Colors.teal[700])),
                       ),
                     ),
                   ],
@@ -333,7 +368,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q2Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q2Text),
@@ -349,32 +386,38 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     alignment: Alignment.centerLeft,
                     child: TextField(
                       focusNode: focusNode3,
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode4),
+                      onEditingComplete: () =>
+                          FocusScope.of(context).requestFocus(focusNode4),
                       controller: q2AnswerTextController,
-                      style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                      style:
+                          const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
                       autofocus: false,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(6),
                       ],
                       keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         hintText: "eg 99(mg/dL)",
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10.0),
                         errorText: errorText2,
-                        border: OutlineInputBorder( // Set the border shape and look
+                        border: OutlineInputBorder(
+                          // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide:
+                              const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (fastingText) {
@@ -404,7 +447,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q3Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q3Text),
@@ -420,32 +465,38 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     alignment: Alignment.center,
                     child: TextField(
                       focusNode: focusNode4,
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode5),
+                      onEditingComplete: () =>
+                          FocusScope.of(context).requestFocus(focusNode5),
                       controller: q3AnswerTextController,
-                      style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                      style:
+                          const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
                       autofocus: false,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(6),
                       ],
                       keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         hintText: "eg 140(mg/dL)",
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10.0),
                         errorText: errorText3,
-                        border: OutlineInputBorder( // Set the border shape and look
+                        border: OutlineInputBorder(
+                          // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide:
+                              const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (postprandialText) {
@@ -475,7 +526,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q4Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q4Text),
@@ -491,32 +544,38 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     alignment: Alignment.center,
                     child: TextField(
                       focusNode: focusNode5,
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode6),
+                      onEditingComplete: () =>
+                          FocusScope.of(context).requestFocus(focusNode6),
                       controller: q4AnswerTextController,
-                      style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                      style:
+                          const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
                       autofocus: false,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(6),
                       ],
                       keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         hintText: "eg 105(mm Hg)",
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10.0),
                         errorText: errorText4,
-                        border: OutlineInputBorder( // Set the border shape and look
+                        border: OutlineInputBorder(
+                          // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide:
+                              const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (systolicText) {
@@ -541,7 +600,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q5Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q5Text),
@@ -557,32 +618,38 @@ class _HomeSurveyState extends State<HomeSurvey> {
                     alignment: Alignment.center,
                     child: TextField(
                       focusNode: focusNode6,
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(focusNode7),
+                      onEditingComplete: () =>
+                          FocusScope.of(context).requestFocus(focusNode7),
                       controller: q5AnswerTextController,
-                      style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                      style:
+                          const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
                       autofocus: false,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(6),
                       ],
                       keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         hintText: "eg 75(mm Hg)",
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10.0),
                         errorText: errorText5,
-                        border: OutlineInputBorder( // Set the border shape and look
+                        border: OutlineInputBorder(
+                          // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide:
+                              const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (diastolicText) {
@@ -607,7 +674,9 @@ class _HomeSurveyState extends State<HomeSurvey> {
               BaseWidget.getPadding(15.0),
               // BaseWidget.getQuestionText(Constants.q7Text),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0), // Add some left padding for distance from the border
+                padding: const EdgeInsets.only(
+                    left:
+                        15.0), // Add some left padding for distance from the border
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: BaseWidget.getQuestionText(Constants.q7Text),
@@ -625,30 +694,35 @@ class _HomeSurveyState extends State<HomeSurvey> {
                       focusNode: focusNode7,
                       onEditingComplete: () => focusNode7.unfocus(),
                       controller: q7AnswerTextController,
-                      style: const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
+                      style:
+                          const TextStyle(fontSize: 18, fontFamily: "KleeOne"),
                       textAlign: TextAlign.left,
                       autofocus: false,
                       inputFormatters: <TextInputFormatter>[
                         LengthLimitingTextInputFormatter(6),
                       ],
                       keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         hintText: "eg 86(bpm)",
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10.0),
                         errorText: errorText7,
-                        border: OutlineInputBorder( // Set the border shape and look
+                        border: OutlineInputBorder(
+                          // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide:
+                              const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (heartRateText) {

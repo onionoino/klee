@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _showErrorDialog(String message) async {
-    print("Trying to show dialog");  // Debug print
+    print("Trying to show dialog"); // Debug print
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -65,8 +65,9 @@ class _LoginPageState extends State<LoginPage> {
             child: ListBody(
               children: <Widget>[
                 Text(
-                    message,
-                  style: const TextStyle(fontFamily: 'KleeOne', fontSize: 18, color: Colors.black),
+                  message,
+                  style: const TextStyle(
+                      fontFamily: 'KleeOne', fontSize: 18, color: Colors.black),
                 ),
               ],
             ),
@@ -74,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
           actions: <Widget>[
             TextButton(
               child: const Text(
-                  'OK',
+                'OK',
                 style: TextStyle(fontSize: 18, color: Colors.red),
               ),
               onPressed: () {
@@ -111,13 +112,16 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: FocusNode(),
               onKey: (event) async {
                 if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                  try{
+                  try {
                     if (!loginPageService.loginPreCheck(webIdController.text)) {
                       await showDialog<bool>(
                           context: context,
                           builder: (context) {
-                            return BaseWidget.getNoticeDialog(context, "Warning",
-                                "You gave an invalid webId", "Try again");
+                            return BaseWidget.getNoticeDialog(
+                                context,
+                                "Warning",
+                                "You gave an invalid webId",
+                                "Try again");
                           });
                       return;
                     }
@@ -131,7 +135,8 @@ class _LoginPageState extends State<LoginPage> {
                       authData = result;
                     }).catchError((error) {
                       print("Caught error: $error");
-                      _showErrorDialog("The server may be down. \nPlease Try again later.");
+                      _showErrorDialog(
+                          "The server may be down. \nPlease Try again later.");
                     });
                     // Map<dynamic, dynamic>? authData = await loginPageService
                     //     .loginAndAuth(webIdController.text, context, mounted);
@@ -140,11 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => KeyPage(authData)),
+                      MaterialPageRoute(
+                          builder: (context) => KeyPage(authData)),
                     );
                   } catch (e) {
                     print("Exception caught: $e");
-                    _showErrorDialog("The server may be down. \nPlease Try again later.");
+                    _showErrorDialog(
+                        "The server may be down. \nPlease Try again later.");
                   }
                 }
               },
@@ -184,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             BaseWidget.getPadding(20.0),
             BaseWidget.getElevatedButton(() async {
-              try{
+              try {
                 if (!loginPageService.loginPreCheck(webIdController.text)) {
                   await showDialog<bool>(
                       context: context,
@@ -197,9 +204,9 @@ class _LoginPageState extends State<LoginPage> {
                 Map<dynamic, dynamic>? authData = await loginPageService
                     .loginAndAuth(webIdController.text, context, mounted);
 
-                  if (!mounted) {
-                    return null;
-                  }
+                if (!mounted) {
+                  return null;
+                }
 
                 Navigator.pushReplacement(
                   context,
@@ -209,7 +216,8 @@ class _LoginPageState extends State<LoginPage> {
                 );
               } catch (e) {
                 print("Exception caught: $e");
-                _showErrorDialog("The server may be down. \nPlease try again later.");
+                _showErrorDialog(
+                    "The server may be down. \nPlease try again later.");
               }
             }, "Login", MediaQuery.of(context).size.width / 1.25, 50),
             BaseWidget.getPadding(150.0),
