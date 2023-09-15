@@ -224,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Constants.backgroundColor,
     );
   }
 }

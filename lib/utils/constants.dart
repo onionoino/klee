@@ -20,6 +20,9 @@
 ///
 /// Authors: Bowen Yang, Ye Duan
 
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
 /// this class contains some constants used in this project
@@ -203,4 +206,6 @@ class Constants {
     6: "SAT",
     7: "SUN",
   };
+  // Background color
+  static final Color? backgroundColor = Colors.orange[50];
 }

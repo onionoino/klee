@@ -43,7 +43,7 @@ class _HomeIndexState extends State<HomeIndex> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.orange[50],
+      color: Constants.backgroundColor,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

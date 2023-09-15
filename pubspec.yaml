@@ -48,7 +48,7 @@ dependencies:
   flutter_map: ^4.0.0
   http: ^0.13.6
   common_utils: 2.1.0
-  solid_auth: ^0.1.10
+  solid_auth: ^0.1.11
   solid_encrypt: 0.1.5
   crypto: ^3.0.3
   jwt_decoder: 2.0.1

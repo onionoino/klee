@@ -94,7 +94,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.orange[50],
+      color: Constants.backgroundColor,
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(

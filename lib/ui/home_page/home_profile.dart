@@ -51,7 +51,7 @@ class _HomeProfileState extends State<HomeProfile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.orange[50],
+      color: Constants.backgroundColor,
       child: SafeArea(
         child: SingleChildScrollView(
           child: FutureBuilder<List<SurveyDayInfo>?>(

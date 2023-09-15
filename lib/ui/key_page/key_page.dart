@@ -224,7 +224,7 @@ class _KeyPageState extends State<KeyPage> {
           ],
         ),
       ),
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Constants.backgroundColor,
     );
   }
 }

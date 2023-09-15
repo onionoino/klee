@@ -25,6 +25,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:securedialog/utils/constants.dart';
 
 import '../../service/home_page_service.dart';
 import '../../utils/base_widget.dart';
@@ -67,7 +68,7 @@ class _HomeSettingsState extends State<HomeSettings> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.orange[50],
+      color: Constants.backgroundColor,
       child: Column(
         children: [
           const SizedBox(height: 8),
