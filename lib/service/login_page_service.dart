@@ -1,4 +1,4 @@
-/// Handle the POD login to the SOLID server.
+/// Handle the POD login to the SOLID server
 ///
 /// Copyright (C) 2023 The Authors
 ///
