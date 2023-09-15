@@ -1,8 +1,30 @@
+/// The widget for displaying LOGIN page
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:klee/ui/key_page/key_page.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/constants.dart';
+import 'package:securedialog/ui/key_page/key_page.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/login_page_service.dart';
@@ -35,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Oops!',
             style: TextStyle(fontSize: 24, color: Colors.red),
           ),
@@ -44,14 +66,14 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Text(
                     message,
-                  style: TextStyle(fontFamily: 'KleeOne', fontSize: 18, color: Colors.black),
+                  style: const TextStyle(fontFamily: 'KleeOne', fontSize: 18, color: Colors.black),
                 ),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(
+              child: const Text(
                   'OK',
                 style: TextStyle(fontSize: 18, color: Colors.red),
               ),

@@ -1,6 +1,27 @@
+/// The widget for displaying a grouped chart
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Ye Duan
+
 import 'package:flutter/material.dart';
-import 'package:klee/extensions/color_extensions.dart';
-import 'package:klee/utils/chart_utils.dart';
+import 'package:securedialog/extensions/color_extensions.dart';
 
 import '../../../model/tooltip.dart';
 import '../../../utils/constants.dart';
@@ -47,11 +68,9 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
         enable: true,
         color: Colors.teal,
         header: widget.timeList[index],
-        textStyle: TextStyle(color: Colors.white),
+        textStyle: const TextStyle(color: Colors.white),
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
           // Extracting the primary data
-          String systolic = data.y1.toString();
-          String diastolic = data.y2.toString();
           String showSystolic = widget.yList[pointIndex].toString();
           String showDiastolic = widget.yList2[pointIndex].toString();
           String time = widget.timeList[pointIndex];
@@ -77,13 +96,13 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
           }
 
           return Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.green[600],
               borderRadius: BorderRadius.circular(12.0), // Adjust this value to your liking
             ),
             child: SingleChildScrollView(
-              child: Text(toolTipText, style: TextStyle(color: Colors.white)),
+              child: Text(toolTipText, style: const TextStyle(color: Colors.white)),
             ),
           );
         }
@@ -92,7 +111,7 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
     super.initState();
     visibleMinimum = widget.xList.length > 6 ? widget.xList.length - 6 : 0;
     visibleMaximum = widget.xList.length.toDouble();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         // Update your state variables here
         visibleMinimum = 7.0; // New minimum value
@@ -109,7 +128,7 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
 
     if (chartData.isEmpty) {
       // No data to display
-      return Center(
+      return const Center(
         child: Text('No data available.'),
       );
     }
@@ -125,21 +144,21 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,
           primaryXAxis: CategoryAxis(
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               color: Colors.teal,
               fontWeight: FontWeight.bold,
             ),
             edgeLabelPlacement: EdgeLabelPlacement.shift, // Shift labels to the edge
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             visibleMinimum: visibleMinimum,
             visibleMaximum: visibleMaximum,
           ),
           primaryYAxis: NumericAxis(
             minimum: widget.minY,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-              majorGridLines: MajorGridLines(width: 0)
+              majorGridLines: const MajorGridLines(width: 0)
           ),
           series: <ChartSeries>[
             RangeColumnSeries<_ChartData, String>(
@@ -173,9 +192,7 @@ class _GroupChartWidgetState extends State<GroupChartWidget> {
       final y2 = widget.yList2[i];
       final x = widget.xList[i];
 
-      if (y1 != null && y2 != null) {
-        chartData.add(_ChartData(x, y1, y2));
-      }
+      chartData.add(_ChartData(x, y1, y2));
     }
     return chartData;
   }

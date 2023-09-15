@@ -1,3 +1,27 @@
+/// The widget for displaying SURVEY page
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../service/home_page_service.dart';
@@ -155,8 +179,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Row(
                   children: [
-                    SizedBox(width: 10),
-                    Container(
+                    const SizedBox(width: 10),
+                    SizedBox(
                       height: 35.0,
                       width: 60.0,
                       child: ElevatedButton(
@@ -167,7 +191,6 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
-                        child: Text("-10", style: TextStyle(color: Colors.teal[700])),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.blueGrey[100]),
                           foregroundColor: MaterialStateProperty.all(Colors.teal),
@@ -177,11 +200,12 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             ),
                           ),
                         ),
+                        child: Text("-10", style: TextStyle(color: Colors.teal[700])),
                       ),
                     ),
 
-                    SizedBox(width: 5), // space between buttons
-                    Container(
+                    const SizedBox(width: 5), // space between buttons
+                    SizedBox(
                       height: 30.0,
                       width: 55.0,
                       child: ElevatedButton(
@@ -192,7 +216,6 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
-                        child: Text("-1", style: TextStyle(color: Colors.teal[600])),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.blueGrey[50]),
                           foregroundColor: MaterialStateProperty.all(Colors.teal),
@@ -202,9 +225,10 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             ),
                           ),
                         ),
+                        child: Text("-1", style: TextStyle(color: Colors.teal[600])),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Container(
                       width: 120,
                       alignment: Alignment.center,
@@ -227,15 +251,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                           errorText: errorText6,
                           border: OutlineInputBorder( // Set the border shape and look
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                            borderSide: const BorderSide(color: Colors.teal, width: 1.5),
                           ),
                         ),
                         onChanged: (weightText) {
@@ -255,8 +279,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
                         },
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Container(
+                    const SizedBox(width: 10),
+                    SizedBox(
                       height: 30.0,
                       width: 55.0,
                       child: ElevatedButton(
@@ -267,7 +291,6 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
-                        child: Text("+1", style: TextStyle(color: Colors.teal[600])),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.blueGrey[50]),
                           foregroundColor: MaterialStateProperty.all(Colors.teal),
@@ -277,10 +300,11 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             ),
                           ),
                         ),
+                        child: Text("+1", style: TextStyle(color: Colors.teal[600])),
                       ),
                     ),
-                    SizedBox(width: 5),
-                    Container(
+                    const SizedBox(width: 5),
+                    SizedBox(
                       height: 35.0,
                       width: 60.0,
                       child: ElevatedButton(
@@ -291,7 +315,6 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             q6Answer = q6AnswerTextController.text;
                           });
                         },
-                        child: Text("+10", style: TextStyle(color: Colors.teal[700])),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.blueGrey[100]),
                           foregroundColor: MaterialStateProperty.all(Colors.teal),
@@ -301,6 +324,7 @@ class _HomeSurveyState extends State<HomeSurvey> {
                             ),
                           ),// You can adjust these values
                         ),
+                        child: Text("+10", style: TextStyle(color: Colors.teal[700])),
                       ),
                     ),
                   ],
@@ -342,15 +366,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                         errorText: errorText2,
                         border: OutlineInputBorder( // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (fastingText) {
@@ -413,15 +437,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                         errorText: errorText3,
                         border: OutlineInputBorder( // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (postprandialText) {
@@ -484,15 +508,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                         errorText: errorText4,
                         border: OutlineInputBorder( // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (systolicText) {
@@ -550,15 +574,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                         errorText: errorText5,
                         border: OutlineInputBorder( // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (diastolicText) {
@@ -616,15 +640,15 @@ class _HomeSurveyState extends State<HomeSurvey> {
                         errorText: errorText7,
                         border: OutlineInputBorder( // Set the border shape and look
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.teal, width: 1.5),
+                          borderSide: const BorderSide(color: Colors.teal, width: 1.5),
                         ),
                       ),
                       onChanged: (heartRateText) {

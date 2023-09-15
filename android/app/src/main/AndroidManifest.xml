@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="onionoino.klee.klee">
+    package="kimishidairessha.diabetes.securedialog">
     <!-- Allows an app to access approximate location. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- Allows an app to access precise location. -->
@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Klee">
+        android:label="SecureDiaLog">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

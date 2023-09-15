@@ -1,17 +1,37 @@
+/// The widget for displaying PROFILE page
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
 import 'package:flutter/material.dart';
-import 'package:klee/model/chart_point.dart';
-import 'package:klee/model/survey_day_info.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/chart_utils.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/model/chart_point.dart';
+import 'package:securedialog/model/survey_day_info.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/chart_utils.dart';
+import 'package:securedialog/utils/time_utils.dart';
 
 import '../../model/tooltip.dart';
 import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
 import '../login_page/login_page.dart';
-import 'home_charts/bar_chart_widget.dart';
 import 'home_charts/group_chart_widget.dart';
-import 'home_charts/line_chart_widget.dart';
 import 'home_charts/syncfusion_column_chart_widget.dart';
 import 'home_charts/syncfusion_line_chart_widget.dart';
 

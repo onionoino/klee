@@ -1,4 +1,4 @@
-/// Handle the POD login to the SOLID server.
+/// Handle the POD login to the SOLID server
 ///
 /// Copyright (C) 2023 The Authors
 ///
@@ -24,8 +24,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:klee/net/login_page_net.dart';
-import 'package:klee/utils/constants.dart';
+import 'package:securedialog/net/login_page_net.dart';
+import 'package:securedialog/utils/constants.dart';
 
 /// A model-view layer of the login page, including all services the very view
 /// layer needs.
@@ -68,7 +68,7 @@ class LoginPageService {
       return await loginPageNet.getAuthData(webId, context, mounted);
     } catch (e) {
       // Propagate the error to be caught in the view layer.
-      throw e;
+      rethrow;
     }
   }
 }
