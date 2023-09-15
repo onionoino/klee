@@ -1,17 +1,38 @@
+/// The widget for displaying KEY page
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:klee/service/home_page_service.dart';
-import 'package:klee/service/key_page_service.dart';
+import 'package:securedialog/service/home_page_service.dart';
+import 'package:securedialog/service/key_page_service.dart';
 
 import '../../utils/base_widget.dart';
 import '../../utils/constants.dart';
 import '../../utils/global.dart';
 import '../home_page/home_page.dart';
 import '../login_page/login_page.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-
 
 class KeyPage extends StatefulWidget {
   final Map<dynamic, dynamic>? authData;
@@ -23,13 +44,12 @@ class KeyPage extends StatefulWidget {
 }
 
 class _KeyPageState extends State<KeyPage> {
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   TextEditingController encKeyController = TextEditingController();
   final KeyPageService keyPageService = KeyPageService();
   final HomePageService homePageService = HomePageService();
   bool isIconVisible = false;
   bool hidePassword = true;
-
 
   @override
   void initState() {
@@ -42,11 +62,11 @@ class _KeyPageState extends State<KeyPage> {
     if (storedKey != null) {
       setState(() {
         encKeyController.text = storedKey;
-        isIconVisible = false; // Make the visibility icon visible if text is present
+        isIconVisible =
+            false; // Make the visibility icon visible if text is present
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +116,13 @@ class _KeyPageState extends State<KeyPage> {
                 controller: encKeyController,
                 onChanged: (value) {
                   //try this
-                  value.isNotEmpty ? setState(() => isIconVisible = true) : setState(() => isIconVisible = false);
+                  value.isNotEmpty
+                      ? setState(() => isIconVisible = true)
+                      : setState(() => isIconVisible = false);
                   //or
-                  setState(() => value.isNotEmpty ? isIconVisible = true : isIconVisible = false);
+                  setState(() => value.isNotEmpty
+                      ? isIconVisible = true
+                      : isIconVisible = false);
                   //the result is the same it's just a shortcode
                 },
                 obscureText: hidePassword,
@@ -107,15 +131,18 @@ class _KeyPageState extends State<KeyPage> {
                 autofocus: true,
                 decoration: InputDecoration(
                   hintText: "Your Enc-Key",
-                  suffixIcon:  isIconVisible ? IconButton(
-                    onPressed: (){
-                      setState(() => hidePassword = !hidePassword);
-                    },
-                    icon:  Icon(
-                      hidePassword ?
-                      Icons.visibility_off : Icons.visibility,
-                    ),
-                  ) : null,
+                  suffixIcon: isIconVisible
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() => hidePassword = !hidePassword);
+                          },
+                          icon: Icon(
+                            hidePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        )
+                      : null,
                 ),
                 onSubmitted: (value) async {
                   if (await keyPageService.checkAndSetEncKey(

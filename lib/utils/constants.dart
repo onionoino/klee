@@ -1,3 +1,25 @@
+/// Provide some constants used in this project
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
 import 'package:latlong2/latlong.dart';
 
 /// this class contains some constants used in this project
@@ -67,6 +89,7 @@ class Constants {
   static const String q4Key = "systolic";
   static const String q5Key = "diastolic";
   static const String q6Key = "weight";
+  static const String q7Key = "heartRate";
   static const String obTimeKey = "obTime";
   static const String deviceKey = "device";
 
@@ -101,6 +124,7 @@ class Constants {
   static const String q4Text = "What's your systolic today?";
   static const String q5Text = "What's your diastolic today?";
   static const String q6Text = "What's your weight today?";
+  static const String q7Text = "What's your heart rate today?";
 
   // Geo Info Saving Interval (seconds)
   static const int interval = 60;
@@ -123,11 +147,12 @@ class Constants {
   // Survey Charts
   static const int barNumber = 15;
   static const int lineNumber = 15;
-  static const double fastingMinY = 0;//30
-  static const double postprandialMinY = 0;//30
-  static const double diastolicMinY = 0;//25
-  static const double weightMinY = 0;//10
-  static const double systolicMinY = 0;//45
+  static const double fastingMinY = 0; //30
+  static const double postprandialMinY = 0; //30
+  static const double diastolicMinY = 0; //25
+  static const double weightMinY = 0; //10
+  static const double systolicMinY = 0; //45
+  static const double heartRateMinY = 0; //30
   static const String defaultObTime = "N/A";
   static const double toolTipNoneVal = -1;
   static final Map<double, String> toolTipDoubleToStrMap = {

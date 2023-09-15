@@ -1,4 +1,4 @@
-name: klee
+name: securedialog
 description: A privacy oriented location data collection and analysis app using SOLID
 
 # The following line prevents the package from being accidentally published to

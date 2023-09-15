@@ -1,17 +1,37 @@
+/// The widget for displaying PROFILE page
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
 import 'package:flutter/material.dart';
-import 'package:klee/model/chart_point.dart';
-import 'package:klee/model/survey_day_info.dart';
-import 'package:klee/utils/base_widget.dart';
-import 'package:klee/utils/chart_utils.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/model/chart_point.dart';
+import 'package:securedialog/model/survey_day_info.dart';
+import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/chart_utils.dart';
+import 'package:securedialog/utils/time_utils.dart';
 
 import '../../model/tooltip.dart';
 import '../../service/home_page_service.dart';
 import '../../utils/constants.dart';
 import '../login_page/login_page.dart';
-import 'home_charts/bar_chart_widget.dart';
 import 'home_charts/group_chart_widget.dart';
-import 'home_charts/line_chart_widget.dart';
 import 'home_charts/syncfusion_column_chart_widget.dart';
 import 'home_charts/syncfusion_line_chart_widget.dart';
 
@@ -93,9 +113,10 @@ class _HomeProfileState extends State<HomeProfile> {
                         homePageService.logout(widget.authData!["logoutUrl"]);
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (_) {
-                              return const LoginPage();
-                            }));
-                      }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                          return const LoginPage();
+                        }));
+                      }, "Logout", MediaQuery.of(context).size.width / 1.25,
+                          50),
                     ],
                   );
                 } else {
@@ -112,6 +133,8 @@ class _HomeProfileState extends State<HomeProfile> {
                   List<String> weightTimeList = [];
                   List<double> systolicList = [];
                   List<String> systolicTimeList = [];
+                  List<double> heartRateList = [];
+                  List<String> heartRateTimeList = [];
                   List<String> obTimeList = [];
                   List<String> timeList = [];
                   List<List<ToolTip>> strengthToolTipsList = [];
@@ -120,6 +143,7 @@ class _HomeProfileState extends State<HomeProfile> {
                   List<List<ToolTip>> diastolicToolTipsList = [];
                   List<List<ToolTip>> weightToolTipsList = [];
                   List<List<ToolTip>> systolicToolTipsList = [];
+                  List<List<ToolTip>> heartRateToolTipsList = [];
                   List<SurveyDayInfo>? surveyDayInfoList = snapshot.data;
                   if (surveyDayInfoList == null) {
                     return Column(
@@ -173,8 +197,8 @@ class _HomeProfileState extends State<HomeProfile> {
                           homePageService.logout(widget.authData!["logoutUrl"]);
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (_) {
-                                return const LoginPage();
-                              }));
+                            return const LoginPage();
+                          }));
                         }, "Logout", MediaQuery.of(context).size.width / 1.25,
                             50),
                       ],
@@ -195,8 +219,10 @@ class _HomeProfileState extends State<HomeProfile> {
                     weightTimeList.add(charPoint.weightMaxTime);
                     systolicList.add(charPoint.systolicMax);
                     systolicTimeList.add(charPoint.systolicMaxTime);
-                    obTimeList
-                        .add(TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
+                    heartRateList.add(charPoint.heartRateMax);
+                    heartRateTimeList.add(charPoint.heartRateMaxTime);
+                    obTimeList.add(
+                        TimeUtils.convertDateToWeekDay(charPoint.obTimeDay));
                     timeList.add(TimeUtils.reformatDate(charPoint.obTimeDay));
                     strengthToolTipsList.add(charPoint.otherStrength);
                     fastingToolTipsList.add(charPoint.otherFasting);
@@ -204,6 +230,7 @@ class _HomeProfileState extends State<HomeProfile> {
                     diastolicToolTipsList.add(charPoint.otherDiastolic);
                     weightToolTipsList.add(charPoint.otherWeight);
                     systolicToolTipsList.add(charPoint.otherSystolic);
+                    heartRateToolTipsList.add(charPoint.otherHeartRate);
                   }
                   return Column(
                     children: <Widget>[
@@ -276,19 +303,6 @@ class _HomeProfileState extends State<HomeProfile> {
                             systolicToolTipsList,
                             diastolicToolTipsList),
                       ),
-                      // BaseWidget.getPadding(15),
-                      // BaseWidget.getQuestionText("Diastolic"),
-                      // BaseWidget.getPadding(5),
-                      // SizedBox(
-                      //   height: 150,
-                      //   width: MediaQuery.of(context).size.width,
-                      //   child: LineChartWidget(
-                      //       diastolicList,
-                      //       diastolicTimeList,
-                      //       timeList,
-                      //       Constants.diastolicMinY,
-                      //       diastolicToolTipsList),
-                      // ),
                       BaseWidget.getPadding(15),
                       BaseWidget.getQuestionText("Weight"),
                       BaseWidget.getPadding(5),
@@ -302,27 +316,19 @@ class _HomeProfileState extends State<HomeProfile> {
                             Constants.weightMinY,
                             weightToolTipsList),
                       ),
-                      // BaseWidget.getPadding(25),
-                      // BaseWidget.getElevatedButton(() async {
-                      //   bool? isLogout = await showDialog<bool>(
-                      //       context: context,
-                      //       builder: (context) {
-                      //         return BaseWidget.getConfirmationDialog(
-                      //             context,
-                      //             "Message",
-                      //             "Are you sure to logout?",
-                      //             "Emm, not yet",
-                      //             "Goodbye");
-                      //       });
-                      //   if (isLogout == null || !isLogout || !mounted) {
-                      //     return;
-                      //   }
-                      //   homePageService.logout(widget.authData!["logoutUrl"]);
-                      //   Navigator.pushReplacement(context,
-                      //       MaterialPageRoute(builder: (_) {
-                      //     return const LoginPage();
-                      //   }));
-                      // }, "Logout", MediaQuery.of(context).size.width / 1.25, 50),
+                      BaseWidget.getPadding(15),
+                      BaseWidget.getQuestionText("Heart Rate"),
+                      BaseWidget.getPadding(5),
+                      SizedBox(
+                        height: 150,
+                        width: MediaQuery.of(context).size.width,
+                        child: SyncfusionLineChartWidget(
+                            heartRateList,
+                            heartRateTimeList,
+                            timeList,
+                            Constants.heartRateMinY,
+                            heartRateToolTipsList),
+                      ),
                       BaseWidget.getPadding(30.0),
                     ],
                   );

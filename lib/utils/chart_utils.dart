@@ -1,7 +1,29 @@
+/// Provide utility functions for generating tooltip items and parsing data for different types of charts
+///
+/// Copyright (C) 2023 The Authors
+///
+/// License: GNU General Public License, Version 3 (the "License")
+/// https://www.gnu.org/licenses/gpl-3.0.en.html
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <https://www.gnu.org/licenses/>.
+///
+/// Authors: Bowen Yang, Ye Duan
+
 import 'package:fl_chart/fl_chart.dart';
-import 'package:klee/model/survey_info.dart';
-import 'package:klee/model/tooltip.dart';
-import 'package:klee/utils/time_utils.dart';
+import 'package:securedialog/model/survey_info.dart';
+import 'package:securedialog/model/tooltip.dart';
+import 'package:securedialog/utils/time_utils.dart';
 
 import '../model/chart_point.dart';
 import '../model/survey_day_info.dart';
@@ -85,12 +107,15 @@ class ChartUtils {
         String weightMaxTime = Constants.none;
         double systolicMax = Constants.systolicMinY;
         String systolicMaxTime = Constants.none;
+        double heartRateMax = Constants.heartRateMinY;
+        String heartRateMaxTime = Constants.none;
         List<ToolTip> toolTipStrength = [];
         List<ToolTip> toolTipFasting = [];
         List<ToolTip> toolTipPostprandial = [];
         List<ToolTip> toolTipDiastolic = [];
         List<ToolTip> toolTipWeight = [];
         List<ToolTip> toolTipSystolic = [];
+        List<ToolTip> toolTipHeartRate = [];
         for (SurveyInfo surveyInfo in curSurveyInfoList) {
           if (surveyInfo.strength >= strengthMax) {
             strengthMax = surveyInfo.strength;
@@ -115,6 +140,10 @@ class ChartUtils {
           if (surveyInfo.systolic >= systolicMax) {
             systolicMax = surveyInfo.systolic;
             systolicMaxTime = surveyInfo.obTime;
+          }
+          if (surveyInfo.heartRate >= heartRateMax) {
+            heartRateMax = surveyInfo.heartRate;
+            heartRateMaxTime = surveyInfo.obTime;
           }
         }
         for (SurveyInfo surveyInfo in curSurveyInfoList) {
@@ -178,6 +207,16 @@ class ChartUtils {
             toolTip.time = surveyInfo.obTime.substring(8, 12);
             toolTipSystolic.add(toolTip);
           }
+          if (surveyInfo.obTime != heartRateMaxTime) {
+            ToolTip toolTip = ToolTip();
+            if (surveyInfo.heartRate <= Constants.heartRateMinY) {
+              toolTip.val = Constants.toolTipNoneVal;
+            } else {
+              toolTip.val = surveyInfo.heartRate;
+            }
+            toolTip.time = surveyInfo.obTime.substring(8, 12);
+            toolTipHeartRate.add(toolTip);
+          }
         }
         ChartPoint chartPoint = ChartPoint();
         chartPoint.obTimeDay = requiredDate;
@@ -199,12 +238,16 @@ class ChartUtils {
         chartPoint.systolicMax = systolicMax;
         chartPoint.systolicMaxTime =
             TimeUtils.convertHHmmToClock(systolicMaxTime.substring(8, 12));
+        chartPoint.heartRateMax = heartRateMax;
+        chartPoint.heartRateMaxTime =
+            TimeUtils.convertHHmmToClock(heartRateMaxTime.substring(8, 12));
         chartPoint.otherStrength = toolTipStrength;
         chartPoint.otherFasting = toolTipFasting;
         chartPoint.otherPostprandial = toolTipPostprandial;
         chartPoint.otherDiastolic = toolTipDiastolic;
         chartPoint.otherWeight = toolTipWeight;
         chartPoint.otherSystolic = toolTipSystolic;
+        chartPoint.otherHeartRate = toolTipHeartRate;
         chartPointList.add(chartPoint);
       } else {
         ChartPoint chartPoint = ChartPoint();
@@ -221,12 +264,15 @@ class ChartUtils {
         chartPoint.weightMaxTime = Constants.none;
         chartPoint.systolicMax = Constants.systolicMinY;
         chartPoint.systolicMaxTime = Constants.none;
+        chartPoint.heartRateMax = Constants.heartRateMinY;
+        chartPoint.heartRateMaxTime = Constants.none;
         chartPoint.otherStrength = [];
         chartPoint.otherFasting = [];
         chartPoint.otherPostprandial = [];
         chartPoint.otherDiastolic = [];
         chartPoint.otherWeight = [];
         chartPoint.otherSystolic = [];
+        chartPoint.otherHeartRate = [];
         chartPointList.add(chartPoint);
       }
     }
