@@ -20,8 +20,6 @@
 ///
 /// Authors: Bowen Yang, Ye Duan
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 

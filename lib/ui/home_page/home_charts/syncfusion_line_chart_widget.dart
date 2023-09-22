@@ -158,11 +158,10 @@ class _SyncfusionLineChartWidgetState extends State<SyncfusionLineChartWidget> {
               yValueMapper: (_ChartData data, _) => data.y1,
               width: 3.5,
               color: Constants.backgroundColor, //Make the line transparent
-              markerSettings: MarkerSettings(
-                  isVisible: true,
+              markerSettings: const MarkerSettings(
+                isVisible: true,
                 width: 5,
                 height: 5,
-
                 borderColor: Colors.blue,
                 borderWidth: 2,
                 color: Colors.white,
