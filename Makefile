@@ -2,7 +2,7 @@
 #
 # Generic Makefile
 #
-# Time-stamp: <Thursday 2023-06-01 16:08:58 +1000 Graham Williams>
+# Time-stamp: <Friday 2023-09-22 15:14:41 +1000 Graham Williams>
 #
 # Copyright (c) Graham.Williams@togaware.com
 #
@@ -28,7 +28,6 @@ DATE=$(shell date +%Y-%m-%d)
 # else installed in the local user's shares.
 
 INC_BASE=support
-INC_BASE=$(HOME)/.local/share/make
 
 # Specific Makefiles will be loaded if they are found in
 # INC_BASE. Sometimes the INC_BASE is shared by multiple local
@@ -67,3 +66,7 @@ help::
 
 locals:
 	@echo "This might be the instructions to install $(APP)"
+
+.PHONY: prep
+prep: checks tests docs
+
