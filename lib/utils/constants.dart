@@ -27,10 +27,11 @@ import 'package:latlong2/latlong.dart';
 class Constants {
   // Page Indices
   static const int indexPage = 0;
-  static const int mapPage = 1;
-  static const int surveyPage = 2;
-  static const int podPage = 3;
-  static const int settingsPage = 4; // Add this line
+  static const int surveyPage = 1;
+  static const int podPage = 2;
+  static const int dataPage = 3;
+  static const int mapPage = 4;
+  static const int settingsPage = 5; // Add this line
 
   // Login State Constants
   static const int invalidURL = 0;
@@ -122,8 +123,8 @@ class Constants {
   static const String q1Text = "Are you lacking in strength today?";
   static const String q2Text = "What's your fasting blood glucose today?";
   static const String q3Text = "What's your postprandial blood glucose today?";
-  static const String q4Text = "What's your systolic today?";
-  static const String q5Text = "What's your diastolic today?";
+  static const String q4Text = "What's your systolic measurement today?";
+  static const String q5Text = "What's your diastolic measurement today?";
   static const String q6Text = "What's your weight today?";
   static const String q7Text = "What's your heart rate today?";
 
@@ -172,7 +173,7 @@ class Constants {
 
   // Background Tasks
   static const String simplePeriodicTask =
-      "onionoino.klee.klee.simplePeriodicTask";
+      "com.togaware.securedialog.simplePeriodicTask";
 
   // Radio List Hint Text
   static const String radioListHintText =
@@ -182,18 +183,26 @@ class Constants {
   static const String subTitle1 = "Home Page:";
   static const String subTitle2 = "Map Page:";
   static const String subTitle3 = "Survey Page:";
-  static const String subTitle4 = "POD Page:";
-  static const String subTitle5 = "SETTING Page:";
+  static const String subTitle4 = "Chart Page:";
+  static const String subTitle5 = "Settings Page:";
+  static const String subTitle6 = "Data Page:";
+
   static const String indexPageInstructionText1 =
-      "The portal of this app, you can view instructions and set your enc-key here";
+      "The portal of this app, you can view "
+      "instructions and set your enc-key here";
   static const String indexPageInstructionText2 =
-      "The page you can locate & collect & modify your exact geographical information into your POD";
+      "Here you can locate, collect, and modify "
+      "your location information into your POD.";
   static const String indexPageInstructionText3 =
-      "You can submit your health report here everyday";
+      "You can submit your health report here everyday.";
   static const String indexPageInstructionText4 =
-      "A useful data exhibition and analysis interface";
+      "A useful data exhibition and analysis interface.";
   static const String indexPageInstructionText5 =
-      "You can check your information here and logout";
+      "You can check your information here and logout.";
+  static const String indexPageInstructionText6 =
+      "Your data from the POD is available to be "
+      "reviewed and updated.";
+
   // Week Day Name
   static const Map<int, String> weekMap = {
     1: "MON",

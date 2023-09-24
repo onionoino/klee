@@ -76,20 +76,25 @@ class _HomeIndexState extends State<HomeIndex> {
                   Icons.home,
                   Constants.indexPage),
               _buildInstructionCard(
-                  Constants.subTitle2,
-                  Constants.indexPageInstructionText2,
-                  Icons.zoom_in_map,
-                  Constants.mapPage),
-              _buildInstructionCard(
                   Constants.subTitle3,
                   Constants.indexPageInstructionText3,
-                  Icons.newspaper,
+                  Icons.note_alt_outlined,
                   Constants.surveyPage),
               _buildInstructionCard(
                   Constants.subTitle4,
                   Constants.indexPageInstructionText4,
-                  Icons.person_outline,
+                  Icons.bar_chart_rounded,
                   Constants.podPage),
+              _buildInstructionCard(
+                  Constants.subTitle6,
+                  Constants.indexPageInstructionText6,
+                  Icons.table_view_rounded,
+                  Constants.podPage), // TO BECOME DATA PAGE
+              _buildInstructionCard(
+                  Constants.subTitle2,
+                  Constants.indexPageInstructionText2,
+                  Icons.map_outlined,
+                  Constants.mapPage),
               _buildInstructionCard(
                   Constants.subTitle5,
                   Constants.indexPageInstructionText5,

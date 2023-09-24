@@ -18,24 +18,25 @@
 // You should have received a copy of the GNU General Public License along with
 // this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// Authors: Bowen Yang, Ye Duan
+/// Authors: Bowen Yang, Ye Duan, Graham Williams
 
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
+
+import 'package:securedialog/service/home_page_service.dart';
 import 'package:securedialog/ui/home_page/home_index.dart';
 import 'package:securedialog/ui/home_page/home_osm.dart';
 import 'package:securedialog/ui/home_page/home_profile.dart';
 import 'package:securedialog/ui/home_page/home_settings.dart';
 import 'package:securedialog/ui/home_page/home_survey.dart';
 import 'package:securedialog/utils/base_widget.dart';
+import 'package:securedialog/utils/constants.dart';
+import 'package:securedialog/utils/global.dart';
 import 'package:securedialog/utils/notify_utils.dart';
 import 'package:securedialog/utils/time_utils.dart';
-
-import '../../service/home_page_service.dart';
-import '../../utils/constants.dart';
-import '../../utils/global.dart';
 
 /// the view layer of home page, a stateful widget
 class HomePage extends StatefulWidget {
@@ -63,9 +64,10 @@ class _HomePageState extends State<HomePage> {
           curWidgetIdx = idx;
         });
       }))
-      ..add(HomeOSM(widget.authData))
       ..add(HomeSurvey(widget.authData))
       ..add(HomeProfile(widget.authData))
+      ..add(HomeProfile(widget.authData))
+      ..add(HomeOSM(widget.authData))
       ..add(HomeSettings(widget.authData));
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
@@ -100,7 +102,7 @@ class _HomePageState extends State<HomePage> {
             return BaseWidget.getConfirmationDialog(
                 context,
                 "Message",
-                "Thank you for reporting condition today ^_^ Would you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
+                "Thank you for reporting condition today.\nWould you like to submit a new report?\nLast Report was submitted on $lastSurveyHHmmSS today!",
                 "New report",
                 "Come back tmr");
           });
@@ -132,10 +134,11 @@ class _HomePageState extends State<HomePage> {
         currentIndex: curWidgetIdx,
         items: [
           BaseWidget.getNavBarItem(Icons.home, "HOME"),
-          BaseWidget.getNavBarItem(Icons.zoom_in_map, "MAP"),
-          BaseWidget.getNavBarItem(Icons.newspaper, "SURVEY"),
-          BaseWidget.getNavBarItem(Icons.person_outline, "POD"),
-          BaseWidget.getNavBarItem(Icons.settings, "SETTING"),
+          BaseWidget.getNavBarItem(Icons.note_alt_outlined, "SURVEY"),
+          BaseWidget.getNavBarItem(Icons.bar_chart_rounded, "CHARTS"),
+          BaseWidget.getNavBarItem(Icons.table_view_rounded, "DATA"),
+          BaseWidget.getNavBarItem(Icons.map_outlined, "MAP"),
+          BaseWidget.getNavBarItem(Icons.settings, "SETTINGS"),
         ],
         onTap: _onTapEvent,
       ),
@@ -170,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                 return BaseWidget.getConfirmationDialog(
                     context,
                     "Message",
-                    "Thank you for reporting condition today ^_^ Would you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
+                    "Thank you for reporting condition today.\nWould you like to submit a new report?\nLast Report is submitted on $lastSurveyHHmmSS today!",
                     "New report",
                     "Come back tmr");
               });

@@ -170,7 +170,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
           // 20230630 gjw The following results in
           //
           // ERROR: lib/ui/home_page/home_osm.dart:147:11: Error: The getter 'AttributionWidget' isn't defined for the class '_HomeOSMState'.
-          // ERROR:  - '_HomeOSMState' is from 'package:klee/ui/home_page/home_osm.dart' ('lib/ui/home_page/home_osm.dart').
+          // ERROR:  - '_HomeOSMState' is from 'package:securedialog/ui/home_page/home_osm.dart' ('lib/ui/home_page/home_osm.dart').
           // ERROR: Try correcting the name to the name of an existing getter, or defining a getter or field named 'AttributionWidget'.
           // ERROR:           AttributionWidget.defaultWidget(
           // ERROR:           ^^^^^^^^^^^^^^^^^
@@ -272,7 +272,7 @@ class _HomeOSMState extends State<HomeOSM> with WidgetsBindingObserver {
         children: [
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'onionoino.klee',
+            userAgentPackageName: 'com.togaware.securedialog',
           ),
           MarkerLayer(
             markers: [
