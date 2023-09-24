@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SecureDiaLog
+Comment=SecureDiaLog Health Data Collector
+Exec=securedialog
+Icon=${SNAP}/meta/gui/securedialog.png # replace name to your app name
+Terminal=false
+Type=Application
+Categories=Education; #adjust accordingly your snap category
